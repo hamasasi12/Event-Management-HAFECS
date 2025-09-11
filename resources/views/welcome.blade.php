@@ -4,74 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HAFECS 2025 - Digital Transformation Summit</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'primary': '#1a1a2e'
-                        , 'secondary': '#16213e'
-                        , 'accent': '#0f3460'
-                        , 'coral': '#ff6b6b'
-                        , 'teal': '#4ecdc4'
-                    , }
-                    , fontFamily: {
-                        'sans': ['Segoe UI', 'Tahoma', 'Geneva', 'Verdana', 'sans-serif']
-                    , }
-                }
-            }
-        }
+    @vite('resources/css/app.css')
 
-    </script>
-    <style>
-        html {
-            scroll-behavior: smooth;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .fade-in-up {
-            animation: fadeInUp 0.6s ease forwards;
-        }
-
-        .gradient-text {
-            background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .glass {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .hero-bg {
-            background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
-        }
-
-        .card-hover {
-            transition: all 0.3s ease;
-        }
-
-        .card-hover:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-        }
-
-    </style>
 </head>
 <body class="font-sans text-gray-900">
     <!-- Header -->
@@ -82,17 +16,36 @@
 
                 <!-- Desktop Menu -->
                 <ul class="hidden md:flex space-x-8">
-                    <li><a href="#home" class="hover:text-teal transition-colors px-4 py-2 rounded-full hover:bg-white hover:bg-opacity-10">Home</a></li>
-                    <li><a href="#about" class="hover:text-teal transition-colors px-4 py-2 rounded-full hover:bg-white hover:bg-opacity-10">About</a></li>
+                    <li><a href="#seminar" class="hover:text-teal transition-colors px-4 py-2 rounded-full hover:bg-white hover:bg-opacity-10">Seminar</a></li>
                     <li><a href="#trainers" class="hover:text-teal transition-colors px-4 py-2 rounded-full hover:bg-white hover:bg-opacity-10">Trainers</a></li>
                     <li><a href="#facilities" class="hover:text-teal transition-colors px-4 py-2 rounded-full hover:bg-white hover:bg-opacity-10">Facilities</a></li>
                     <li><a href="#faq" class="hover:text-teal transition-colors px-4 py-2 rounded-full hover:bg-white hover:bg-opacity-10">FAQ</a></li>
                 </ul>
 
-                <a href="#register" class="bg-gradient-to-r from-coral to-red-500 text-white px-6 py-3 rounded-full font-semibold hover:shadow-lg hover:scale-105 transition-all duration-300">
-                    Daftar Sekarang
+                @guest
+                <a href="{{ route('google.login') }}" class="bg-gradient-to-r from-coral to-red-500 text-white px-8 py-4 rounded-full font-semibold text-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 text-center">
+                    Login with Google
                 </a>
-
+                @endguest
+                @auth
+                <div class="flex items-center space-x-4">
+                    <div class="flex-shrink-0">
+                        <svg class="h-10 w-10 rounded-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M24 20.993V24H0v-2.997A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="text-base font-medium text-white">{{ Auth::user()->name }}</div>
+                        <div class="text-sm font-medium text-gray-400">{{ Auth::user()->email }}</div>
+                    </div>
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit" class="border-2 border-teal text-teal px-4 py-2 rounded-full font-semibold text-sm hover:bg-teal hover:text-primary transition-all duration-300 text-center">
+                            Keluar
+                        </button>
+                    </form>
+                </div>
+                @endauth
                 <!-- Mobile Menu Button -->
                 <button class="md:hidden" id="mobileMenuBtn">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -146,12 +99,30 @@
 
                     <!-- CTA Buttons -->
                     <div class="flex flex-col sm:flex-row gap-4 pt-4">
-                        <a href="#register" class="bg-gradient-to-r from-coral to-red-500 text-white px-8 py-4 rounded-full font-semibold text-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 text-center">
-                            Daftar Sekarang
+                        @guest
+                        <a href="{{ route('google.login') }}" class="bg-gradient-to-r from-coral to-red-500 text-white px-8 py-4 rounded-full font-semibold text-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 text-center">
+                            Login with Google
                         </a>
-                        <a href="#poster" class="border-2 border-teal text-teal px-8 py-4 rounded-full font-semibold text-lg hover:bg-teal hover:text-primary transition-all duration-300 text-center">
-                            Lihat Detail
-                        </a>
+                        @endguest
+                        @auth
+                        <div class="flex items-center space-x-4">
+                            <div class="flex-shrink-0">
+                                <svg class="h-10 w-10 rounded-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M24 20.993V24H0v-2.997A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
+                                </svg>
+                            </div>
+                            <div>
+                                <div class="text-base font-medium text-white">{{ Auth::user()->name }}</div>
+                                <div class="text-sm font-medium text-gray-400">{{ Auth::user()->email }}</div>
+                            </div>
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <button type="submit" class="border-2 border-teal text-teal px-4 py-2 rounded-full font-semibold text-sm hover:bg-teal hover:text-primary transition-all duration-300 text-center">
+                                    Keluar
+                                </button>
+                            </form>
+                        </div>
+                        @endauth
                     </div>
                 </div>
 
