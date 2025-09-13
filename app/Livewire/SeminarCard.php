@@ -3,18 +3,15 @@
 namespace App\Livewire;
 
 use Livewire\Component;
+use App\Models\Seminar;
 
 class SeminarCard extends Component
 {
-    public $title;
-    public $description;
-    public $imageUrl;
+    public Seminar $seminar;
 
-    public function mount($title, $description, $imageUrl)
+    public function mount(Seminar $seminar)
     {
-        $this->title = $title;
-        $this->description = $description;
-        $this->imageUrl = $imageUrl;
+        $this->seminar = $seminar;
     }
 
     public function render()

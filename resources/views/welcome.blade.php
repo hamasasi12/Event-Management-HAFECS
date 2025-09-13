@@ -223,6 +223,7 @@
                     </div>
                     <div class="text-center space-y-4">
                         <h3 class="text-2xl font-bold text-primary">Dr. Rina Wijaya</h3>
+               
                         <p class="text-teal font-semibold">Chief Digital Officer - TechCorp Asia</p>
                         <p class="text-gray-600 leading-relaxed">15+ tahun pengalaman memimpin transformasi digital di perusahaan multinasional. Spesialis AI implementation dan digital strategy.</p>
                     </div>
@@ -300,9 +301,9 @@
             </div>
 
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                @livewire('seminar-card', ['title' => 'AI in Modern Business', 'description' => 'An overview of how AI is reshaping industries.', 'imageUrl' => 'https://placehold.co/600x400/1a1a2e/ffffff?text=AI'])
-                @livewire('seminar-card', ['title' => 'The Future of Work', 'description' => 'Exploring the new paradigms of work and collaboration.', 'imageUrl' => 'https://placehold.co/600x400/16213e/ffffff?text=Work'])
-                @livewire('seminar-card', ['title' => 'Cybersecurity in 2025', 'description' => 'A look into the future of cybersecurity threats and solutions.', 'imageUrl' => 'https://placehold.co/600x400/0f3460/ffffff?text=Security'])
+                @foreach(App\Models\Seminar::all() as $seminar)
+                    @livewire('seminar-card', ['seminar' => $seminar])
+                @endforeach
             </div>
         </div>
     </section>
