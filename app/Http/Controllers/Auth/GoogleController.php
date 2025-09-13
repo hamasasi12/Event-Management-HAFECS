@@ -15,6 +15,7 @@ use Laravel\Socialite\Facades\Socialite;
 
 class GoogleController extends Controller
 {
+<<<<<<< HEAD
     public function redirectToGoogle(){
         return Socialite::driver('google')->redirect();
     }
@@ -28,6 +29,29 @@ class GoogleController extends Controller
             if ($user) {
                 Auth::login($user);
             } else {
+=======
+    public function redirectToGoogle()
+    {
+        return Socialite::driver('google')->redirect();
+    }
+
+    public function handleGoogleCallback()
+    {
+        try {
+            Log::info('Entering handleGoogleCallback');
+            $googleUser = Socialite::driver('google')->user();
+            Log::info('Google User: ', ['user' => $googleUser]);
+
+            $user = User::where('google_id', $googleUser->id)->first();
+
+            if ($user) {
+                Log::info('User found in database');
+                Auth::login($user);
+                session()->regenerate();
+                Log::info('Auth::check() after login: ' . (Auth::check() ? 'true' : 'false'));
+            } else {
+                Log::info('User not found, creating new user');
+>>>>>>> temp-email-commit
                 $user = User::create([
                     'name' => $googleUser->name,
                     'email' => $googleUser->email,
@@ -35,6 +59,7 @@ class GoogleController extends Controller
                     'password' => bcrypt('dummy-password'),
                 ]);
                 Auth::login($user);
+<<<<<<< HEAD
             }
 
             return redirect()->intended('/');
@@ -45,3 +70,17 @@ class GoogleController extends Controller
 
 }
  
+=======
+                session()->regenerate();
+                Log::info('Auth::check() after creating user and login: ' . (Auth::check() ? 'true' : 'false'));
+            }
+
+            Log::info('Auth::check() before redirect: ' . (Auth::check() ? 'true' : 'false'));
+            return redirect()->intended('/');
+        } catch (\Exception $e) {
+            Log::error('Error in handleGoogleCallback: ' . $e->getMessage());
+            return redirect('/')->withErrors('Login gagal: ' . $e->getMessage());
+        }
+    }
+}
+>>>>>>> temp-email-commit

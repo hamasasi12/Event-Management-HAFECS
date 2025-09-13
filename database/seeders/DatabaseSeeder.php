@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
+<<<<<<< HEAD
         User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
@@ -27,4 +28,14 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('admin123'),
         ]);
     }
+=======
+        // User::factory()->create([
+        //     'name' => 'Test User',
+        //     'email' => 'test@example.com',
+        // ]);
+        $this->call([
+            SeminarSeeder::class,
+        ]);}
+
+>>>>>>> temp-email-commit
 }
