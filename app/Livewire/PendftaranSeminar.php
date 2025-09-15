@@ -8,6 +8,7 @@ use App\Models\SeminarRegistration;
 use Livewire\Attributes\Layout;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log;
 use App\Mail\SeminarRegistrationMail;
 
 #[Layout('components.layouts.app')]
@@ -26,38 +27,56 @@ class PendftaranSeminar extends Component
 
     public function mount($seminarId)
     {
-        $this->seminar = Seminar::findOrFail($seminarId);
-        
-        // Isi otomatis data pengguna jika sudah login, tetapi tetap bisa diubah
-        if (Auth::check()) {
-            $this->name = Auth::user()->name;
-            $this->email = Auth::user()->email;
+        try {
+            Log::info('Mounting PendftaranSeminar component with ID: ' . $seminarId);
+            $this->seminar = Seminar::findOrFail($seminarId);
+            Log::info('Seminar found: ' . $this->seminar->title);
+            
+            // Isi otomatis data pengguna jika sudah login, tetapi tetap bisa diubah
+            if (Auth::check()) {
+                $this->name = Auth::user()->name;
+                $this->email = Auth::user()->email;
+            }
+        } catch (\Exception $e) {
+            Log::error('Error mounting PendftaranSeminar: ' . $e->getMessage());
+            throw $e;
         }
     }
 
     public function render()
     {
-        return view('livewire.pendftaran-seminar');
+        try {
+            Log::info('Rendering PendftaranSeminar component');
+            return view('livewire.pendftaran-seminar');
+        } catch (\Exception $e) {
+            Log::error('Error rendering PendftaranSeminar: ' . $e->getMessage());
+            throw $e;
+        }
     }
 
     public function register()
     {
         $this->validate();
 
-        // Handle registration logic here
-        $registration = SeminarRegistration::create([
-            'seminar_id' => $this->seminar->id,
-            'name' => $this->name,
-            'email' => $this->email,
-            'phone' => $this->phone,
-            'user_id' => Auth::check() ? Auth::id() : null, // Isi user_id jika pengguna login
-        ]);
+        try {
+            // Handle registration logic here
+            $registration = SeminarRegistration::create([
+                'seminar_id' => $this->seminar->id,
+                'name' => $this->name,
+                'email' => $this->email,
+                'phone' => $this->phone,
+                'user_id' => Auth::check() ? Auth::id() : null, // Isi user_id jika pengguna login
+            ]);
 
-        // Kirim email konfirmasi
-        Mail::to($this->email)->send(new SeminarRegistrationMail($this->seminar, $registration));
+            // Kirim email konfirmasi
+            Mail::to($this->email)->send(new SeminarRegistrationMail($this->seminar, $registration));
 
-        session()->flash('message', 'Pendaftaran berhasil! Silakan cek email Anda untuk konfirmasi.');
+            session()->flash('message', 'Pendaftaran berhasil! Silakan cek email Anda untuk konfirmasi.');
 
-        $this->reset(['name', 'email', 'phone']);
+            $this->reset(['name', 'email', 'phone']);
+        } catch (\Exception $e) {
+            Log::error('Error in register method: ' . $e->getMessage());
+            session()->flash('error', 'Terjadi kesalahan saat mendaftar. Silakan coba lagi.');
+        }
     }
 }
