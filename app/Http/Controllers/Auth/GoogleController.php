@@ -15,21 +15,6 @@ use Laravel\Socialite\Facades\Socialite;
 
 class GoogleController extends Controller
 {
-<<<<<<< HEAD
-    public function redirectToGoogle(){
-        return Socialite::driver('google')->redirect();
-    }
-
-  public function handleGoogleCallback()
-    {
-        try {
-            $googleUser = Socialite::driver('google')->user();
-            $user = User::where('google_id', $googleUser->id)->first();
-
-            if ($user) {
-                Auth::login($user);
-            } else {
-=======
     public function redirectToGoogle()
     {
         return Socialite::driver('google')->redirect();
@@ -51,7 +36,6 @@ class GoogleController extends Controller
                 Log::info('Auth::check() after login: ' . (Auth::check() ? 'true' : 'false'));
             } else {
                 Log::info('User not found, creating new user');
->>>>>>> temp-email-commit
                 $user = User::create([
                     'name' => $googleUser->name,
                     'email' => $googleUser->email,
@@ -59,18 +43,6 @@ class GoogleController extends Controller
                     'password' => bcrypt('dummy-password'),
                 ]);
                 Auth::login($user);
-<<<<<<< HEAD
-            }
-
-            return redirect()->intended('/');
-        } catch (\Exception $e) {
-            return redirect('/')->withErrors('Login gagal: ' . $e->getMessage());
-        }
-    }
-
-}
- 
-=======
                 session()->regenerate();
                 Log::info('Auth::check() after creating user and login: ' . (Auth::check() ? 'true' : 'false'));
             }
@@ -83,4 +55,3 @@ class GoogleController extends Controller
         }
     }
 }
->>>>>>> temp-email-commit

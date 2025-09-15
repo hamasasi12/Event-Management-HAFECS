@@ -28,7 +28,7 @@ class PendftaranSeminar extends Component
     {
         $this->seminar = Seminar::findOrFail($seminarId);
         
-        // Isi otomatis data pengguna jika sudah login
+        // Isi otomatis data pengguna jika sudah login, tetapi tetap bisa diubah
         if (Auth::check()) {
             $this->name = Auth::user()->name;
             $this->email = Auth::user()->email;
