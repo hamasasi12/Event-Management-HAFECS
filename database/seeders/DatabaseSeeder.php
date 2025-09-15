@@ -28,6 +28,7 @@ class DatabaseSeeder extends Seeder
         // Panggil seeder tambahan
         $this->call([
             SeminarSeeder::class,
+            RoleSeeder::class,
         ]);
     }
 }
