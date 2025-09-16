@@ -1,20 +1,16 @@
-@extends('components.layouts.app')
-
-@section('title', 'Manage Users - HAFECS Admin')
-
-@section('slot')
+<x-layouts.admin title="Manage Users - HAFECS Admin">
 <div class="min-h-screen bg-gray-50">
     <!-- Admin Header -->
     <header class="bg-white shadow">
         <div class="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8 flex justify-between items-center">
             <h1 class="text-3xl font-bold text-gray-900">Manage Users</h1>
             <div class="flex items-center space-x-4">
-                <a href="{{ route('admin.dashboard') }}" class="text-gray-600 hover:text-gray-900">
+                <a href="{{ route('admin.dashboard') }}" class="text-gray-600 hover:text-gray-900" wire:navigate>
                     <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                     </svg>
                 </a>
-                <a href="#" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">
+                <a href="{{ route('admin.users.create') }}" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded" wire:navigate>
                     Add New User
                 </a>
             </div>
@@ -34,8 +30,8 @@
                     <label for="role" class="block text-sm font-medium text-gray-700">Role</label>
                     <select id="role" name="role" class="mt-1 block w-full bg-white border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                         <option value="">All</option>
-                        <option value="admin">Admin</option>
                         <option value="user">User</option>
+                    <option value="admin">Admin</option>
                     </select>
                 </div>
                 <div>
@@ -72,7 +68,7 @@
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
-                        @foreach(\App\Models\User::all() as $user)
+                        @foreach($users as $user)
                         <tr>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="flex items-center">
@@ -107,8 +103,15 @@
                                 {{ $user->created_at->format('d M Y') }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                <a href="#" class="text-indigo-600 hover:text-indigo-900 mr-3">Edit</a>
-                                <a href="#" class="text-red-600 hover:text-red-900">Delete</a>
+                                <a href="{{ route('admin.users.show', $user) }}" class="text-indigo-600 hover:text-indigo-900 mr-3" wire:navigate>Show</a>
+                                <a href="{{ route('admin.users.edit', $user) }}" class="text-indigo-600 hover:text-indigo-900 mr-3" wire:navigate>Edit</a>
+                                @if($user->id !== auth()->id())
+                                <form action="{{ route('admin.users.destroy', $user) }}" method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this user?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="text-red-600 hover:text-red-900">Delete</button>
+                                </form>
+                                @endif
                             </td>
                         </tr>
                         @endforeach
@@ -118,4 +121,4 @@
         </div>
     </main>
 </div>
-@endsection
+</x-layouts.admin>
