@@ -9,7 +9,7 @@
             <li>
                 <a class="font-medium" href="{{ url('/admin') }}">Dashboard</a>
             </li>
-            <li class="font-medium">/ Home</li>
+            <li class="font-medium">/Home</li>
         </ol>
     </nav>
 </div>

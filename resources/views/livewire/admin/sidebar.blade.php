@@ -31,8 +31,8 @@
                     <!-- Menu Item Dashboard -->
                     <li>
                         <a href="{{ route('admin.dashboard') }}" 
-                           class="relative flex items-center gap-3 px-3 py-2 font-medium rounded-lg text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-700 dark:text-gray-300 dark:hover:bg-white/5 dark:hover:text-gray-300" 
-                           :class="page === 'dashboard' ? 'bg-brand-50 text-brand-500 dark:bg-brand-500/[0.12] dark:text-brand-400' : ''" 
+                           class="relative flex items-center gap-3 px-3 py-2 font-medium rounded-lg text-sm" 
+                           :class="page === 'dashboard' ? 'bg-brand-50 text-brand-500 dark:bg-brand-500/[0.12] dark:text-brand-400' : 'text-gray-700 hover:bg-gray-100 hover:text-gray-700 dark:text-gray-300 dark:hover:bg-white/5 dark:hover:text-gray-300'" 
                            wire:navigate>
                             <svg :class="page === 'dashboard' ? 'fill-brand-500 dark:fill-brand-400' : 'fill-gray-500 group-hover:fill-gray-700 dark:fill-gray-400 dark:group-hover:fill-gray-300'" 
                                  width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -48,8 +48,8 @@
                     <!-- Menu Item Pendaftaran -->
                     <li>
                         <a href="{{ route('admin.users.index') }}" 
-                           class="relative flex items-center gap-3 px-3 py-2 font-medium rounded-lg text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-700 dark:text-gray-300 dark:hover:bg-white/5 dark:hover:text-gray-300" 
-                           :class="page === 'pendaftaran' ? 'bg-brand-50 text-brand-500 dark:bg-brand-500/[0.12] dark:text-brand-400' : ''" 
+                           class="relative flex items-center gap-3 px-3 py-2 font-medium rounded-lg text-sm" 
+                           :class="page === 'pendaftaran' ? 'bg-brand-50 text-brand-500 dark:bg-brand-500/[0.12] dark:text-brand-400' : 'text-gray-700 hover:bg-gray-100 hover:text-gray-700 dark:text-gray-300 dark:hover:bg-white/5 dark:hover:text-gray-300'" 
                            wire:navigate>
                             <svg :class="page === 'pendaftaran' ? 'fill-brand-500 dark:fill-brand-400' : 'fill-gray-500 group-hover:fill-gray-700 dark:fill-gray-400 dark:group-hover:fill-gray-300'" 
                                  width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -65,8 +65,8 @@
                     <!-- Menu Item Seminar -->
                     <li>
                         <a href="{{ route('admin.seminars.index') }}" 
-                           class="relative flex items-center gap-3 px-3 py-2 font-medium rounded-lg text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-700 dark:text-gray-300 dark:hover:bg-white/5 dark:hover:text-gray-300" 
-                           :class="page === 'seminar' ? 'bg-brand-50 text-brand-500 dark:bg-brand-500/[0.12] dark:text-brand-400' : ''" 
+                           class="relative flex items-center gap-3 px-3 py-2 font-medium rounded-lg text-sm" 
+                           :class="page === 'seminar' ? 'bg-brand-50 text-brand-500 dark:bg-brand-500/[0.12] dark:text-brand-400' : 'text-gray-700 hover:bg-gray-100 hover:text-gray-700 dark:text-gray-300 dark:hover:bg-white/5 dark:hover:text-gray-300'" 
                            wire:navigate>
                             <svg :class="page === 'seminar' ? 'fill-brand-500 dark:fill-brand-400' : 'fill-gray-500 group-hover:fill-gray-700 dark:fill-gray-400 dark:group-hover:fill-gray-300'" 
                                  width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -82,8 +82,8 @@
                     <!-- Menu Item Calendar -->
                     <li>
                         <a href="{{ url('/admin/calendar') }}" 
-                           class="relative flex items-center gap-3 px-3 py-2 font-medium rounded-lg text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-700 dark:text-gray-300 dark:hover:bg-white/5 dark:hover:text-gray-300" 
-                           :class="page === 'calendar' ? 'bg-brand-50 text-brand-500 dark:bg-brand-500/[0.12] dark:text-brand-400' : ''" 
+                           class="relative flex items-center gap-3 px-3 py-2 font-medium rounded-lg text-sm" 
+                           :class="page === 'calendar' ? 'bg-brand-50 text-brand-500 dark:bg-brand-500/[0.12] dark:text-brand-400' : 'text-gray-700 hover:bg-gray-100 hover:text-gray-700 dark:text-gray-300 dark:hover:bg-white/5 dark:hover:text-gray-300'" 
                            wire:navigate>
                             <svg :class="page === 'calendar' ? 'fill-brand-500 dark:fill-brand-400' : 'fill-gray-500 group-hover:fill-gray-700 dark:fill-gray-400 dark:group-hover:fill-gray-300'" 
                                  width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -99,8 +99,8 @@
                     <!-- Menu Item Profile -->
                     <li>
                         <a href="{{ url('/admin/profile') }}" 
-                           class="relative flex items-center gap-3 px-3 py-2 font-medium rounded-lg text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-700 dark:text-gray-300 dark:hover:bg-white/5 dark:hover:text-gray-300" 
-                           :class="page === 'profile' ? 'bg-brand-50 text-brand-500 dark:bg-brand-500/[0.12] dark:text-brand-400' : ''" 
+                           class="relative flex items-center gap-3 px-3 py-2 font-medium rounded-lg text-sm" 
+                           :class="page === 'profile' ? 'bg-brand-50 text-brand-500 dark:bg-brand-500/[0.12] dark:text-brand-400' : 'text-gray-700 hover:bg-gray-100 hover:text-gray-700 dark:text-gray-300 dark:hover:bg-white/5 dark:hover:text-gray-300'" 
                            wire:navigate>
                             <svg :class="page === 'profile' ? 'fill-brand-500 dark:fill-brand-400' : 'fill-gray-500 group-hover:fill-gray-700 dark:fill-gray-400 dark:group-hover:fill-gray-300'" 
                                  width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

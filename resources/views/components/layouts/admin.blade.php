@@ -11,33 +11,7 @@
     <title>{{ $title ?? 'HAFECS Admin' }}</title>
     @vite('resources/css/admin.css')
     @livewireStyles
-    <style>
-        /* Efek hover untuk sidebar */
-        .sidebar:hover {
-            width: 290px;
-        }
-        .sidebar:hover .logo {
-            display: block;
-        }
-        .sidebar:hover .logo-icon {
-            display: none;
-        }
-        .sidebar:hover .sidebar-header {
-            justify-content: space-between;
-        }
-        .sidebar:hover .menu-group-title {
-            display: block;
-        }
-        .sidebar:hover .menu-group-icon {
-            display: none;
-        }
-        .sidebar:hover .menu-item-text {
-            display: inline;
-        }
-        .sidebar:hover .menu-item-arrow {
-            display: block;
-        }
-    </style>
+  
 </head>
 <body x-data="{ sidebarToggle: false }">
     <div class="flex h-screen overflow-hidden">
