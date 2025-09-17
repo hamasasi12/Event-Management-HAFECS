@@ -67,11 +67,26 @@
                                 <label for="end_time" class="block text-sm font-medium text-gray-700">End Time</label>
                                 <input type="datetime-local" name="end_time" id="end_time" value="{{ old('end_time') }}" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                             </div>
+                            
+                            <!-- type -->
+                            <div>
+                                <label for="type" class="block text-sm font-medium text-gray-700">Tipe Seminar</label>
+                                <select name="type" id="type" class="mt-1 block w-full bg-white border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                    <option value="gratis" {{ old('type') == 'gratis' ? 'selected' : '' }}>Gratis</option>
+                                    <option value="berbayar" {{ old('type') == 'berbayar' ? 'selected' : '' }}>Berbayar</option>
+                                </select>
+                            </div>
 
                             <!-- Price -->
                             <div>
                                 <label for="price" class="block text-sm font-medium text-gray-700">Price (Rp)</label>
                                 <input type="number" name="price" id="price" value="{{ old('price', 0) }}" step="0.01" min="0" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            </div>
+                            
+                            <!-- Price -->
+                            <div>
+                                <label for="link" class="block text-sm font-medium text-gray-700">Link</label>
+                                <input type="text" name="link" id="link" value="{{ old('link') }}" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                             </div>
 
                             <!-- Status -->

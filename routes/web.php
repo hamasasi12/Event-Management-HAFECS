@@ -16,7 +16,7 @@ Route::post('admin/login', [AuthController::class, 'login']);
 Route::post('admin/logout', [AuthController::class, 'logout'])->name('admin.logout');
 
 use App\Http\Controllers\Admin\SeminarController;
-use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\SeminarRegistrationController;
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('admin/dashboard', function () {
@@ -31,14 +31,14 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::put('admin/seminars/{seminar}', [SeminarController::class, 'update'])->name('admin.seminars.update');
     Route::delete('admin/seminars/{seminar}', [SeminarController::class, 'destroy'])->name('admin.seminars.destroy');
     
-Route::get('admin/users', [UserController::class, 'index'])->name('admin.users.index');
-Route::get('admin/users/create', [UserController::class, 'create'])->name('admin.users.create');
-Route::post('admin/users', [UserController::class, 'store'])->name('admin.users.store');
-Route::get('admin/users/{user}', [UserController::class, 'show'])->name('admin.users.show');
-Route::get('admin/users/{user}/edit', [UserController::class, 'edit'])->name('admin.users.edit');
-Route::put('admin/users/{user}', [UserController::class, 'update'])->name('admin.users.update');
-Route::delete('admin/users/{user}', [UserController::class, 'destroy'])->name('admin.users.destroy');
-// Route::resource('admin/users', UserController::class);
+Route::get('admin/seminar_registration', [SeminarRegistrationController::class, 'index'])->name('admin.seminar_registration.index');
+Route::get('admin/seminar_registration/create', [SeminarRegistrationController::class, 'create'])->name('admin.seminar_registration.create');
+Route::post('admin/seminar_registration', [SeminarRegistrationController::class, 'store'])->name('admin.seminar_registration.store');
+Route::get('admin/seminar_registration/{user}', [SeminarRegistrationController::class, 'show'])->name('admin.seminar_registration.show');
+Route::get('admin/seminar_registration/{user}/edit', [SeminarRegistrationController::class, 'edit'])->name('admin.seminar_registration.edit');
+Route::put('admin/seminar_registration/{user}', [SeminarRegistrationController::class, 'update'])->name('admin.seminar_registration.update');
+Route::delete('admin/seminar_registration/{user}', [SeminarRegistrationController::class, 'destroy'])->name('admin.seminar_registration.destroy');
+// Route::resource('admin/seminar_registration', SeminarRegistrationController::class);
 });
 
 // USER ROLE

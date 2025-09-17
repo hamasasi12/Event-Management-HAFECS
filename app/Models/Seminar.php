@@ -17,6 +17,8 @@ class Seminar extends Model
         'price',
         'status',
         'image_url',
+        'type',
+        'link',
     ];
 
     protected $casts = [

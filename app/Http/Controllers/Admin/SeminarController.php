@@ -32,15 +32,21 @@ class SeminarController extends Controller
      */
     public function store(Request $request)
     {
+        $price = null;
+        $link = null;
+
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'start_time' => 'required|date',
             'end_time' => 'required|date|after:start_time',
+            'type' => 'required|string',
+            'link' => 'required|string',
             'price' => 'required|numeric|min:0',
             'status' => 'required|in:upcoming,active,completed,cancelled',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
+
 
         $data = $request->except('image');
         

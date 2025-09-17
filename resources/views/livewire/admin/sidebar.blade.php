@@ -57,9 +57,9 @@
 
                     <!-- Menu Item Pendaftaran -->
                     <li>
-                        <a href="{{ route('admin.users.index') }}" 
+                        <a href="{{ route('admin.seminar_registration.index') }}" 
                            class="group relative flex items-center gap-3 px-4 py-3 font-medium rounded-xl hover:bg-gray-200 text-sm transition-all duration-300 ease-in-out
-                           {{ Request::routeIs('admin.users.index') ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg' : 'text-gray-700 hover:bg-blue-50 hover:text-blue-700 dark:text-gray-300 dark:hover:bg-blue-500/10 dark:hover:text-blue-400' }}"
+                           {{ Request::routeIs('admin.seminar_registration.index') ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg' : 'text-gray-700 hover:bg-blue-50 hover:text-blue-700 dark:text-gray-300 dark:hover:bg-blue-500/10 dark:hover:text-blue-400' }}"
                            wire:navigate>
                             
                             <!-- Active Page Indicator -->

@@ -26,6 +26,10 @@
             <td>{{ $registration->phone }}</td>
         </tr>
         <tr>
+            <td><strong>Link Zoom/Gmeet:</strong></td>
+            <td>{{ $seminar->link }}</td>
+        </tr>
+        <tr>
             <td><strong>Waktu Mulai:</strong></td>
             <td>{{ $seminar->start_time->format('d M Y H:i') }}</td>
         </tr>
