@@ -17,6 +17,7 @@ Route::post('admin/logout', [AuthController::class, 'logout'])->name('admin.logo
 
 use App\Http\Controllers\Admin\SeminarController;
 use App\Http\Controllers\Admin\SeminarRegistrationController;
+use App\Livewire\Admin\MessageSender;
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('admin/dashboard', function () {
@@ -31,14 +32,17 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::put('admin/seminars/{seminar}', [SeminarController::class, 'update'])->name('admin.seminars.update');
     Route::delete('admin/seminars/{seminar}', [SeminarController::class, 'destroy'])->name('admin.seminars.destroy');
     
-Route::get('admin/seminar_registration', [SeminarRegistrationController::class, 'index'])->name('admin.seminar_registration.index');
-Route::get('admin/seminar_registration/create', [SeminarRegistrationController::class, 'create'])->name('admin.seminar_registration.create');
-Route::post('admin/seminar_registration', [SeminarRegistrationController::class, 'store'])->name('admin.seminar_registration.store');
-Route::get('admin/seminar_registration/{user}', [SeminarRegistrationController::class, 'show'])->name('admin.seminar_registration.show');
-Route::get('admin/seminar_registration/{user}/edit', [SeminarRegistrationController::class, 'edit'])->name('admin.seminar_registration.edit');
-Route::put('admin/seminar_registration/{user}', [SeminarRegistrationController::class, 'update'])->name('admin.seminar_registration.update');
-Route::delete('admin/seminar_registration/{user}', [SeminarRegistrationController::class, 'destroy'])->name('admin.seminar_registration.destroy');
-// Route::resource('admin/seminar_registration', SeminarRegistrationController::class);
+    Route::get('admin/seminar_registration', [SeminarRegistrationController::class, 'index'])->name('admin.seminar_registration.index');
+    Route::get('admin/seminar_registration/create', [SeminarRegistrationController::class, 'create'])->name('admin.seminar_registration.create');
+    Route::post('admin/seminar_registration', [SeminarRegistrationController::class, 'store'])->name('admin.seminar_registration.store');
+    Route::get('admin/seminar_registration/{user}', [SeminarRegistrationController::class, 'show'])->name('admin.seminar_registration.show');
+    Route::get('admin/seminar_registration/{user}/edit', [SeminarRegistrationController::class, 'edit'])->name('admin.seminar_registration.edit');
+    Route::put('admin/seminar_registration/{user}', [SeminarRegistrationController::class, 'update'])->name('admin.seminar_registration.update');
+    Route::delete('admin/seminar_registration/{user}', [SeminarRegistrationController::class, 'destroy'])->name('admin.seminar_registration.destroy');
+    
+    Route::get('admin/messages', function () {
+        return view('admin.messages.index');
+    })->name('admin.messages.index');
 });
 
 // USER ROLE

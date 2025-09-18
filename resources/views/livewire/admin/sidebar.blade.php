@@ -91,23 +91,22 @@
                             <div x-show="page === 'seminar'" class="absolute right-2 w-2 h-2 bg-white rounded-full animate-pulse"></div>
                         </a>
                     </li>
+                    
                     <!-- Menu Item Pesan -->
+                    @php
+                    $isActive = $activeRoute === 'admin.messages.index';
+                    @endphp
                     <li>
-                        <a href="{{ route('admin.seminars.index') }}" class="group relative flex items-center gap-3 px-4 py-3 font-medium rounded-xl hover:bg-gray-200 text-sm transition-all duration-300 ease-in-out
-                           {{ Request::routeIs('admin.seminars.index') ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg' : 'text-gray-700 hover:bg-blue-50 hover:text-blue-700 dark:text-gray-300 dark:hover:bg-blue-500/10 dark:hover:text-blue-400' }}" wire:navigate>
+                        <a href="{{ route('admin.messages.index') }}" class="group relative flex items-center gap-3 px-4 py-3 font-medium rounded-xl hover:bg-gray-200 text-sm transition-all duration-300 ease-in-out
+                           {{ Request::routeIs('admin.messages.index') ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg' : 'text-gray-700 hover:bg-blue-50 hover:text-blue-700 dark:text-gray-300 dark:hover:bg-blue-500/10 dark:hover:text-blue-400' }}" wire:navigate>
 
-                            <!-- Active Page Indicator -->
-                            <div x-show="page === 'seminar'" class="absolute left-0 top-0 h-full w-1.5 bg-white rounded-r-full"></div>
-
-                            <svg :class="page === 'seminar' ? 'fill-white' : 'fill-gray-500 group-hover:fill-blue-600 dark:fill-gray-400 dark:group-hover:fill-blue-400'" class="transition-all duration-300" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3ZM19 19H5V8H19V19ZM7 10H17V12H7V10ZM7 14H17V16H7V14Z" fill="" />
+                            <svg class="transition-all duration-300 {{ $isActive ? 'fill-white' : 'fill-gray-500 group-hover:fill-blue-600 dark:fill-gray-400 dark:group-hover:fill-blue-400' }}" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M20 4H4C2.9 4 2.01 4.9 2.01 6L2 18C2 19.1 2.9 20 4 20H20C21.1 20 22 19.1 22 18V6C22 4.9 21.1 4 20 4ZM20 8L12 13L4 8V6L12 11L20 6V8Z" fill="" />
                             </svg>
 
                             <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : ''">
                                 Pesan
                             </span>
-
-                            <div x-show="page === 'seminar'" class="absolute right-2 w-2 h-2 bg-white rounded-full animate-pulse"></div>
                         </a>
                     </li>
                 </ul>
