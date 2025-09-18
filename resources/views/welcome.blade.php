@@ -16,7 +16,7 @@
 
                 <!-- Desktop Menu -->
                 <ul class="hidden md:flex space-x-8">
-                    <li><a href="#seminar" class="hover:text-teal transition-colors px-4 py-2 rounded-full hover:bg-white hover:bg-opacity-10">Seminar</a></li>
+                    <li><a href="#seminars" class="hover:text-teal transition-colors px-4 py-2 rounded-full hover:bg-white hover:bg-opacity-10">Seminar</a></li>
                     <li><a href="#trainers" class="hover:text-teal transition-colors px-4 py-2 rounded-full hover:bg-white hover:bg-opacity-10">Trainers</a></li>
                     <li><a href="#facilities" class="hover:text-teal transition-colors px-4 py-2 rounded-full hover:bg-white hover:bg-opacity-10">Facilities</a></li>
                     <li><a href="#faq" class="hover:text-teal transition-colors px-4 py-2 rounded-full hover:bg-white hover:bg-opacity-10">FAQ</a></li>
@@ -223,6 +223,7 @@
                     </div>
                     <div class="text-center space-y-4">
                         <h3 class="text-2xl font-bold text-primary">Dr. Rina Wijaya</h3>
+
                         <p class="text-teal font-semibold">Chief Digital Officer - TechCorp Asia</p>
                         <p class="text-gray-600 leading-relaxed">15+ tahun pengalaman memimpin transformasi digital di perusahaan multinasional. Spesialis AI implementation dan digital strategy.</p>
                     </div>
@@ -287,6 +288,22 @@
                         <p class="text-gray-600 leading-relaxed">Architect berpengalaman dalam merancang dan implementasi cloud infrastructure untuk digital transformation skala enterprise.</p>
                     </div>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seminars Section -->
+    <section id="seminars" class="py-20 bg-gray-100">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Upcoming Seminars</h2>
+                <p class="text-xl text-gray-600">Join our upcoming seminars to stay ahead in the digital age.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                @foreach(App\Models\Seminar::all() as $seminar)
+                @livewire('seminar-card', ['seminar' => $seminar])
+                @endforeach
             </div>
         </div>
     </section>

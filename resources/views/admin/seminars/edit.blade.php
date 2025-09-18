@@ -1,0 +1,133 @@
+<x-layouts.admin title="Edit Seminar - HAFECS Admin">
+    <div class="min-h-screen bg-gray-50">
+        <!-- Admin Header -->
+        <header class="bg-white shadow">
+            <div class="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8 flex justify-between items-center">
+                <h1 class="text-3xl font-bold text-gray-900">Edit Seminar</h1>
+                <div class="flex items-center space-x-4">
+                    <a href="{{ route('admin.seminars.index') }}" class="text-gray-600 hover:text-gray-900" wire:navigate>
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
+            <div class="bg-white shadow overflow-hidden rounded-lg">
+                <div class="px-4 py-5 sm:p-6">
+                    <form action="{{ route('admin.seminars.update', $seminar) }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        @method('PUT')
+                        
+                        @if ($errors->any())
+                            <div class="mb-6 bg-red-50 border-l-4 border-red-500 p-4">
+                                <div class="flex">
+                                    <div class="flex-shrink-0">
+                                        <svg class="h-5 w-5 text-red-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+                                        </svg>
+                                    </div>
+                                    <div class="ml-3">
+                                        <p class="text-sm text-red-700">
+                                            <strong>Whoops!</strong> There were some problems with your input.
+                                        </p>
+                                        <ul class="mt-2 list-disc list-inside text-sm text-red-700">
+                                            @foreach ($errors->all() as $error)
+                                                <li>{{ $error }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+
+                        <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+                            <!-- Title -->
+                            <div class="md:col-span-2">
+                                <label for="title" class="block text-sm font-medium text-gray-700">Title</label>
+                                <input type="text" name="title" id="title" value="{{ old('title', $seminar->title) }}" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            </div>
+
+                            <!-- Description -->
+                            <div class="md:col-span-2">
+                                <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+                                <textarea name="description" id="description" rows="4" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">{{ old('description', $seminar->description) }}</textarea>
+                            </div>
+
+                            <!-- Start Time -->
+                            <div>
+                                <label for="start_time" class="block text-sm font-medium text-gray-700">Start Time</label>
+                                <input type="datetime-local" name="start_time" id="start_time" value="{{ old('start_time', $seminar->start_time->format('Y-m-d\TH:i')) }}" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            </div>
+
+                            <!-- End Time -->
+                            <div>
+                                <label for="end_time" class="block text-sm font-medium text-gray-700">End Time</label>
+                                <input type="datetime-local" name="end_time" id="end_time" value="{{ old('end_time', $seminar->end_time->format('Y-m-d\TH:i')) }}" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            </div>
+
+                            <!-- Price -->
+                            <div>
+                                <label for="price" class="block text-sm font-medium text-gray-700">Price (Rp)</label>
+                                <input type="number" name="price" id="price" value="{{ old('price', $seminar->price) }}" step="0.01" min="0" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            </div>
+
+                            <!-- Status -->
+                            <div>
+                                <label for="status" class="block text-sm font-medium text-gray-700">Status</label>
+                                <select name="status" id="status" class="mt-1 block w-full bg-white border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                    <option value="upcoming" {{ (old('status', $seminar->status) == 'upcoming') ? 'selected' : '' }}>Upcoming</option>
+                                    <option value="active" {{ (old('status', $seminar->status) == 'active') ? 'selected' : '' }}>Active</option>
+                                    <option value="completed" {{ (old('status', $seminar->status) == 'completed') ? 'selected' : '' }}>Completed</option>
+                                    <option value="cancelled" {{ (old('status', $seminar->status) == 'cancelled') ? 'selected' : '' }}>Cancelled</option>
+                                </select>
+                            </div>
+
+                            <!-- Current Image -->
+                            @if($seminar->image_url)
+                            <div class="md:col-span-2">
+                                <label class="block text-sm font-medium text-gray-700">Current Image</label>
+                                <div class="mt-1">
+                                    <img src="{{ $seminar->image_url }}" alt="{{ $seminar->title }}" class="h-32 w-32 object-cover rounded-md">
+                                </div>
+                            </div>
+                            @endif
+
+                            <!-- Image -->
+                            <div class="md:col-span-2">
+                                <label for="image" class="block text-sm font-medium text-gray-700">Image</label>
+                                <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+                                    <div class="space-y-1 text-center">
+                                        <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
+                                            <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                        </svg>
+                                        <div class="flex text-sm text-gray-600">
+                                            <label for="image" class="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
+                                                <span>Upload a file</span>
+                                                <input id="image" name="image" type="file" class="sr-only">
+                                            </label>
+                                            <p class="pl-1">or drag and drop</p>
+                                        </div>
+                                        <p class="text-xs text-gray-500">PNG, JPG, GIF up to 2MB</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-6 flex justify-end">
+                            <a href="{{ route('admin.seminars.index') }}" class="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                Cancel
+                            </a>
+                            <button type="submit" class="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                Update Seminar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+</x-layouts.admin>
