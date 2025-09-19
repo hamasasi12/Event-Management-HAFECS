@@ -42,6 +42,7 @@
                             </svg>
 
 
+
                             <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : ''">
                                 Dashboard
                             </span>
@@ -91,7 +92,7 @@
                             <div x-show="page === 'seminar'" class="absolute right-2 w-2 h-2 bg-white rounded-full animate-pulse"></div>
                         </a>
                     </li>
-                    
+
                     <!-- Menu Item Pesan -->
                     @php
                     $isActive = $activeRoute === 'admin.messages.index';

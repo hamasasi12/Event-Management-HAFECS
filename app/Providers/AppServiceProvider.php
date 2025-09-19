@@ -21,5 +21,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Route::aliasMiddleware('role', \App\Http\Middleware\AdminRole::class);
+        Route::aliasMiddleware('redirect.non.admin', \App\Http\Middleware\RedirectNonAdminAccess::class);
     }
 }

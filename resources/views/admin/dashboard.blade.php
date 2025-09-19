@@ -128,7 +128,7 @@
                 </table>
             </div>
             <div class="bg-gray-50 px-4 py-3 text-right sm:px-6 dark:bg-gray-700">
-                <a wire:navigate href="{{ route('admin.seminar_registration.index') }}" class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 dark:bg-gray-600 dark:text-white dark:border-gray-600">
+                <a wire:navigate href="{{ route('admin.seminar_registration.index') }}" class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 dark:bg-gray-600 dark:text-white dark:border-gray-600 dark:hover:bg-gray-500">
                     View all users
                 </a>
             </div>
@@ -169,7 +169,7 @@
                 </table>
             </div>
             <div class="bg-gray-50 px-4 py-3 text-right sm:px-6 dark:bg-gray-700">
-                <a wire:navigate href="{{ route('admin.seminars.index') }}" class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 dark:bg-gray-600 dark:text-white dark:border-gray-600">
+                <a wire:navigate href="{{ route('admin.seminars.index') }}" class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 dark:bg-gray-600 dark:text-white dark:border-gray-600 dark:hover:bg-gray-500">
                     View all seminars
                 </a>
             </div>

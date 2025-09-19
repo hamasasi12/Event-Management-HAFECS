@@ -1,5 +1,3 @@
-@extends('layouts.admin')
-
-@section('content')
+<x-layouts.admin>
     @livewire('admin.message-sender')
-@endsection
+</x-layouts.admin>

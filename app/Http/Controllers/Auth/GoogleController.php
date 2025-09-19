@@ -48,6 +48,12 @@ class GoogleController extends Controller
             }
 
             Log::info('Auth::check() before redirect: ' . (Auth::check() ? 'true' : 'false'));
+            
+            // If the user is an admin, always redirect to admin dashboard
+            if (Auth::user()->hasRole('admin')) {
+                return redirect()->intended('/admin/dashboard');
+            }
+            
             return redirect()->intended('/');
         } catch (\Exception $e) {
             Log::error('Error in handleGoogleCallback: ' . $e->getMessage());

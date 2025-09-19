@@ -1,4 +1,4 @@
-<div class="bg-white rounded-3xl p-8 shadow-xl card-hover border-t-4 border-coral">
+<div class="bg-white rounded-3xl p-8 shadow-xl card-hover border-t-4 border-coral ">
     <img class="rounded-lg mb-4" src="{{ $seminar->image_url }}" alt="{{ $seminar->title }}">
     <div class="text-center space-y-4">
         <h3 class="text-2xl font-bold text-primary">{{ $seminar->title }}</h3>
