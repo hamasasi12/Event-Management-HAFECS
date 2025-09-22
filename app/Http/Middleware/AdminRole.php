@@ -9,17 +9,18 @@ use Symfony\Component\HttpFoundation\Response;
 
 class AdminRole
 {
-    public function handle(Request $request, Closure $next): Response
+     public function handle($request, Closure $next)
     {
-        // If admin is authenticated and trying to access login page, redirect to dashboard
-           // Kalau user login dan admin
+        // kalau admin login dan bukan di route admin, arahkan ke admin dashboard
         if (Auth::check() && Auth::user()->hasRole('admin')) {
-            // Izinkan akses hanya ke route admin/*
-            if ($request->is('admin')) {
+            if (
+                !$request->is('admin') && 
+                !$request->is('admin/*') && 
+                !$request->is('logout')
+            ) {
                 return redirect()->route('admin.dashboard');
             }
         }
-
 
         return $next($request);
     }

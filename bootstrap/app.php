@@ -11,10 +11,9 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        $middleware->alias([
-            'App\Http\Middleware\RedirectIfAuthenticated' => \App\Http\Middleware\RedirectIfAuthenticated::class,
-            'App\Http\Middleware\PreventAdminAccess' => \App\Http\Middleware\PreventAdminAccess::class,
-        ]);
+       $middleware->alias([
+    'preventAdminAccess' => \App\Http\Middleware\PreventAdminAccess::class,
+]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
