@@ -22,7 +22,6 @@ Route::middleware(['preventAdminAccess'])->group(function () {
         Route::post('admin/login', [AuthController::class, 'login']);
         
     });
-
     
     Route::post('admin/logout', [AuthController::class, 'logout'])->name('admin.logout');
 

@@ -1,19 +1,6 @@
-<x-layouts.admin title="Admin Dashboard - HAFECS">
+<x-layouts.admin title="Dashboard">
     <!-- Breadcrumb -->
-    <div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <h2 class="text-title-md2 font-bold text-black dark:text-white">
-            Dashboard
-        </h2>
-        <nav>
-            <ol class="flex items-center gap-2 text-gray-600 dark:text-gray-300">
-                <li>
-                    <a class="font-medium" href="{{ url('/admin') }}">Dashboard</a>
-                </li>
-                <li class="font-medium">/Home</li>
-            </ol>
-        </nav>
-    </div>
-    <!-- Breadcrumb End -->
+     <livewire:breadcrumb />
 
     <!-- Stats Cards -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">

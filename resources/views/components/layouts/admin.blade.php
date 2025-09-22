@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" x-data="{
         darkMode: localStorage.getItem('darkMode') === 'true',
+        pageName: '{{ $title ?? 'Admin Dashboard' }}',
         init() {
           // Initialize on page load
           if (this.darkMode) {
