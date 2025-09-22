@@ -21,27 +21,27 @@
                     <form action="{{ route('admin.seminars.update', $seminar) }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
-                        
+
                         @if ($errors->any())
-                            <div class="mb-6 bg-red-50 border-l-4 border-red-500 p-4 dark:bg-red-900/20 dark:border-red-700">
-                                <div class="flex">
-                                    <div class="flex-shrink-0">
-                                        <svg class="h-5 w-5 text-red-400 dark:text-red-300" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
-                                        </svg>
-                                    </div>
-                                    <div class="ml-3">
-                                        <p class="text-sm text-red-700 dark:text-red-300">
-                                            <strong>Whoops!</strong> There were some problems with your input.
-                                        </p>
-                                        <ul class="mt-2 list-disc list-inside text-sm text-red-700 dark:text-red-300">
-                                            @foreach ($errors->all() as $error)
-                                                <li>{{ $error }}</li>
-                                            @endforeach
-                                        </ul>
-                                    </div>
+                        <div class="mb-6 bg-red-50 border-l-4 border-red-500 p-4 dark:bg-red-900/20 dark:border-red-700">
+                            <div class="flex">
+                                <div class="flex-shrink-0">
+                                    <svg class="h-5 w-5 text-red-400 dark:text-red-300" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+                                    </svg>
+                                </div>
+                                <div class="ml-3">
+                                    <p class="text-sm text-red-700 dark:text-red-300">
+                                        <strong>Whoops!</strong> There were some problems with your input.
+                                    </p>
+                                    <ul class="mt-2 list-disc list-inside text-sm text-red-700 dark:text-red-300">
+                                        @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
                                 </div>
                             </div>
+                        </div>
                         @endif
 
                         <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
@@ -67,6 +67,15 @@
                             <div>
                                 <label for="end_time" class="block text-sm font-medium text-gray-700 dark:text-gray-300">End Time</label>
                                 <input type="datetime-local" name="end_time" id="end_time" value="{{ old('end_time', $seminar->end_time->format('Y-m-d\TH:i')) }}" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                            </div>
+
+                            <!-- type -->
+                            <div>
+                                <label for="type" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Tipe Seminar</label>
+                                <select name="type" id="type" class="mt-1 block w-full bg-white border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                                    <option value="gratis" {{ old('type') == 'gratis' ? 'selected' : '' }} class="dark:bg-gray-700 dark:text-white">Gratis</option>
+                                    <option value="berbayar" {{ old('type') == 'berbayar' ? 'selected' : '' }} class="dark:bg-gray-700 dark:text-white">Berbayar</option>
+                                </select>
                             </div>
 
                             <!-- Price -->

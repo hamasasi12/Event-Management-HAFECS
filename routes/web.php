@@ -7,6 +7,9 @@ use App\Http\Controllers\Admin\AuthController;
 use App\Livewire\PendftaranSeminar;
 
 Route::get('/', function () {
+     if (auth()->check() && auth()->user()->hasRole('admin')) {
+        return redirect()->route('admin.dashboard');
+    }
     return view('welcome');
 });
 

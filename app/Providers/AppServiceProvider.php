@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Http\Middleware\AdminRole;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
 
@@ -20,7 +21,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Route::aliasMiddleware('role', \App\Http\Middleware\AdminRole::class);
-        Route::aliasMiddleware('redirect.non.admin', \App\Http\Middleware\RedirectNonAdminAccess::class);
+        Route::aliasMiddleware('role', AdminRole::class);
     }
 }
