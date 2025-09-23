@@ -49,9 +49,9 @@ class PaymentController extends Controller
 
         $id = $decoded[0];
         $seminarRegistration = SeminarRegistration::find($id);
-        $seminar = Seminar::find($id);
+        $seminar = $seminarRegistration ? $seminarRegistration->seminar : null;
 
-        if (!$seminarRegistration) {
+        if (!$seminarRegistration || !$seminar) {
             return redirect()->back()->with('error', 'Registrasi tidak ditemukan');
         }
 
@@ -70,7 +70,17 @@ class PaymentController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255',
             'phone' => 'nullable|string|max:15',
+            'seminar_id' => 'required|exists:seminars,id',
         ]);
+
+        // Find seminar registration
+        $seminarRegistration = SeminarRegistration::where('email', $request->email)
+            ->where('seminar_id', $request->seminar_id)
+            ->first();
+
+        if (!$seminarRegistration) {
+            return redirect()->back()->with('error', 'Data pendaftaran tidak ditemukan');
+        }
 
         // Generate unique order ID
         $orderId = 'ORDER-' . time() . '-' . Str::random(5);
@@ -93,6 +103,7 @@ class PaymentController extends Controller
             // Create payment record SETELAH mendapat snap token
             $payment = Payment::create([
                 'user_id' => Auth::check() ? Auth::id() : null, // Isi user_id jika pengguna login
+                'seminar_registration_id' => $seminarRegistration->id,
                 'order_id' => $orderId,
                 'amount' => $request->amount,
                 'snap_token' => $snapToken, // Token yang valid
@@ -126,10 +137,10 @@ class PaymentController extends Controller
     public function checkout($id)
     {
         $payment = Payment::findOrFail($id);
-        $seminarRegistration = SeminarRegistration::find($id);
+        $seminarRegistration = $payment->seminarRegistration;
 
         // Pastikan payment milik user yang login
-        if ($payment->user_id != Auth::id()) {
+        if (Auth::check() && $payment->user_id != Auth::id()) {
             abort(403);
         }
 
@@ -144,24 +155,16 @@ class PaymentController extends Controller
             // Regenerate snap token jika tidak valid
             $this->setupMidtransConfig();
 
-            
-
             $params = [
                 'transaction_details' => [
                     'order_id' => $payment->order_id,
                     'gross_amount' => (int) $payment->amount,
                 ],
                 'customer_details' => [
-                    'user_id' => Auth::check() ? Auth::id() : null, // Isi user_id jika pengguna login
                     'first_name' => $seminarRegistration->name,
                     'email' => $seminarRegistration->email,
-                    'billing_address' => [
-                        'first_name' => $seminarRegistration->name,
-                        'email' => $seminarRegistration->email,
-                        'phone' => $seminarRegistration->phone ?? '',
-                        'country_code' => 'IDN',
-                    ]
-                ],
+                    'phone' => $seminarRegistration->phone ?? '',
+                ]
             ];
 
             try {
@@ -196,27 +199,31 @@ class PaymentController extends Controller
     {
         $payment = Payment::where('order_id', $id)->first();
         
-        //JIKA WEBHOOK TIDAK JALAN
-        $payment->update([
-            'status' => 'success'
-        ]);
-        if($payment->status === 'success'){
-            $seminarRegistration = SeminarRegistration::first();
-            $seminarRegistration->update([
-                'is_paid' => 'yes'
-            ]);
-            Mail::to($seminarRegistration->email)->send(new SeminarRegistrationMail($seminarRegistration->seminar, $seminarRegistration));
-            session()->flash('message', 'Pendaftaran berhasil! Silakan cek email Anda untuk konfirmasi.');
-             return redirect()->route('welcome');
-        }
-
-
-        //JIKA WEBHOOK TIDAK JALAN
-
         if (!$payment) {
             abort(404);
         }
-        return view('505');
+
+        // Update payment status
+        $payment->update([
+            'status' => 'success'
+        ]);
+
+        if($payment->status === 'success'){
+            // Get the correct seminar registration
+            $seminarRegistration = $payment->seminarRegistration;
+            
+            if ($seminarRegistration) {
+                $seminarRegistration->update([
+                    'is_paid' => 'yes'
+                ]);
+                
+                // Send email to the correct address
+                Mail::to($seminarRegistration->email)->send(new SeminarRegistrationMail($seminarRegistration->seminar, $seminarRegistration));
+                session()->flash('message', 'Pendaftaran berhasil! Silakan cek email Anda untuk konfirmasi.');
+            }
+        }
+
+        return redirect()->route('welcome');
     }
 
 
@@ -231,7 +238,9 @@ class PaymentController extends Controller
         $fraudStatus = $notif->fraud_status;
         $paymentType = $notif->payment_type;
 
-        $payment = Payment::with('user')->where('order_id', $orderId)->firstOrFail();
+        $payment = Payment::with('user', 'seminarRegistration')->where('order_id', $orderId)->firstOrFail();
+
+        $previousStatus = $payment->status;
 
         if ($status == 'capture') {
             if ($fraudStatus == 'challenge') {
@@ -253,7 +262,19 @@ class PaymentController extends Controller
         $payment->payment_details = json_decode(json_encode($notif), true);
         $payment->save();
 
-        if ($payment->status == 'success') {
+        // If payment status changed to success, send email
+        if ($previousStatus != 'success' && $payment->status == 'success') {
+            // Update seminar registration status
+            $seminarRegistration = $payment->seminarRegistration;
+            if ($seminarRegistration) {
+                $seminarRegistration->update([
+                    'is_paid' => 'yes'
+                ]);
+                
+                // Send confirmation email
+                Mail::to($seminarRegistration->email)->send(new SeminarRegistrationMail($seminarRegistration->seminar, $seminarRegistration));
+            }
+            
             event(new PaymentSuccessful($payment));
         }
 

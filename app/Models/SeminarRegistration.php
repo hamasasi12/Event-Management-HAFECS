@@ -15,6 +15,7 @@ class SeminarRegistration extends Model
         'name',
         'email',
         'phone',
+        'is_paid',
     ];
 
     public function user()
@@ -25,5 +26,10 @@ class SeminarRegistration extends Model
     public function seminar()
     {
         return $this->belongsTo(Seminar::class);
+    }
+
+    public function payment()
+    {
+        return $this->hasOne(Payment::class);
     }
 }

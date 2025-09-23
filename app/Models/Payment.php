@@ -10,8 +10,8 @@ class Payment extends Model
 
     protected $fillable = [
         'user_id',
-        'order_id',
         'seminar_registration_id',
+        'order_id',
         'amount',
         'status',
         'snap_token',
@@ -34,6 +34,7 @@ class Payment extends Model
 
     public function seminarRegistration()
     {
-        return $this->belongsTo(seminarRegistration::class);
+        return $this->belongsTo(SeminarRegistration::class);
     }
 }
+
