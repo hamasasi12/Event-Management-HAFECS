@@ -59,6 +59,7 @@ class PendftaranSeminar extends Component
         $this->validate();
 
         try {
+            if($this->seminar->type === 'gratis') {
             // Handle registration logic here
             $registration = SeminarRegistration::create([
                 'seminar_id' => $this->seminar->id,
@@ -74,6 +75,19 @@ class PendftaranSeminar extends Component
             session()->flash('message', 'Pendaftaran berhasil! Silakan cek email Anda untuk konfirmasi.');
 
             $this->reset(['name', 'email', 'phone']);
+            } else{
+                // Handle registration logic here
+            $registration = SeminarRegistration::create([
+                'seminar_id' => $this->seminar->id,
+                'name' => $this->name,
+                'email' => $this->email,
+                'phone' => $this->phone,
+                'user_id' => Auth::check() ? Auth::id() : null, // Isi user_id jika pengguna login
+            ]);
+            return redirect()->route('payments.create', \Hashids::encode($this->seminar->id));
+
+            }
+           
         } catch (\Exception $e) {
             Log::error('Error in register method: ' . $e->getMessage());
             session()->flash('error', 'Terjadi kesalahan saat mendaftar. Silakan coba lagi.');

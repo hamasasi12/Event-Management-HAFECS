@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('seminar_id')->constrained()->onDelete('cascade');
             $table->string('name');
             $table->string('email');
+            $table->string('is_paid')->default('no');
             $table->string('phone');
             $table->timestamps();
         });

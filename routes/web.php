@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\SeminarController;
 use App\Http\Controllers\Admin\SeminarRegistrationController;
 use App\Livewire\PendftaranSeminar;
 use App\Livewire\Admin\MessageSender;
+use App\Http\Controllers\PaymentController;
 
 
 Route::middleware(['preventAdminAccess'])->group(function () {
@@ -14,6 +15,9 @@ Route::middleware(['preventAdminAccess'])->group(function () {
     Route::get('/', function () {
         return view('welcome');
     });
+    Route::get('welcome', function () {
+        return view('welcome');
+    })->name('welcome');
 
     Route::get('/seminar/register/{seminarId}', PendftaranSeminar::class)
         ->name('seminar.register');
@@ -54,4 +58,12 @@ Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallba
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-// USER ROUTES
+// Payment Routes
+Route::get('/payments', [PaymentController::class, 'index'])->name('payments.index');
+    Route::get('/payments/finish/{id}', [PaymentController::class, 'finish'])->name('payments.finish');
+    Route::get('/payments/pending', [PaymentController::class, 'pending'])->name('payments.pending');
+    Route::get('/payments/eror', [PaymentController::class, 'eror'])->name('payments.eror');
+    Route::get('/payments/{id}/create', [PaymentController::class, 'create'])->name('payments.create');
+    Route::post('/payments', [PaymentController::class, 'store'])->name('payments.store');
+    Route::get('/payments/{id}/checkout', [PaymentController::class, 'checkout'])->name('payments.checkout');
+    Route::get('/payments/{id}', [PaymentController::class, 'detail'])->name('payments.detail');

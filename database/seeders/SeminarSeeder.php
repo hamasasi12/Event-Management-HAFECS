@@ -18,6 +18,7 @@ class SeminarSeeder extends Seeder
             'description' => 'Pelajari teknologi web terbaru yang sedang berkembang pesat saat ini. Workshop ini akan membahas berbagai framework dan tools modern.',
             'start_time' => '2025-10-15 09:00:00',
             'end_time' => '2025-10-15 16:00:00',
+            'type' => 'berbayar',
             'price' => 150000,
             'status' => 'upcoming',
             'image_url' => 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80',

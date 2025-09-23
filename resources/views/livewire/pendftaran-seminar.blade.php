@@ -83,6 +83,7 @@
                     <input wire:model="phone" type="text" id="phone" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-coral focus:ring focus:ring-coral focus:ring-opacity-50">
                     @error('phone') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                 </div>
+                <!--  -->
                 <button type="submit" class="bg-gradient-to-r from-coral to-red-500 text-white px-6 py-3 rounded-full font-semibold hover:shadow-lg hover:scale-105 transition-all duration-300 w-full">
                     Daftar
                 </button>
