@@ -781,5 +781,24 @@
         });
 
     </script>
+
+    <!-- Include SweetAlert2 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        // Check for payment success parameter in URL
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('payment_success') === 'true') {
+            Swal.fire({
+                title: 'Pendaftaran Berhasil!',
+                text: 'Anda telah berhasil melakukan pendaftaran! Silakan cek email Anda untuk konfirmasi.',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            }).then(() => {
+                // Remove the parameter from URL to prevent repeated alerts
+                history.replaceState({}, document.title, window.location.pathname);
+            });
+        }
+    </script>
 </body>
 </html>

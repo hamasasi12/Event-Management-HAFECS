@@ -5,7 +5,7 @@ use App\Http\Controllers\Auth\GoogleController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\SeminarController;
 use App\Http\Controllers\Admin\SeminarRegistrationController;
-use App\Livewire\PendftaranSeminar;
+use App\Livewire\PendaftaranSeminar;
 use App\Livewire\Admin\MessageSender;
 use App\Http\Controllers\PaymentController;
 
@@ -14,12 +14,9 @@ Route::middleware(['preventAdminAccess'])->group(function () {
     // Semua route user biasa di sini
     Route::get('/', function () {
         return view('welcome');
-    });
-    Route::get('welcome', function () {
-        return view('welcome');
     })->name('welcome');
-
-    Route::get('/seminar/register/{seminarId}', PendftaranSeminar::class)
+  
+    Route::get('/seminar/register/{seminarId}', PendaftaranSeminar::class)
         ->name('seminar.register');
         // ADMIN ROUTES
         Route::get('admin/login', [AuthController::class, 'showLoginForm'])->name('admin.login');
