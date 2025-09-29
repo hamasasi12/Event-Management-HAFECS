@@ -11,6 +11,7 @@ use Illuminate\Support\Str;
 
 use Illuminate\Http\Request;
 use App\Events\PaymentSuccessful;
+use App\Jobs\SendSeminarRegistrationEmail;
 use Vinkla\Hashids\Facades\Hashids;
 use Illuminate\Support\Facades\Auth;
 
@@ -218,7 +219,8 @@ class PaymentController extends Controller
                     'is_paid' => 'yes'
                 ]);
                 
-                Mail::to($seminarRegistration->email)->send(new SeminarRegistrationMail($seminarRegistration->seminar, $seminarRegistration));
+                // Gunakan queue untuk mengirim email
+                SendSeminarRegistrationEmail::dispatch($seminarRegistration->seminar, $seminarRegistration);
             }
         }
 
@@ -270,12 +272,14 @@ class PaymentController extends Controller
                         'is_paid' => 'yes'
                     ]);
                     
-                    Mail::to($seminarRegistration->email)->send(new SeminarRegistrationMail($seminarRegistration->seminar, $seminarRegistration));
+                    // Gunakan queue untuk mengirim email
+                    SendSeminarRegistrationEmail::dispatch($seminarRegistration->seminar, $seminarRegistration);
                 }
                 
                 if ($payment->status === 'success') {
                     event(new PaymentSuccessful($payment));
                 }
+                
                 return response()->json(['status' => 'success']);
             }
 
@@ -301,10 +305,8 @@ class PaymentController extends Controller
             Log::error('Error in payment detail: ' . $e->getMessage(), [
                 'trace' => $e->getTraceAsString()
             ]);
-            // session()->flash('error', 'Terjadi kesalahan saat mengakses detail pembayaran.');
-            Alert::error('Error', 'Terjadi kesalahan saat mengakses detail pembayaran.');
-             return redirect('/');
-            // return redirect()->view('welcome');
+            session()->flash('error', 'Terjadi kesalahan saat mengakses detail pembayaran.');
+            return redirect('/');
         }
         
     }
