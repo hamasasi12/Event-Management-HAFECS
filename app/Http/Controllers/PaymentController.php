@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
 use App\Mail\SeminarRegistrationMail;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class PaymentController extends Controller
 {
@@ -223,6 +224,7 @@ class PaymentController extends Controller
 
         // Redirect to home page with success parameter
         return redirect('/').'?payment_success=true';
+        Alert::classic('Success', 'Payment completed successfully!');
     }
 
     public function notification(Request $request)
@@ -299,8 +301,11 @@ class PaymentController extends Controller
             Log::error('Error in payment detail: ' . $e->getMessage(), [
                 'trace' => $e->getTraceAsString()
             ]);
-            session()->flash('error', 'Terjadi kesalahan saat mengakses detail pembayaran.');
-            return redirect()->view('welcome');
+            // session()->flash('error', 'Terjadi kesalahan saat mengakses detail pembayaran.');
+            Alert::error('Error', 'Terjadi kesalahan saat mengakses detail pembayaran.');
+             return redirect('/');
+            // return redirect()->view('welcome');
         }
+        
     }
 }

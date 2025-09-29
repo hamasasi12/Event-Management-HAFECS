@@ -3,13 +3,11 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
-use App\Models\UserProfile;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
-use GuzzleHttp\Psr7\Request;
-use Illuminate\Routing\Middleware\ValidateSignature;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
 
@@ -35,6 +33,14 @@ class GoogleController extends Controller
                 session()->regenerate();
                 Log::info('Auth::check() after login: ' . (Auth::check() ? 'true' : 'false'));
             } else {
+                // Validasi apakah email sudah digunakan oleh user lain
+                $existingUser = User::where('email', $googleUser->email)->first();
+                
+                if ($existingUser) {
+                    Log::warning('Email already exists for another user: ' . $googleUser->email);
+                    return redirect('/')->withErrors(['email' => 'Email ini sudah terdaftar dengan akun lain. Silakan gunakan akun yang berbeda atau hubungi administrator.']);
+                }
+                
                 Log::info('User not found, creating new user');
                 $user = User::create([
                     'name' => $googleUser->name,

@@ -11,7 +11,9 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
 use App\Mail\SeminarRegistrationMail;
 use Illuminate\Validation\Rule;
+use RealRashid\SweetAlert\Facades\Alert;
 
+#[Layout('components.layouts.app')]
 class PendaftaranSeminar extends Component
 {
     public $seminar;
@@ -60,17 +62,21 @@ class PendaftaranSeminar extends Component
         $this->validate();
 
         try {
-            if($this->seminar->type === 'gratis') {
-                // Cek apakah pengguna sudah terdaftar sebelumnya
-                $existingRegistration = SeminarRegistration::where('email', $this->email)
-                    ->where('seminar_id', $this->seminar->id)
-                    ->first();
+            // Cek apakah pengguna sudah terdaftar ke seminar ini sebelumnya (tidak peduli sudah bayar atau belum)
+            $existingRegistration = SeminarRegistration::where('email', $this->email)
+                ->where('seminar_id', $this->seminar->id)
+                ->first();
 
-                if ($existingRegistration) {
-                    session()->flash('error', 'Anda sudah terdaftar di seminar ini.');
-                    return;
+            if ($existingRegistration) {
+                if ($existingRegistration->is_paid === 'yes') {
+                    $this->dispatch('show-error', title: 'Gagal Mendaftar', message: 'Anda sudah terdaftar dan membayar di seminar ini.');
+                } else {
+                    $this->dispatch('show-error', title: 'Gagal Mendaftar', message: 'Anda sudah terdaftar di seminar ini. Silakan selesaikan pembayaran terlebih dahulu.');
                 }
+                return;
+            }
 
+            if($this->seminar->type === 'gratis') {
                 // Registrasi gratis langsung masuk database
                 $registration = SeminarRegistration::create([
                     'seminar_id' => $this->seminar->id,
@@ -82,20 +88,13 @@ class PendaftaranSeminar extends Component
                 ]);
 
                 Mail::to($this->email)->send(new SeminarRegistrationMail($this->seminar, $registration));
-                session()->flash('message', 'Pendaftaran berhasil! Silakan cek email Anda untuk konfirmasi.');
+                
                 $this->reset(['name', 'email', 'phone']);
+                
+                // Kirim event untuk menampilkan SweetAlert
+                $this->dispatch('show-success', title: 'Success!', message: 'Pendaftaran berhasil! Silakan cek email Anda untuk konfirmasi.');
+                //   return redirect()->route('welcome');
             } else {
-                // Cek apakah pengguna sudah terdaftar sebelumnya
-                $existingRegistration = SeminarRegistration::where('email', $this->email)
-                    ->where('seminar_id', $this->seminar->id)
-                    ->where('is_paid', 'no') // Hanya cek yang belum bayar
-                    ->first();
-
-                if ($existingRegistration) {
-                    // Jika sudah terdaftar tapi belum bayar, arahkan ke pembayaran
-                    return redirect()->route('payments.create', \Hashids::encode($existingRegistration->id));
-                }
-
                 // Registrasi berbayar: buat dengan status "belum bayar"
                 $registration = SeminarRegistration::create([
                     'seminar_id' => $this->seminar->id,
@@ -106,6 +105,9 @@ class PendaftaranSeminar extends Component
                     'is_paid' => 'no', // Belum bayar
                 ]);
 
+                // Tampilkan alert sebelum redirect ke pembayaran
+                $this->dispatch('show-success', title: 'Pendaftaran Berhasil!', message: 'Silakan lanjutkan ke pembayaran untuk menyelesaikan registrasi.');
+                
                 // Redirect ke pembayaran dengan ID registrasi
                 return redirect()->route('payments.create', \Hashids::encode($registration->id));
             }
@@ -113,7 +115,7 @@ class PendaftaranSeminar extends Component
             Log::error('Error in register method: ' . $e->getMessage(), [
                 'trace' => $e->getTraceAsString()
             ]);
-            session()->flash('error', 'Terjadi kesalahan saat mendaftar. Silakan coba lagi.');
+            $this->dispatch('show-error', title: 'Terjadi Kesalahan', message: 'Terjadi kesalahan saat mendaftar. Silakan coba lagi.');
         }
     }
 }

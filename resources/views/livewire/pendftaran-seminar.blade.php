@@ -58,6 +58,12 @@
             </div>
             @endif
 
+            @if (session()->has('error'))
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+                <span class="block sm:inline">{{ session('error') }}</span>
+            </div>
+            @endif
+
             @guest
             <div class="bg-yellow-50 rounded-xl p-4 mb-6 text-center">
                 <p class="text-gray-700 mb-3">Untuk pengalaman yang lebih baik, silakan login terlebih dahulu:</p>
@@ -84,10 +90,44 @@
                     @error('phone') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                 </div>
                 <!--  -->
-                <button type="submit" class="bg-gradient-to-r from-coral to-red-500 text-white px-6 py-3 rounded-full font-semibold hover:shadow-lg hover:scale-105 transition-all duration-300 w-full">
-                    Daftar
+                <button 
+                    type="submit" 
+                    wire:loading.attr="disabled" 
+                    wire:target="register"
+                    class="bg-gradient-to-r from-coral to-red-500 text-white px-6 py-3 rounded-full font-semibold hover:shadow-lg hover:scale-105 transition-all duration-300 w-full">
+                    <span wire:loading.remove wire:target="register">Daftar</span>
+                    <span wire:loading wire:target="register">Memproses...</span>
                 </button>
             </form>
         </div>
     </div>
+    
+    </div>
+    </div>
+    
+    <!-- Include SweetAlert2 for Livewire component -->
+    @include('sweetalert::alert')
+    
+    <!-- Script untuk menangani SweetAlert dari Livewire events -->
+    <script>
+        document.addEventListener('livewire:init', () => {
+            Livewire.on('show-success', (event) => {
+                Swal.fire({
+                    title: event.title,
+                    text: event.message,
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                });
+            });
+            
+            Livewire.on('show-error', (event) => {
+                Swal.fire({
+                    title: event.title,
+                    text: event.message,
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
+            });
+        });
+    </script>
 </div>
