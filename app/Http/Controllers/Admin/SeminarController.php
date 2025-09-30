@@ -14,8 +14,13 @@ class SeminarController extends Controller
      * Display a listing of the resource.
      */
     public function index()
+    
     {
         $seminars = Seminar::latest()->get();
+
+        // $title = 'Delete User!';
+        // $text = "Are you sure you want to delete?";
+        // confirmDelete($title, $text);
 
 
         return view('admin.seminars.index', compact('seminars'));
@@ -128,12 +133,8 @@ class SeminarController extends Controller
             }
         }
 
-        $title = 'Delete User!';
-        $text = "Are you sure you want to delete?";
-        confirmDelete($title, $text);
+     
         $seminar->delete();
-
-
 
         return redirect()->route('admin.seminars.index')
             ->with('success', 'Seminar deleted successfully.');
