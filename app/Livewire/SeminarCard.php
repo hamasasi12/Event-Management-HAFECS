@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use App\Models\Seminar;
+use Vinkla\Hashids\Facades\Hashids;
 
 class SeminarCard extends Component
 {

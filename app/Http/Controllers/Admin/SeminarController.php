@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Seminar;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class SeminarController extends Controller
 {
@@ -125,10 +125,9 @@ class SeminarController extends Controller
                 Storage::delete($imagePath);
             }
         }
-
         $seminar->delete();
 
         return redirect()->route('admin.seminars.index')
-            ->with('success', 'Seminar deleted successfully.');
+            ->with('success', 'Seminar has been deleted successfully.');
     }
 }

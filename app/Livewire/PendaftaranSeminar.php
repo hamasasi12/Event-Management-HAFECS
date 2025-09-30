@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
 use App\Mail\SeminarRegistrationMail;
+use RealRashid\SweetAlert\Facades\Alert;
+use Vinkla\Hashids\Facades\Hashids;
 
 // #[Layout('components.layouts.app')]
 class PendaftaranSeminar extends Component
@@ -25,10 +27,21 @@ class PendaftaranSeminar extends Component
         'phone' => 'required|string|max:15',
     ];
 
-    public function mount($seminarId)
+    public function mount($hashid)
     {
         try {
-            Log::info('Mounting PendftaranSeminar component with ID: ' . $seminarId);
+            // Decode the hashid to get the actual seminar ID
+            $decoded = Hashids::decode($hashid);
+            
+            if (empty($decoded)) {
+                Log::error('Invalid hashid provided: ' . $hashid);
+                session()->flash('error', 'ID Seminar tidak valid.');
+                return redirect()->route('welcome');
+            }
+            
+            $seminarId = $decoded[0];
+            
+            Log::info('Mounting PendftaranSeminar component with decoded ID: ' . $seminarId);
             $this->seminar = Seminar::findOrFail($seminarId);
             Log::info('Seminar found: ' . $this->seminar->title);
             
@@ -90,7 +103,7 @@ class PendaftaranSeminar extends Component
                 $this->reset(['name', 'email', 'phone']);
                 
                 // Kirim event untuk menampilkan SweetAlert
-                $this->dispatch('show-success', title: 'Success!', message: 'Pendaftaran berhasil! Silakan cek email Anda untuk konfirmasi.', redirectTo: 'welcome');
+                $this->dispatch('show-success', title: 'Success!', message: 'Pendaftaran berhasil! Silakan cek email Anda untuk konfirmasi.', redirectTo: '/');
             } else {
                 // Registrasi berbayar: buat dengan status "belum bayar"
                 $registration = SeminarRegistration::create([

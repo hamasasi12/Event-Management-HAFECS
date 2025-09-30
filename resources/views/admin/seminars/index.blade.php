@@ -1,6 +1,6 @@
 <x-layouts.admin title="Manage Seminars">
     <!-- Breadcrumb -->
-   <livewire:breadcrumb :page-title="'Manage Seminar '" :breadcrumbs="[
+    <livewire:breadcrumb :page-title="'Manage Seminar '" :breadcrumbs="[
         ['title' => 'Dashboard', 'url' => route('admin.dashboard')],
     ]" />
 
@@ -99,10 +99,10 @@
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                             <a href="{{ route('admin.seminars.show', $seminar) }}" class="text-indigo-600 hover:text-indigo-900 mr-3 dark:text-indigo-400 dark:hover:text-indigo-300" wire:navigate>Show</a>
                             <a href="{{ route('admin.seminars.edit', $seminar) }}" class="text-indigo-600 hover:text-indigo-900 mr-3 dark:text-indigo-400 dark:hover:text-indigo-300" wire:navigate>Edit</a>
-                            <form action="{{ route('admin.seminars.destroy', $seminar) }}" method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this seminar?');">
+                            <form action="{{ route('admin.seminars.destroy', $seminar) }}" method="POST" class="inline delete-form">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300">Delete</button>
+                                <button type="submit" class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300 delete-btn">Delete</button>
                             </form>
                         </td>
                     </tr>

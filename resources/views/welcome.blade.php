@@ -296,7 +296,7 @@
     <section id="seminars" class="py-20 bg-gray-100">
         <div class="container mx-auto px-6">
             <div class="text-center mb-16">
-                <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Upcoming Seminars</h2>
+                <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Upcomings Seminars</h2>
                 <p class="text-xl text-gray-600">Join our upcoming seminars to stay ahead in the digital age.</p>
             </div>
 
@@ -304,7 +304,7 @@
                 @foreach(App\Models\Seminar::all() as $seminar)
                 @livewire('seminar-card', ['seminar' => $seminar])
                 @endforeach
-            </div>
+            </div>  
         </div>
     </section>
 
@@ -618,7 +618,6 @@
             <div class="max-w-4xl mx-auto space-y-8">
                 <h2 class="text-4xl md:text-5xl font-bold">Ready to Transform Your Digital Future?</h2>
                 <p class="text-xl text-gray-300">Jangan lewatkan kesempatan emas untuk bergabung dengan para leaders dalam Digital Transformation Summit 2025</p>
-
                 <div class="flex flex-col sm:flex-row justify-center gap-6 pt-8">
                     <a href="#" class="bg-gradient-to-r from-coral to-red-500 text-white px-10 py-4 rounded-full font-bold text-lg hover:shadow-2xl hover:scale-105 transition-all duration-300">
                         Daftar Sekarang - Early Bird
@@ -781,25 +780,26 @@
         });
 
     </script>
-      <!-- Include SweetAlert2 for Livewire component -->
+    <!-- Include SweetAlert2 for Livewire component -->
 
     <!-- Include SweetAlert2 CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    {{-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> --}}
 
     <script>
         // Check for payment success parameter in URL
         const urlParams = new URLSearchParams(window.location.search);
         if (urlParams.get('payment_success') === 'true') {
             Swal.fire({
-                title: 'Pendaftaran Berhasil!',
-                text: 'Anda telah berhasil melakukan pendaftaran! Silakan cek email Anda untuk konfirmasi.',
-                icon: 'success',
-                confirmButtonText: 'OK'
+                title: 'Pendaftaran Berhasil!'
+                , text: 'Anda telah berhasil melakukan pendaftaran! Silakan cek email Anda untuk konfirmasi.'
+                , icon: 'success'
+                , confirmButtonText: 'OK'
             }).then(() => {
                 // Remove the parameter from URL to prevent repeated alerts
                 history.replaceState({}, document.title, window.location.pathname);
             });
         }
+
     </script>
 </body>
 </html>

@@ -38,6 +38,7 @@
         <div class="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
             <!-- Header -->
             @include('admin.components.header')
+            @include('sweetalert::alert')
 
             <!-- Main Content Area -->
             <main>
@@ -59,6 +60,78 @@
                 document.documentElement.classList.remove('dark');
             }
         })();
+
+
+        // document.addEventListener('DOMContentLoaded', function() {
+        //     // Handle delete button clicks
+        //     const deleteButtons = document.querySelectorAll('.delete-btn');
+
+        //     deleteButtons.forEach(button => {
+        //         button.addEventListener('click', function(e) {
+        //             e.preventDefault();
+
+        //             const form = this.closest('.delete-form');
+
+        //             Swal.fire({
+        //                 title: 'Are you sure?'
+        //                 , text: "You won't be able to revert this!"
+        //                 , icon: 'warning'
+        //                 , showCancelButton: true
+        //                 , confirmButtonColor: '#3085d6'
+        //                 , cancelButtonColor: '#d33'
+        //                 , confirmButtonText: 'Yes, delete it!'
+        //             }).then((result) => {
+        //                 if (result.isConfirmed) {
+        //                     form.submit();
+        //                 }
+        //             });
+        //         });
+        //     });
+        // });
+
+
+        // Show success message if present
+        @if(session('success'))
+        Swal.fire({
+            title: 'Success!'
+            , text: '{{ session('
+            success ') }}'
+            , icon: 'success'
+            , confirmButtonText: 'OK'
+        });
+        @endif
+
+        // Show error message if present
+        @if(session('error'))
+        Swal.fire({
+            title: 'Error!'
+            , text: '{{ session('
+            error ') }}'
+            , icon: 'error'
+            , confirmButtonText: 'OK'
+        });
+        @endif
+
+        // Show warning message if present
+        @if(session('warning'))
+        Swal.fire({
+            title: 'Warning!'
+            , text: '{{ session('
+            warning ') }}'
+            , icon: 'warning'
+            , confirmButtonText: 'OK'
+        });
+        @endif
+
+        // Show info message if present
+        @if(session('info'))
+        Swal.fire({
+            title: 'Info!'
+            , text: '{{ session('
+            info ') }}'
+            , icon: 'info'
+            , confirmButtonText: 'OK'
+        });
+        @endif
+
     </script>
-</body>
-</html>

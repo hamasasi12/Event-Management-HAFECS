@@ -90,22 +90,14 @@
                     @error('phone') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                 </div>
                 <!--  -->
-                <button 
-                    type="submit" 
-                    wire:loading.attr="disabled" 
-                    wire:target="register"
-                    class="bg-gradient-to-r from-coral to-red-500 text-white px-6 py-3 rounded-full font-semibold hover:shadow-lg hover:scale-105 transition-all duration-300 w-full">
+                <button type="submit" wire:loading.attr="disabled" wire:target="register" class="bg-gradient-to-r from-coral to-red-500 text-white px-6 py-3 rounded-full font-semibold hover:shadow-lg hover:scale-105 transition-all duration-300 w-full">
                     <span wire:loading.remove wire:target="register">Daftar</span>
                     <span wire:loading wire:target="register">Memproses...</span>
                 </button>
             </form>
         </div>
     </div>
-    
-    </div>
-    </div>
-    
-    <!-- Include SweetAlert2 for Livewire component -->
-  
-    </script>
+
+</div>
+</div>
 </div>

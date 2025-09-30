@@ -224,9 +224,9 @@ class PaymentController extends Controller
             }
         }
 
-        // Redirect to home page with success parameter
-        return redirect('/').'?payment_success=true';
-        Alert::classic('Success', 'Payment completed successfully!');
+        // Display success alert and redirect to home page
+        Alert::success('Success!', 'Pendaftaran berhasil! Silakan cek email Anda untuk konfirmasi.');
+        return redirect('/');
     }
 
     public function notification(Request $request)
