@@ -26,6 +26,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $title ?? 'HAFECS Admin' }}</title>
     @vite('resources/css/admin.css')
+    @include('sweetalert::alert')
 
     @livewireStyles
 </head>
@@ -38,7 +39,6 @@
         <div class="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
             <!-- Header -->
             @include('admin.components.header')
-            @include('sweetalert::alert')
 
             <!-- Main Content Area -->
             <main>
@@ -60,35 +60,6 @@
                 document.documentElement.classList.remove('dark');
             }
         })();
-
-
-        // document.addEventListener('DOMContentLoaded', function() {
-        //     // Handle delete button clicks
-        //     const deleteButtons = document.querySelectorAll('.delete-btn');
-
-        //     deleteButtons.forEach(button => {
-        //         button.addEventListener('click', function(e) {
-        //             e.preventDefault();
-
-        //             const form = this.closest('.delete-form');
-
-        //             Swal.fire({
-        //                 title: 'Are you sure?'
-        //                 , text: "You won't be able to revert this!"
-        //                 , icon: 'warning'
-        //                 , showCancelButton: true
-        //                 , confirmButtonColor: '#3085d6'
-        //                 , cancelButtonColor: '#d33'
-        //                 , confirmButtonText: 'Yes, delete it!'
-        //             }).then((result) => {
-        //                 if (result.isConfirmed) {
-        //                     form.submit();
-        //                 }
-        //             });
-        //         });
-        //     });
-        // });
-
 
         // Show success message if present
         @if(session('success'))

@@ -16,6 +16,8 @@ class SeminarController extends Controller
     public function index()
     {
         $seminars = Seminar::latest()->get();
+
+
         return view('admin.seminars.index', compact('seminars'));
     }
 
@@ -115,7 +117,7 @@ class SeminarController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     */
+     */ 
     public function destroy(Seminar $seminar)
     {
         // Delete image if exists
@@ -125,9 +127,15 @@ class SeminarController extends Controller
                 Storage::delete($imagePath);
             }
         }
+
+        $title = 'Delete User!';
+        $text = "Are you sure you want to delete?";
+        confirmDelete($title, $text);
         $seminar->delete();
 
+
+
         return redirect()->route('admin.seminars.index')
-            ->with('success', 'Seminar has been deleted successfully.');
+            ->with('success', 'Seminar deleted successfully.');
     }
 }
