@@ -10,10 +10,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
 use App\Mail\SeminarRegistrationMail;
-use Illuminate\Validation\Rule;
-use RealRashid\SweetAlert\Facades\Alert;
 
-#[Layout('components.layouts.app')]
+// #[Layout('components.layouts.app')]
 class PendaftaranSeminar extends Component
 {
     public $seminar;
@@ -71,7 +69,7 @@ class PendaftaranSeminar extends Component
                 if ($existingRegistration->is_paid === 'yes') {
                     $this->dispatch('show-error', title: 'Gagal Mendaftar', message: 'Anda sudah terdaftar dan membayar di seminar ini.');
                 } else {
-                    $this->dispatch('show-error', title: 'Gagal Mendaftar', message: 'Anda sudah terdaftar di seminar ini. Silakan selesaikan pembayaran terlebih dahulu.');
+                    $this->dispatch('show-error', title: 'Gagal Mendaftar', message: 'Anda sudah terdaftar di seminar ini. Silakan selesaikan pembayaran terlebih dahulu.', redirectTo: 'payments/' . \Hashids::encode($existingRegistration->id) . '/create');
                 }
                 return;
             }
@@ -92,8 +90,7 @@ class PendaftaranSeminar extends Component
                 $this->reset(['name', 'email', 'phone']);
                 
                 // Kirim event untuk menampilkan SweetAlert
-                $this->dispatch('show-success', title: 'Success!', message: 'Pendaftaran berhasil! Silakan cek email Anda untuk konfirmasi.');
-                //   return redirect()->route('welcome');
+                $this->dispatch('show-success', title: 'Success!', message: 'Pendaftaran berhasil! Silakan cek email Anda untuk konfirmasi.', redirectTo: 'welcome');
             } else {
                 // Registrasi berbayar: buat dengan status "belum bayar"
                 $registration = SeminarRegistration::create([
@@ -106,10 +103,7 @@ class PendaftaranSeminar extends Component
                 ]);
 
                 // Tampilkan alert sebelum redirect ke pembayaran
-                $this->dispatch('show-success', title: 'Pendaftaran Berhasil!', message: 'Silakan lanjutkan ke pembayaran untuk menyelesaikan registrasi.');
-                
-                // Redirect ke pembayaran dengan ID registrasi
-                return redirect()->route('payments.create', \Hashids::encode($registration->id));
+                $this->dispatch('show-success', title: 'Pendaftaran Berhasil!', message: 'Silakan lanjutkan ke pembayaran untuk menyelesaikan registrasi.', redirectTo: 'payments/' . \Hashids::encode($registration->id) . '/create');
             }
         } catch (\Exception $e) {
             Log::error('Error in register method: ' . $e->getMessage(), [

@@ -15,4 +15,50 @@
     </div>
     @livewireScripts
 </body>
+  @include('sweetalert::alert')
+    
+    <!-- Script untuk menangani SweetAlert dari Livewire events -->
+    <script>
+        document.addEventListener('livewire:init', () => {
+            Livewire.on('show-success', (event) => {
+                Swal.fire({
+                    title: event.title,
+                    text: event.message,
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                }).then((result) => {
+                    // Redirect jika redirectTo diberikan dan bukan null/undefined
+                    if (event.redirectTo && event.redirectTo !== null) {
+                        if (event.redirectTo.startsWith('http')) {
+                            window.location.href = event.redirectTo;
+                        } else {
+                            // Jika tidak dimulai dengan '/', tambahkan
+                            const path = event.redirectTo.startsWith('/') ? event.redirectTo : '/' + event.redirectTo;
+                            window.location.href = path;
+                        }
+                    }
+                });
+            });
+            
+            Livewire.on('show-error', (event) => {
+                Swal.fire({
+                    title: event.title,
+                    text: event.message,
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                }).then((result) => {
+                    // Redirect hanya jika redirectTo diberikan dan bukan null/undefined
+                    if (event.redirectTo && event.redirectTo !== null) {
+                        if (event.redirectTo.startsWith('http')) {
+                            window.location.href = event.redirectTo;
+                        } else {
+                            // Jika tidak dimulai dengan '/', tambahkan
+                            const path = event.redirectTo.startsWith('/') ? event.redirectTo : '/' + event.redirectTo;
+                            window.location.href = path;
+                        }
+                    }
+                });
+            });
+        });
+    </script>
 </html>

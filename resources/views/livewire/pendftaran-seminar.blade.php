@@ -106,28 +106,6 @@
     </div>
     
     <!-- Include SweetAlert2 for Livewire component -->
-    @include('sweetalert::alert')
-    
-    <!-- Script untuk menangani SweetAlert dari Livewire events -->
-    <script>
-        document.addEventListener('livewire:init', () => {
-            Livewire.on('show-success', (event) => {
-                Swal.fire({
-                    title: event.title,
-                    text: event.message,
-                    icon: 'success',
-                    confirmButtonText: 'OK'
-                });
-            });
-            
-            Livewire.on('show-error', (event) => {
-                Swal.fire({
-                    title: event.title,
-                    text: event.message,
-                    icon: 'error',
-                    confirmButtonText: 'OK'
-                });
-            });
-        });
+  
     </script>
 </div>
