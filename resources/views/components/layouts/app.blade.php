@@ -15,8 +15,8 @@
     </div>
     @livewireScripts
 </body>
-  @include('sweetalert::alert')
-    
+@include('sweetalert::alert')
+
     <!-- Script untuk menangani SweetAlert dari Livewire events -->
     <script>
         document.addEventListener('livewire:init', () => {

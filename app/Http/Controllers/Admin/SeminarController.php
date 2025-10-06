@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Seminar;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class SeminarController extends Controller
 {
@@ -14,8 +14,15 @@ class SeminarController extends Controller
      * Display a listing of the resource.
      */
     public function index()
+    
     {
         $seminars = Seminar::latest()->get();
+
+        // $title = 'Delete User!';
+        // $text = "Are you sure you want to delete?";
+        // confirmDelete($title, $text);
+
+
         return view('admin.seminars.index', compact('seminars'));
     }
 
@@ -115,7 +122,7 @@ class SeminarController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     */
+     */ 
     public function destroy(Seminar $seminar)
     {
         // Delete image if exists
@@ -126,6 +133,7 @@ class SeminarController extends Controller
             }
         }
 
+     
         $seminar->delete();
 
         return redirect()->route('admin.seminars.index')

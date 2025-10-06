@@ -16,7 +16,7 @@ Route::middleware(['preventAdminAccess'])->group(function () {
         return view('welcome');
     })->name('welcome');
   
-    Route::get('/seminar/register/{seminarId}', PendaftaranSeminar::class)
+    Route::get('/seminar/register/{hashid}', PendaftaranSeminar::class)
         ->name('seminar.register');
         // ADMIN ROUTES
         Route::get('admin/login', [AuthController::class, 'showLoginForm'])->name('admin.login');
