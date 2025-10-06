@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Seminar;
+use App\Models\Trainer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -31,7 +32,8 @@ class SeminarController extends Controller
      */
     public function create()
     {
-        return view('admin.seminars.create');
+        $trainers = Trainer::all();
+        return view('admin.seminars.create', compact('trainers'));
     }
 
     /**
@@ -52,6 +54,7 @@ class SeminarController extends Controller
             'price' => 'required|numeric|min:0',
             'status' => 'required|in:upcoming,active,completed,cancelled',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'trainer_id' => 'nullable|exists:trainers,id',
         ]);
 
 
@@ -81,7 +84,8 @@ class SeminarController extends Controller
      */
     public function edit(Seminar $seminar)
     {
-        return view('admin.seminars.edit', compact('seminar'));
+        $trainers = Trainer::all();
+        return view('admin.seminars.edit', compact('seminar', 'trainers'));
     }
 
     /**
@@ -97,6 +101,7 @@ class SeminarController extends Controller
             'price' => 'required|numeric|min:0',
             'status' => 'required|in:upcoming,active,completed,cancelled',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'trainer_id' => 'nullable|exists:trainers,id',
         ]);
 
         $data = $request->except('image');

@@ -49,7 +49,7 @@
                         </a>
                     </li>
 
-                    <!-- Menu Item Pendaftaran -->
+                    <!-- Menu Item Pendaftar-->
 
                     @php
                     $isActive = $activeRoute === 'admin.seminar_registration.index';
@@ -64,10 +64,33 @@
                             </svg>
 
                             <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : ''">
-                                Pendaftaran
+                                Pendaftar
                             </span>
 
                             <div x-show="page === 'pendaftaran'" class="absolute right-2 w-2 h-2 bg-white rounded-full animate-pulse"></div>
+                        </a>
+                    </li>
+
+
+                    <!-- Menu Item Trainer -->
+                    @php
+                    $isActive = $activeRoute === 'admin.trainers.index';
+                    @endphp
+                    <li>
+                        <a href="{{ route('admin.trainers.index') }}" class="group relative flex items-center gap-3 px-4 py-3 font-medium rounded-xl hover:bg-gray-200 text-sm transition-all duration-300 ease-in-out
+                           {{ Request::routeIs('admin.trainers.index') ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg' : 'text-gray-700 hover:bg-blue-50 hover:text-blue-700 dark:text-gray-300 dark:hover:bg-blue-500/10 dark:hover:text-blue-400' }}" wire:navigate.hover>
+
+
+
+                            <svg class="transition-all duration-300 {{ $isActive ? 'fill-white' : 'fill-gray-500 group-hover:fill-blue-600 dark:fill-gray-400 dark:group-hover:fill-blue-400' }}" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M8.25 6.75a3.75 3.75 0 1 1 7.5 0 3.75 3.75 0 0 1-7.5 0ZM15.75 9.75a3 3 0 1 1 6 0 3 3 0 0 1-6 0ZM2.25 9.75a3 3 0 1 1 6 0 3 3 0 0 1-6 0ZM6.31 15.117A6.745 6.745 0 0 1 12 12a6.745 6.745 0 0 1 5.69 3.117.75.75 0 0 1-.88.918A4.987 4.987 0 0 0 12 14.25a4.987 4.987 0 0 0-4.81.785.75.75 0 0 1-.88-.918ZM8.25 18a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM15.75 18a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" clip-rule="evenodd" />
+                            </svg>
+
+                            <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : ''">
+                                Trainer
+                            </span>
+
+                            <div x-show="page === 'trainer'" class="absolute right-2 w-2 h-2 bg-white rounded-full animate-pulse"></div>
                         </a>
                     </li>
 
@@ -92,6 +115,8 @@
                             <div x-show="page === 'seminar'" class="absolute right-2 w-2 h-2 bg-white rounded-full animate-pulse"></div>
                         </a>
                     </li>
+
+
 
                     <!-- Menu Item Pesan -->
                     @php

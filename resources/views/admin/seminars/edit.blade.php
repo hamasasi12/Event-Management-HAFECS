@@ -76,7 +76,7 @@
                     <!-- Link -->
                     <div>
                         <label for="link" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Link</label>
-                        <input type="text" name="link" id="link" value="{{ old('link') }}" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                        <input type="text" name="link" id="link" value="{{ old('link', $seminar->link) }}" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                     </div>
 
                     <!-- Status -->
@@ -87,6 +87,17 @@
                             <option value="active" {{ (old('status', $seminar->status) == 'active') ? 'selected' : '' }} class="dark:bg-gray-700 dark:text-white">Active</option>
                             <option value="completed" {{ (old('status', $seminar->status) == 'completed') ? 'selected' : '' }} class="dark:bg-gray-700 dark:text-white">Completed</option>
                             <option value="cancelled" {{ (old('status', $seminar->status) == 'cancelled') ? 'selected' : '' }} class="dark:bg-gray-700 dark:text-white">Cancelled</option>
+                        </select>
+                    </div>
+
+                    <!-- Trainer -->
+                    <div class="md:col-span-2">
+                        <label for="trainer_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Trainer</label>
+                        <select name="trainer_id" id="trainer_id" class="mt-1 block w-full bg-white border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                            <option value="">Select a trainer</option>
+                            @foreach($trainers as $trainer)
+                                <option value="{{ $trainer->id }}" {{ old('trainer_id', $seminar->trainer_id) == $trainer->id ? 'selected' : '' }} class="dark:bg-gray-700 dark:text-white">{{ $trainer->name }}</option>
+                            @endforeach
                         </select>
                     </div>
 
