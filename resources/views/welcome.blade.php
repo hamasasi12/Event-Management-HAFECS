@@ -64,10 +64,10 @@
                 <div class="text-2xl font-bold text-gray-800">
                     <img src="{{ asset('images/admin/LOGO HAFECS.png') }}" alt="HAFECS Logo" class="h-10">
                 </div>
-                <div class="hidden md:flex items-center space-x-8">
-                    <a href="#webinar" class="text-gray-600 hover:text-blue-700 transition">Webinar</a>
-                    <a href="#trainer" class="text-gray-600 hover:text-blue-700 transition">Trainer</a>
-                    <a href="#dokumentasi" class="text-gray-600 hover:text-blue-700 transition">Dokumentasi</a>
+              <div class="hidden md:flex items-center justify-center space-x-8 w-full">
+                   <a href="#webinar" class="font-semibold text-black-900 hover:text-blue-700 transition">Webinar</a>
+                    <a href="#trainer" class="font-semibold text-black-900 hover:text-blue-700 transition">Trainer</a>
+                    <a href="#dokumentasi" class="font-semibold text-gray-700 hover:text-blue-700 transition">Dokumentasi</a>
                 </div>
                 <div class="md:hidden">
                     <button id="mobile-menu-button" class="text-gray-600 focus:outline-none">
@@ -130,79 +130,138 @@
                 </div>
             </div>
         </section>
+<!-- Trainer Section -->
+<section id="trainer" class="py-20 bg-[#FFF5F5]">
+    <div class="container mx-auto px-6">
+        <!-- Judul -->
+        <div class="text-center mb-12">
+        <h2 class="text-4xl md:text-5xl font-extrabold text-[#004599] border-b-4 border-[#034ba3] inline-block pb-2">Trainer</h2>
+        </div>
 
-        <!-- Trainer Section -->
-        <section id="trainer" class="trainer-section py-20">
-            <div class="container mx-auto px-6">
-                <h2 class="text-3xl md:text-4xl font-bold text-center text-white mb-12">Trainer</h2>
-                <div class="swiper trainer-swiper">
-                    <div class="swiper-wrapper">
-                        <!-- Trainer Card 1 -->
-                        <div class="swiper-slide">
-                            <div class="trainer-card text-center">
-                                <img src="https://placehold.co/128x128/CCCCCC/FFFFFF?text=Trainer+1" alt="Trainer"
-                                    class="w-32 h-32 rounded-full mx-auto mb-4 object-cover">
-                                <h3 class="text-xl font-bold">Danang Bagus Yudistira</h3>
-                                <p class="text-gray-600">Pengembangan Kurikulum</p>
-                            </div>
-                        </div>
-                        <!-- Trainer Card 2 -->
-                        <div class="swiper-slide">
-                            <div class="trainer-card text-center">
-                                <img src="https://placehold.co/128x128/CCCCCC/FFFFFF?text=Trainer+2" alt="Trainer"
-                                    class="w-32 h-32 rounded-full mx-auto mb-4 object-cover">
-                                <h3 class="text-xl font-bold">Siti Nurhaliza</h3>
-                                <p class="text-gray-600">Metode Pengajaran</p>
-                            </div>
-                        </div>
-                        <!-- Trainer Card 3 -->
-                        <div class="swiper-slide">
-                            <div class="trainer-card text-center">
-                                <img src="https://placehold.co/128x128/CCCCCC/FFFFFF?text=Trainer+3" alt="Trainer"
-                                    class="w-32 h-32 rounded-full mx-auto mb-4 object-cover">
-                                <h3 class="text-xl font-bold">Ahmad Fauzi</h3>
-                                <p class="text-gray-600">Teknologi Pendidikan</p>
-                            </div>
-                        </div>
-                        <!-- Trainer Card 4 -->
-                        <div class="swiper-slide">
-                            <div class="trainer-card text-center">
-                                <img src="https://placehold.co/128x128/CCCCCC/FFFFFF?text=Trainer+4" alt="Trainer"
-                                    class="w-32 h-32 rounded-full mx-auto mb-4 object-cover">
-                                <h3 class="text-xl font-bold">Rina Kusuma</h3>
-                                <p class="text-gray-600">Inovasi Digital</p>
+
+
+            <!-- Swiper Wrapper -->
+            <div class="swiper trainer-swiper">
+                <div class="swiper-wrapper">
+
+                    <!-- Trainer Card -->
+                    <div class="swiper-slide">
+                        <div class="bg-[#F9FAFB] rounded-2xl shadow-lg p-6 text-center relative hover:shadow-xl transition transform hover:-translate-y-1 duration-300">
+                          <span class="absolute top-4 left-1/2 transform -translate-x-1/2 bg-[#F9D423] text-xs font-semibold px-3 py-1 rounded-full text-[#0b2341] shadow-md">
+                            Trainer
+                        </span>
+                            <img src="{{ asset('images/admin/pa yudhis.png') }}" alt="Trainer"
+                                class="rounded-lg mx-auto mb-4 object-cover w-full h-64">
+                            <h3 class="text-lg font-bold text-[#184883]">Danang Bagus Yudistira</h3>
+                            <p class="text-sm text-gray-600 mb-3">Deputy Director and Senior Trainer HAFECS</p>
+                            <p class="text-sm text-gray-600 mb-5">
+                                Pengalaman luas di bidang pelatihan pendidikan dan kurikulum. Aktif memberikan workshop di bidang metodologi pengajaran dan pengembangan kurikulum.
+                            </p>
+                            <div class="flex justify-center gap-3">
+                                <span class="bg-[#E8F0FE] text-blue-700 text-xs font-semibold px-3 py-1 rounded-full">Pengembangan Kurikulum</span>
+                                <span class="bg-[#E8F0FE] text-blue-700 text-xs font-semibold px-3 py-1 rounded-full">Metode Pengajaran</span>
                             </div>
                         </div>
                     </div>
-                    <!-- Add Pagination -->
-                    <div class="swiper-pagination mt-8"></div>
-                </div>
+                       <!-- Trainer Card 2 -->
+                    <div class="swiper-slide">
+                        <div class="bg-[#F9FAFB] rounded-2xl shadow-lg p-6 text-center relative hover:shadow-xl transition transform hover:-translate-y-1 duration-300">
+                          <span class="absolute top-4 left-1/2 transform -translate-x-1/2 bg-[#F9D423] text-xs font-semibold px-3 py-1 rounded-full text-[#0b2341] shadow-md">
+                            Trainer
+                        </span>
+                            <img src="{{ asset('images/admin/pa yudhis.png') }}" alt="Trainer"
+                                class="rounded-lg mx-auto mb-4 object-cover w-full h-64">
+                            <h3 class="text-lg font-bold text-[#184883]">Danang Bagus Yudistira</h3>
+                            <p class="text-sm text-gray-600 mb-3">Deputy Director and Senior Trainer HAFECS</p>
+                            <p class="text-sm text-gray-600 mb-5">
+                                Pengalaman luas di bidang pelatihan pendidikan dan kurikulum. Aktif memberikan workshop di bidang metodologi pengajaran dan pengembangan kurikulum.
+                            </p>
+                            <div class="flex justify-center gap-3">
+                                <span class="bg-[#E8F0FE] text-blue-700 text-xs font-semibold px-3 py-1 rounded-full">Pengembangan Kurikulum</span>
+                                <span class="bg-[#E8F0FE] text-blue-700 text-xs font-semibold px-3 py-1 rounded-full">Metode Pengajaran</span>
+                            </div>
+                        </div>
+                    </div>
+                             <!-- Trainer Card 3 -->
+                    <div class="swiper-slide">
+                        <div class="bg-[#F9FAFB] rounded-2xl shadow-lg p-6 text-center relative hover:shadow-xl transition transform hover:-translate-y-1 duration-300">
+                          <span class="absolute top-4 left-1/2 transform -translate-x-1/2 bg-[#F9D423] text-xs font-semibold px-3 py-1 rounded-full text-[#0b2341] shadow-md">
+                            Trainer
+                        </span>
+                            <img src="{{ asset('images/admin/pa yudhis.png') }}" alt="Trainer"
+                                class="rounded-lg mx-auto mb-4 object-cover w-full h-64">
+                            <h3 class="text-lg font-bold text-[#184883]">Danang Bagus Yudistira</h3>
+                            <p class="text-sm text-gray-600 mb-3">Deputy Director and Senior Trainer HAFECS</p>
+                            <p class="text-sm text-gray-600 mb-5">
+                                Pengalaman luas di bidang pelatihan pendidikan dan kurikulum. Aktif memberikan workshop di bidang metodologi pengajaran dan pengembangan kurikulum.
+                            </p>
+                            <div class="flex justify-center gap-3">
+                                <span class="bg-[#E8F0FE] text-blue-700 text-xs font-semibold px-3 py-1 rounded-full">Pengembangan Kurikulum</span>
+                                <span class="bg-[#E8F0FE] text-blue-700 text-xs font-semibold px-3 py-1 rounded-full">Metode Pengajaran</span>
+                            </div>
+                        </div>
+                    </div>
+                       <!-- Trainer Card  -->
+                    <div class="swiper-slide">
+                        <div class="bg-[#F9FAFB] rounded-2xl shadow-lg p-6 text-center relative hover:shadow-xl transition transform hover:-translate-y-1 duration-300">
+                          <span class="absolute top-4 left-1/2 transform -translate-x-1/2 bg-[#F9D423] text-xs font-semibold px-3 py-1 rounded-full text-[#0b2341] shadow-md">
+                            Trainer
+                        </span>
+                            <img src="{{ asset('images/admin/pa yudhis.png') }}" alt="Trainer"
+                                class="rounded-lg mx-auto mb-4 object-cover w-full h-64">
+                            <h3 class="text-lg font-bold text-[#184883]">Danang Bagus Yudistira</h3>
+                            <p class="text-sm text-gray-600 mb-3">Deputy Director and Senior Trainer HAFECS</p>
+                            <p class="text-sm text-gray-600 mb-5">
+                                Pengalaman luas di bidang pelatihan pendidikan dan kurikulum. Aktif memberikan workshop di bidang metodologi pengajaran dan pengembangan kurikulum.
+                            </p>
+                            <div class="flex justify-center gap-3">
+                                <span class="bg-[#E8F0FE] text-blue-700 text-xs font-semibold px-3 py-1 rounded-full">Pengembangan Kurikulum</span>
+                                <span class="bg-[#E8F0FE] text-blue-700 text-xs font-semibold px-3 py-1 rounded-full">Metode Pengajaran</span>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                <!-- Add Pagination -->
+                <div class="swiper-pagination mt-8"></div>
+                <!-- Add Navigation -->
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
             </div>
         </section>
 
-        <!-- Upcoming Seminars Section -->
-        <section id="webinar" class="seminar-section py-20">
-            <div class="container mx-auto px-6">
-                <h2 class="text-3xl md:text-4xl font-bold text-center text-white mb-12">Upcoming Seminars</h2>
-                <div class="swiper seminar-swiper">
-                    <div class="swiper-wrapper">
-                        @forelse(\App\Models\Seminar::orderBy('start_time', 'asc')->get() as $seminar)
-                            <div class="swiper-slide">
-                                @livewire('seminar-card', ['seminar' => $seminar], key($seminar->id))
-                            </div>
-                        @empty
-                            <div class="swiper-slide">
-                                <div class="seminar-card text-center p-8">
-                                    <p class="text-gray-600">Belum ada seminar yang tersedia</p>
-                                </div>
-                            </div>
-                        @endforelse
+  <!-- Seminars Section -->
+<section id="seminars" class="py-20 bg-gradient-to-b from-[#0a3a72] to-[#0759ac]">
+    <div class="container mx-auto px-6">
+        <div class="text-center mb-12">
+            <h2 class="text-4xl md:text-5xl font-bold text-[#ffffff] mb-4">Upcoming Seminars</h2>
+            <p class="text-lg text-gray-200">Join our upcoming seminars to stay ahead in the digital age.</p>
+        </div>
+
+
+        <!-- Grid: center alignment -->
+        <div class="grid gap-8 justify-center md:grid-cols-2 lg:grid-cols-3">
+            @forelse(\App\Models\Seminar::orderBy('start_time', 'asc')->get() as $seminar)
+                <div class="bg-[#F9FAFB] rounded-2xl shadow-md hover:shadow-lg transition transform hover:-translate-y-1 duration-300 w-[300px]">
+                    @if($seminar->image_url)
+                        <img src="{{ $seminar->image_url }}" alt="{{ $seminar->title }}" class="rounded-t-2xl h-48 w-full object-cover">
+                    @endif
+                    <div class="p-6 text-center">
+                        <h3 class="text-xl font-semibold text-[#1E2A39]">{{ $seminar->title }}</h3>
+                        <p class="text-sm text-[#F9D423] font-medium mt-1">Seminar</p>
+                        <p class="text-gray-600 mt-3 text-sm">{{ Str::limit($seminar->description, 120) }}</p>
+                        <a href="#" class="mt-5 inline-block bg-[#F9D423] text-[#1E2A39] px-5 py-2 rounded-full font-medium hover:bg-[#F8C200] transition">
+                            Join Webinar <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
                     </div>
-                    <!-- Add Pagination -->
-                    <div class="swiper-pagination mt-8"></div>
                 </div>
-            </div>
-        </section>
+            @empty
+                <div class="text-center w-full p-8">
+                    <p class="text-gray-600">Belum ada seminar yang tersedia</p>
+                </div>
+            @endforelse
+        </div>
+    </div>
+</section>
 
         <!-- Fasilitas Section -->
         <section id="dokumentasi" class="facility-section py-20">
@@ -327,25 +386,6 @@
         </div>
     </section>
 
-    <!-- Seminars Section -->
-    <section id="seminars" class="py-20 bg-gray-100">
-        <div class="container mx-auto px-6">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Upcoming Seminars</h2>
-                <p class="text-xl text-gray-600">Join our upcoming seminars to stay ahead in the digital age.</p>
-            </div>
-
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                @forelse(\App\Models\Seminar::orderBy('start_time', 'asc')->get() as $seminar)
-                    @livewire('seminar-card', ['seminar' => $seminar])
-                @empty
-                    <div class="seminar-card text-center p-8">
-                        <p class="text-gray-600">Belum ada seminar yang tersedia</p>
-                    </div>
-                @endforelse
-            </div>
-        </div>
-    </section>
 
     <!-- Benefits Section -->
     <section class="py-20 hero-bg text-white">
@@ -738,6 +778,10 @@
                 pagination: {
                     el: '.trainer-swiper .swiper-pagination',
                     clickable: true,
+                },
+                navigation: {
+                    nextEl: '.trainer-swiper .swiper-button-next',
+                    prevEl: '.trainer-swiper .swiper-button-prev',
                 },
                 breakpoints: {
                     640: {
