@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AttendanceController;
 use App\Http\Controllers\Admin\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PaymentController;
@@ -67,7 +68,28 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     });
 
     Route::get('messages', fn() => view('admin.messages.index'))->name('messages.index');
+
+    // Attendance Routes
+    Route::prefix('attendance')->name('attendance.')->group(function () {
+        Route::get('/', [SeminarController::class, 'activeSeminars'])->name('index');
+        Route::get('seminar/{seminar}/registrants', [SeminarController::class, 'registrants'])->name('seminar.registrants');
+        Route::post('seminar/{seminar}/start-presentation', [SeminarController::class, 'startPresentation'])->name('seminar.start-presentation');
+    });
 });
+
+
+
+// =======================
+// Absent Routes
+// =======================
+Route::get('absent/Test', fn() => view('absen.index'))->name('absent.test');
+
+
+// Tambahkan route ini di luar middleware admin
+Route::get('attend/{seminar}/{token}', [AttendanceController::class, 'showAttendanceForm'])
+    ->name('attend.form');
+Route::post('attend/{seminar}/{token}', [AttendanceController::class, 'markAttendance'])
+    ->name('attend.mark');
 
 // =======================
 // Payment Routes

@@ -249,8 +249,9 @@
                         <h3 class="text-xl font-semibold text-[#1E2A39]">{{ $seminar->title }}</h3>
                         <p class="text-sm text-[#F9D423] font-medium mt-1">Seminar</p>
                         <p class="text-gray-600 mt-3 text-sm">{{ Str::limit($seminar->description, 120) }}</p>
-                        <a href="#" class="mt-5 inline-block bg-[#F9D423] text-[#1E2A39] px-5 py-2 rounded-full font-medium hover:bg-[#F8C200] transition">
-                            Join Webinar <i class="fas fa-arrow-right ml-1"></i>
+                        <a  href="{{ route('seminar.register', \Vinkla\Hashids\Facades\Hashids::encode($seminar->id)) }}" class="mt-5 inline-block bg-[#F9D423] text-[#1E2A39] px-5 py-2 rounded-full font-medium hover:bg-[#F8C200] transition">
+                            Join Webinar <i class="fas fa-arrow-right ml-1">
+                            </i>
                         </a>
                     </div>
                 </div>
