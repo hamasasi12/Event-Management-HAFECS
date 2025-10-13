@@ -5,8 +5,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\Admin\SeminarRegistrationController;
 use App\Http\Controllers\Admin\SeminarController;
+use App\Http\Controllers\SeminarController as PublicSeminarController;
 use App\Http\Controllers\Admin\TrainerController;
 use App\Http\Controllers\Auth\GoogleController;
+use App\Livewire\DetailCard;
 use App\Livewire\PendaftaranSeminar;
 
 // =======================
@@ -16,13 +18,19 @@ Route::middleware(['preventAdminAccess'])->group(function () {
     Route::get('/', fn() => view('welcome'))->name('welcome');
 
 
-    Route::get('/seminar/register/{hashid}', PendaftaranSeminar::class)->name('seminar.register');
+    // Route::get('/seminar.show/inputdatadiri', [SeminarController::class, 'inputdatadiri'])->name('detailseminar.inputdatadiri');
+
     // =======================
     // Admin Authentication
     // =======================
     Route::get('admin/login', [AuthController::class, 'showLoginForm'])->name('admin.login');
     Route::post('admin/login', [AuthController::class, 'login']);
 });
+
+Route::get('/seminar/register/{hashid}', PendaftaranSeminar::class)->name('seminar.register');
+
+ Route::get('/seminar/{id}', [PublicSeminarController::class, 'show'])->name('seminar.show');
+// Route::get('/seminar/{id}', [PublicSeminarController::class, 'show'])->name('seminar.detail');
 Route::post('admin/logout', [AuthController::class, 'logout'])->name('admin.logout');
 
 // =======================
@@ -30,11 +38,11 @@ Route::post('admin/logout', [AuthController::class, 'logout'])->name('admin.logo
 // =======================
 Route::get('auth/google', [GoogleController::class, 'redirectToGoogle'])->name('google.login');
 Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
-
 // =======================
 // General Logout
 // =======================
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
 
 // =======================
 // Admin Routes

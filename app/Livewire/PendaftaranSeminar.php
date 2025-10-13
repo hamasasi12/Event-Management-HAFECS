@@ -32,19 +32,19 @@ class PendaftaranSeminar extends Component
         try {
             // Decode the hashid to get the actual seminar ID
             $decoded = Hashids::decode($hashid);
-            
+
             if (empty($decoded)) {
                 Log::error('Invalid hashid provided: ' . $hashid);
                 session()->flash('error', 'ID Seminar tidak valid.');
                 return redirect()->route('welcome');
             }
-            
+
             $seminarId = $decoded[0];
-            
+
             Log::info('Mounting PendftaranSeminar component with decoded ID: ' . $seminarId);
             $this->seminar = Seminar::findOrFail($seminarId);
             Log::info('Seminar found: ' . $this->seminar->title);
-            
+
             if (Auth::check()) {
                 $this->name = Auth::user()->name;
                 $this->email = Auth::user()->email;
@@ -99,9 +99,9 @@ class PendaftaranSeminar extends Component
                 ]);
 
                 Mail::to($this->email)->send(new SeminarRegistrationMail($this->seminar, $registration));
-                
+
                 $this->reset(['name', 'email', 'phone']);
-                
+
                 // Kirim event untuk menampilkan SweetAlert
                 $this->dispatch('show-success', title: 'Success!', message: 'Pendaftaran berhasil! Silakan cek email Anda untuk konfirmasi.', redirectTo: '/');
             } else {
@@ -115,8 +115,8 @@ class PendaftaranSeminar extends Component
                     'is_paid' => 'no', // Belum bayar
                 ]);
 
-                // Tampilkan alert sebelum redirect ke pembayaran
-                $this->dispatch('show-success', title: 'Pendaftaran Berhasil!', message: 'Silakan lanjutkan ke pembayaran untuk menyelesaikan registrasi.', redirectTo: 'payments/' . \Hashids::encode($registration->id) . '/create');
+                // Langsung redirect ke halaman pembayaran
+                return redirect('payments/' . \Hashids::encode($registration->id) . '/create');
             }
         } catch (\Exception $e) {
             Log::error('Error in register method: ' . $e->getMessage(), [

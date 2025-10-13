@@ -35,6 +35,7 @@
                     <!-- Transaction Details Grid -->
                     <div class="grid md:grid-cols-2 gap-6 mb-8">
                         <!-- Order ID Card -->
+                        
                         <div
                             class="bg-gradient-to-br from-gray-50 to-gray-100 p-6 rounded-xl border border-gray-200 hover:shadow-md transition-all duration-300">
                             <div class="flex items-center mb-3">

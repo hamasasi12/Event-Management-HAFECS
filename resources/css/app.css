@@ -7,11 +7,11 @@
 
 @theme {
     --font-sans: 'Segoe UI', 'Tahoma', 'Geneva', 'Verdana', 'sans-serif';
-    --color-primary: #1a1a2e;
-    --color-secondary: #16213e;
-    --color-accent: #0f3460;
-    --color-coral: #ff6b6b;
-    --color-teal: #4ecdc4;
+  --color-primary: #0a2472;    /* Biru tua profesional */
+    --color-secondary: #001845;  /* Biru gelap untuk background */
+    --color-accent: #1d4ed8;     /* Biru terang untuk tombol, ikon, link aktif */
+    --color-coral: #fbbf24;      /* Kuning keemasan (accent positif) */
+    --color-teal: #38bdf8;       /* Biru muda segar untuk highlight */
 }
 
 html {

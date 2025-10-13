@@ -55,7 +55,7 @@ class PaymentController extends Controller
             }
 
             return view('payments.create', [
-                'seminarRegistration' => $seminarRegistration, 
+                'seminarRegistration' => $seminarRegistration,
                 'seminar' => $seminar
             ]);
         } catch (\Exception $e) {
@@ -151,7 +151,6 @@ class PaymentController extends Controller
         try {
             $payment = Payment::with('seminarRegistration.seminar')->findOrFail($id);
             $seminarRegistration = $payment->seminarRegistration;
-
             if (Auth::check() && $payment->user_id && $payment->user_id != Auth::id()) {
                 abort(403);
             }
@@ -200,7 +199,7 @@ class PaymentController extends Controller
     public function finish(string $id)
     {
         $payment = Payment::with('seminarRegistration.seminar')->where('order_id', $id)->first();
-        
+
         if (!$payment) {
             abort(404);
         }
@@ -213,12 +212,12 @@ class PaymentController extends Controller
 
         if($payment->status === 'success') {
             $seminarRegistration = $payment->seminarRegistration;
-            
+
             if ($seminarRegistration) {
                 $seminarRegistration->update([
                     'is_paid' => 'yes'
                 ]);
-                
+
                 // Gunakan queue untuk mengirim email
                 SendSeminarRegistrationEmail::dispatch($seminarRegistration->seminar, $seminarRegistration);
             }
@@ -271,15 +270,15 @@ class PaymentController extends Controller
                     $seminarRegistration->update([
                         'is_paid' => 'yes'
                     ]);
-                    
+
                     // Gunakan queue untuk mengirim email
                     SendSeminarRegistrationEmail::dispatch($seminarRegistration->seminar, $seminarRegistration);
                 }
-                
+
                 if ($payment->status === 'success') {
                     event(new PaymentSuccessful($payment));
                 }
-                
+
                 return response()->json(['status' => 'success']);
             }
 
@@ -308,6 +307,6 @@ class PaymentController extends Controller
             session()->flash('error', 'Terjadi kesalahan saat mengakses detail pembayaran.');
             return redirect('/');
         }
-        
+
     }
 }
