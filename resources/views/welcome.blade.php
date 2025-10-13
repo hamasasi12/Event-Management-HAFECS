@@ -1,356 +1,320 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HAFECS 2025 - Digital Transformation Summit</title>
+    <title>HAFECS - Seminar Nasional 2025</title>
     @vite('resources/css/app.css')
+    <link rel="stylesheet" href="https://unpkg.com/swiper@8/swiper-bundle.min.css" />
+    <style>
+        body {
+            background-color: #FDFDFD;
+        }
 
+        .hero-section {
+            background-color: #0A2463;
+        }
+
+        .trainer-section,
+        .seminar-section {
+            background-color: #0A2463;
+        }
+
+        .facility-section,
+        .review-section,
+        .footer-section {
+            background-color: #F2E3B3;
+        }
+
+        .trainer-card,
+        .seminar-card {
+            background-color: #FFFFFF;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .swiper-button-next,
+        .swiper-button-prev {
+            color: #FFD700;
+        }
+
+        .swiper-pagination-bullet-active {
+            background-color: #FFD700;
+        }
+
+        /* Mobile menu */
+        .mobile-menu {
+            display: none;
+        }
+
+        .mobile-menu.active {
+            display: block;
+        }
+    </style>
 </head>
-<body class="font-sans text-gray-900">
+
+<body class="font-sans">
+
     <!-- Header -->
-    <header class="fixed w-full top-0 z-50 hero-bg text-white transition-all duration-300" id="header">
+    <header class="bg-white shadow-md">
         <nav class="container mx-auto px-6 py-4">
             <div class="flex justify-between items-center">
-                <div class="text-3xl font-bold gradient-text">HAFECS</div>
-
-                <!-- Desktop Menu -->
-                <ul class="hidden md:flex space-x-8">
-                    <li><a href="#seminars" class="hover:text-teal transition-colors px-4 py-2 rounded-full hover:bg-white hover:bg-opacity-10">Seminar</a></li>
-                    <li><a href="#trainers" class="hover:text-teal transition-colors px-4 py-2 rounded-full hover:bg-white hover:bg-opacity-10">Trainers</a></li>
-                    <li><a href="#facilities" class="hover:text-teal transition-colors px-4 py-2 rounded-full hover:bg-white hover:bg-opacity-10">Facilities</a></li>
-                    <li><a href="#faq" class="hover:text-teal transition-colors px-4 py-2 rounded-full hover:bg-white hover:bg-opacity-10">FAQ</a></li>
-                </ul>
-
-                @guest
-                <a href="{{ route('google.login') }}" class="bg-gradient-to-r from-coral to-red-500 text-white px-8 py-4 rounded-full font-semibold text-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 text-center">
-                    Login with Google
-                </a>
-                @endguest
-                @auth
-                <div class="flex items-center space-x-4">
-                    <div class="flex-shrink-0">
-                        <svg class="h-10 w-10 rounded-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M24 20.993V24H0v-2.997A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
-                        </svg>
-                    </div>
-                    <div>
-                        <div class="text-base font-medium text-white">{{ Auth::user()->name }}</div>
-                        <div class="text-sm font-medium text-gray-400">{{ Auth::user()->email }}</div>
-                    </div>
-                    <form method="POST" action="{{ route('logout') }}">
-                        @csrf
-                        <button type="submit" class="border-2 border-teal text-teal px-4 py-2 rounded-full font-semibold text-sm hover:bg-teal hover:text-primary transition-all duration-300 text-center">
-                            Keluar
-                        </button>
-                    </form>
+                <div class="text-2xl font-bold text-gray-800">
+                    <img src="{{ asset('images/admin/LOGO HAFECS.png') }}" alt="HAFECS Logo" class="h-10">
                 </div>
-                @endauth
-                <!-- Mobile Menu Button -->
-                <button class="md:hidden" id="mobileMenuBtn">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                    </svg>
-                </button>
+              <div class="hidden md:flex items-center justify-center space-x-8 w-full">
+                   <a href="#webinar" class="font-semibold text-black-900 hover:text-blue-700 transition">Webinar</a>
+                    <a href="#trainer" class="font-semibold text-black-900 hover:text-blue-700 transition">Trainer</a>
+                    <a href="#dokumentasi" class="font-semibold text-black-700 hover:text-blue-700 transition">Dokumentasi</a>
+                </div>
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="text-gray-600 focus:outline-none">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6h16M4 12h16m-7 6h7"></path>
+                        </svg>
+                    </button>
+                </div>
             </div>
-
             <!-- Mobile Menu -->
-            <div class="md:hidden mt-4 hidden" id="mobileMenu">
-                <ul class="space-y-2">
-                    <li><a href="#home" class="block px-4 py-2 hover:bg-white hover:bg-opacity-10 rounded">Home</a></li>
-                    <li><a href="#about" class="block px-4 py-2 hover:bg-white hover:bg-opacity-10 rounded">About</a></li>
-                    <li><a href="#trainers" class="block px-4 py-2 hover:bg-white hover:bg-opacity-10 rounded">Trainers</a></li>
-                    <li><a href="#facilities" class="block px-4 py-2 hover:bg-white hover:bg-opacity-10 rounded">Facilities</a></li>
-                    <li><a href="#faq" class="block px-4 py-2 hover:bg-white hover:bg-opacity-10 rounded">FAQ</a></li>
-                </ul>
+            <div id="mobile-menu" class="mobile-menu md:hidden mt-4">
+                <a href="#webinar" class="block py-2 text-gray-600 hover:text-blue-700">Webinar</a>
+                <a href="#trainer" class="block py-2 text-gray-600 hover:text-blue-700">Trainer</a>
+                <a href="#dokumentasi" class="block py-2 text-gray-600 hover:text-blue-700">Dokumentasi</a>
             </div>
         </nav>
     </header>
 
-    <!-- Hero Section -->
-    <section id="home" class="hero-bg text-white pt-24 pb-20 relative overflow-hidden">
-        <!-- Background Pattern -->
-        <div class="absolute inset-0 opacity-20">
-            <svg class="w-full h-full" viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                    <radialGradient id="grad1" cx="50%" cy="50%" r="50%">
-                        <stop offset="0%" stop-color="#ff6b6b" stop-opacity="0.3" />
-                        <stop offset="100%" stop-color="#4ecdc4" stop-opacity="0.1" />
-                    </radialGradient>
-                </defs>
-                <circle cx="200" cy="200" r="150" fill="url(#grad1)" />
-                <circle cx="800" cy="300" r="200" fill="url(#grad1)" />
-                <circle cx="600" cy="700" r="180" fill="url(#grad1)" />
-            </svg>
+    <main>
+        <!-- Hero Section -->
+        <section class="hero-section py-20 text-white">
+            <div class="container mx-auto px-6">
+                <div class="bg-white text-gray-800 rounded-lg shadow-lg p-8 md:flex items-center gap-8">
+                    <div class="md:w-1/2 space-y-4">
+                        <h1 class="text-3xl md:text-4xl font-bold">Seminar Nasional 2025</h1>
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <span class="text-yellow-500 mr-2 text-xl">⚡️</span>
+                                <div>
+                                    <span class="font-bold">Tema Utama:</span> Pendidikan Digital, Inovasi Teknologi,
+                                    Future Skills, Sustainability
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-yellow-500 mr-2 text-xl">👥</span>
+                                <div>
+                                    <span class="font-bold">Peserta:</span> Mahasiswa, Akademisi, Praktisi, & Umum
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-yellow-500 mr-2 text-xl">📍</span>
+                                <div>
+                                    <span class="font-bold">Format:</span> Hybrid (Offline Banjarmasin + Online
+                                    Platform)
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-yellow-500 mr-2 text-xl">🌐</span>
+                                <div>
+                                    <span class="font-bold">Bahasa:</span> Indonesia & English (Real-time Translation)
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="md:w-1/2 mt-8 md:mt-0">
+                        <img src="{{ asset('images/admin/LOGO HAFECS.png') }}" alt="Seminar" class="rounded-lg shadow-lg w-full">
+                    </div>
+                </div>
+            </div>
+        </section>
+<!-- Trainer Section -->
+<section id="trainer" class="py-20 bg-[#FFF5F5]">
+    <div class="container mx-auto px-6">
+        <!-- Judul -->
+        <div class="text-center mb-12">
+        <h2 class="text-4xl md:text-5xl font-extrabold text-[#004599] border-b-4 border-[#034ba3] inline-block pb-2">Trainer</h2>
         </div>
 
-        <div class="container mx-auto px-6 relative z-10">
-            <div class="grid lg:grid-cols-2 gap-12 items-center">
-                <!-- Hero Text -->
-                <div class="space-y-6">
-                    <h1 class="text-5xl md:text-6xl font-extrabold leading-tight">
-                        Digital Transformation Summit 2025
-                    </h1>
-                    <p class="text-xl md:text-2xl text-teal font-semibold">Powered by HAFECS</p>
-                    <p class="text-lg md:text-xl text-gray-200 leading-relaxed">
-                        Bergabunglah dengan 1000+ profesional dalam acara transformasi digital terbesar tahun ini.
-                        Dapatkan insights terdepan, networking berkualitas, dan strategi bisnis masa depan.
-                    </p>
 
-                    <!-- CTA Buttons -->
-                    <div class="flex flex-col sm:flex-row gap-4 pt-4">
-                        @guest
-                        <a href="{{ route('google.login') }}" class="bg-gradient-to-r from-coral to-red-500 text-white px-8 py-4 rounded-full font-semibold text-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 text-center">
-                            Login with Google
+
+            <!-- Swiper Wrapper -->
+            <div class="swiper trainer-swiper">
+                <div class="swiper-wrapper">
+
+                    <!-- Trainer Card -->
+                    <div class="swiper-slide">
+                        <div class="bg-[#F9FAFB] rounded-2xl shadow-lg p-6 text-center relative hover:shadow-xl transition transform hover:-translate-y-1 duration-300">
+                          <span class="absolute top-4 left-1/2 transform -translate-x-1/2 bg-[#F9D423] text-xs font-semibold px-3 py-1 rounded-full text-[#0b2341] shadow-md">
+                            Trainer
+                        </span>
+                            <img src="{{ asset('images/admin/pa yudhis.png') }}" alt="Trainer"
+                                class="rounded-lg mx-auto mb-4 object-cover w-full h-64">
+                            <h3 class="text-lg font-bold text-[#184883]">Danang Bagus Yudistira</h3>
+                            <p class="text-sm text-gray-600 mb-3">Deputy Director and Senior Trainer HAFECS</p>
+                            <p class="text-sm text-gray-600 mb-5">
+                                Pengalaman luas di bidang pelatihan pendidikan dan kurikulum. Aktif memberikan workshop di bidang metodologi pengajaran dan pengembangan kurikulum.
+                            </p>
+                            <div class="flex justify-center gap-3">
+                                <span class="bg-[#E8F0FE] text-blue-700 text-xs font-semibold px-3 py-1 rounded-full">Pengembangan Kurikulum</span>
+                                <span class="bg-[#E8F0FE] text-blue-700 text-xs font-semibold px-3 py-1 rounded-full">Metode Pengajaran</span>
+                            </div>
+                        </div>
+                    </div>
+                       <!-- Trainer Card 2 -->
+                    <div class="swiper-slide">
+                        <div class="bg-[#F9FAFB] rounded-2xl shadow-lg p-6 text-center relative hover:shadow-xl transition transform hover:-translate-y-1 duration-300">
+                          <span class="absolute top-4 left-1/2 transform -translate-x-1/2 bg-[#F9D423] text-xs font-semibold px-3 py-1 rounded-full text-[#0b2341] shadow-md">
+                            Trainer
+                        </span>
+                            <img src="{{ asset('images/admin/pa yudhis.png') }}" alt="Trainer"
+                                class="rounded-lg mx-auto mb-4 object-cover w-full h-64">
+                            <h3 class="text-lg font-bold text-[#184883]">Danang Bagus Yudistira</h3>
+                            <p class="text-sm text-gray-600 mb-3">Deputy Director and Senior Trainer HAFECS</p>
+                            <p class="text-sm text-gray-600 mb-5">
+                                Pengalaman luas di bidang pelatihan pendidikan dan kurikulum. Aktif memberikan workshop di bidang metodologi pengajaran dan pengembangan kurikulum.
+                            </p>
+                            <div class="flex justify-center gap-3">
+                                <span class="bg-[#E8F0FE] text-blue-700 text-xs font-semibold px-3 py-1 rounded-full">Pengembangan Kurikulum</span>
+                                <span class="bg-[#E8F0FE] text-blue-700 text-xs font-semibold px-3 py-1 rounded-full">Metode Pengajaran</span>
+                            </div>
+                        </div>
+                    </div>
+                             <!-- Trainer Card 3 -->
+                    <div class="swiper-slide">
+                        <div class="bg-[#F9FAFB] rounded-2xl shadow-lg p-6 text-center relative hover:shadow-xl transition transform hover:-translate-y-1 duration-300">
+                          <span class="absolute top-4 left-1/2 transform -translate-x-1/2 bg-[#F9D423] text-xs font-semibold px-3 py-1 rounded-full text-[#0b2341] shadow-md">
+                            Trainer
+                        </span>
+                            <img src="{{ asset('images/admin/pa yudhis.png') }}" alt="Trainer"
+                                class="rounded-lg mx-auto mb-4 object-cover w-full h-64">
+                            <h3 class="text-lg font-bold text-[#184883]">Danang Bagus Yudistira</h3>
+                            <p class="text-sm text-gray-600 mb-3">Deputy Director and Senior Trainer HAFECS</p>
+                            <p class="text-sm text-gray-600 mb-5">
+                                Pengalaman luas di bidang pelatihan pendidikan dan kurikulum. Aktif memberikan workshop di bidang metodologi pengajaran dan pengembangan kurikulum.
+                            </p>
+                            <div class="flex justify-center gap-3">
+                                <span class="bg-[#E8F0FE] text-blue-700 text-xs font-semibold px-3 py-1 rounded-full">Pengembangan Kurikulum</span>
+                                <span class="bg-[#E8F0FE] text-blue-700 text-xs font-semibold px-3 py-1 rounded-full">Metode Pengajaran</span>
+                            </div>
+                        </div>
+                    </div>
+                       <!-- Trainer Card  -->
+                    <div class="swiper-slide">
+                        <div class="bg-[#F9FAFB] rounded-2xl shadow-lg p-6 text-center relative hover:shadow-xl transition transform hover:-translate-y-1 duration-300">
+                          <span class="absolute top-4 left-1/2 transform -translate-x-1/2 bg-[#F9D423] text-xs font-semibold px-3 py-1 rounded-full text-[#0b2341] shadow-md">
+                            Trainer
+                        </span>
+                            <img src="{{ asset('images/admin/pa yudhis.png') }}" alt="Trainer"
+                                class="rounded-lg mx-auto mb-4 object-cover w-full h-64">
+                            <h3 class="text-lg font-bold text-[#184883]">Danang Bagus Yudistira</h3>
+                            <p class="text-sm text-gray-600 mb-3">Deputy Director and Senior Trainer HAFECS</p>
+                            <p class="text-sm text-gray-600 mb-5">
+                                Pengalaman luas di bidang pelatihan pendidikan dan kurikulum. Aktif memberikan workshop di bidang metodologi pengajaran dan pengembangan kurikulum.
+                            </p>
+                            <div class="flex justify-center gap-3">
+                                <span class="bg-[#E8F0FE] text-blue-700 text-xs font-semibold px-3 py-1 rounded-full">Pengembangan Kurikulum</span>
+                                <span class="bg-[#E8F0FE] text-blue-700 text-xs font-semibold px-3 py-1 rounded-full">Metode Pengajaran</span>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                <!-- Add Pagination -->
+                <div class="swiper-pagination mt-8"></div>
+                <!-- Add Navigation -->
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+            </div>
+        </section>
+
+  <!-- Seminars Section -->
+<section id="seminars" class="py-20 bg-gradient-to-b from-[#0a3a72] to-[#0759ac]">
+    <div class="container mx-auto px-6">
+        <div class="text-center mb-12">
+            <h2 class="text-4xl md:text-5xl font-bold text-[#ffffff] mb-4">Upcoming Seminars</h2>
+            <p class="text-lg text-gray-200">Join our upcoming seminars to stay ahead in the digital age.</p>
+        </div>
+
+
+        <!-- Grid: center alignment -->
+        <div class="grid gap-8 justify-center md:grid-cols-2 lg:grid-cols-3">
+            {{-- @forelse(\App\Models\Seminar::orderBy('start_time', 'asc')->get() as $seminar)
+                <div class="bg-[#F9FAFB] rounded-2xl shadow-md hover:shadow-lg transition transform hover:-translate-y-1 duration-300 w-[300px]">
+                    @if($seminar->image_url)
+                        <img src="{{ $seminar->image_url }}" alt="{{ $seminar->title }}" class="rounded-t-2xl h-48 w-full object-cover">
+                    @endif
+                    <div class="p-6 text-center">
+                        <h3 class="text-xl font-semibold text-[#1E2A39]">{{ $seminar->title }}</h3>
+                        <p class="text-sm text-[#F9D423] font-medium mt-1">Seminar</p>
+                        <p class="text-gray-600 mt-3 text-sm">{{ Str::limit($seminar->description, 120) }}</p>
+                      <a href="{{ route('seminar.show', $seminar->id) }}" class="mt-5 inline-block bg-[#F9D423] text-[#1E2A39] px-5 py-2 rounded-full font-medium hover:bg-[#F8C200] transition">
+                           Lihat detail <i class="fas fa-arrow-right ml-1"></i>
+                        <a  href="{{ route('seminar.register', \Vinkla\Hashids\Facades\Hashids::encode($seminar->id)) }}" class="mt-5 inline-block bg-[#F9D423] text-[#1E2A39] px-5 py-2 rounded-full font-medium hover:bg-[#F8C200] transition">
+                            Join Webinar <i class="fas fa-arrow-right ml-1">
+                            </i>
                         </a>
-                        @endguest
-                        @auth
-                        <div class="flex items-center space-x-4">
-                            <div class="flex-shrink-0">
-                                <svg class="h-10 w-10 rounded-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M24 20.993V24H0v-2.997A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
-                                </svg>
-                            </div>
-                            <div>
-                                <div class="text-base font-medium text-white">{{ Auth::user()->name }}</div>
-                                <div class="text-sm font-medium text-gray-400">{{ Auth::user()->email }}</div>
-                            </div>
-                            <form method="POST" action="{{ route('logout') }}">
-                                @csrf
-                                <button type="submit" class="border-2 border-teal text-teal px-4 py-2 rounded-full font-semibold text-sm hover:bg-teal hover:text-primary transition-all duration-300 text-center">
-                                    Keluar
-                                </button>
-                            </form>
-                        </div>
-                        @endauth
                     </div>
                 </div>
-
-                <!-- Event Info Card -->
-                <div class="glass rounded-3xl p-8 space-y-6">
-                    <div class="flex items-center space-x-4">
-                        <div class="bg-gradient-to-r from-coral to-teal w-12 h-12 rounded-full flex items-center justify-center text-2xl">📅</div>
-                        <div>
-                            <p class="text-xl font-bold">25-26 Oktober 2025</p>
-                            <p class="text-gray-300">Weekend Special Event</p>
-                        </div>
-                    </div>
-
-                    <div class="flex items-center space-x-4">
-                        <div class="bg-gradient-to-r from-coral to-teal w-12 h-12 rounded-full flex items-center justify-center text-2xl">🕒</div>
-                        <div>
-                            <p class="text-xl font-bold">09:00 - 17:00 WIB</p>
-                            <p class="text-gray-300">Full Day Experience</p>
-                        </div>
-                    </div>
-
-                    <div class="flex items-center space-x-4">
-                        <div class="bg-gradient-to-r from-coral to-teal w-12 h-12 rounded-full flex items-center justify-center text-2xl">📍</div>
-                        <div>
-                            <p class="text-xl font-bold">Jakarta Convention Center</p>
-                            <p class="text-gray-300">& Virtual Platform</p>
-                        </div>
-                    </div>
-
-                    <div class="flex items-center space-x-4">
-                        <div class="bg-gradient-to-r from-coral to-teal w-12 h-12 rounded-full flex items-center justify-center text-2xl">👥</div>
-                        <div>
-                            <p class="text-xl font-bold">1000+ Participants</p>
-                            <p class="text-gray-300">Limited Seats</p>
-                        </div>
-                    </div>
+            @empty
+                <div class="text-center w-full p-8">
+                    <p class="text-gray-600">Belum ada seminar yang tersedia</p>
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Poster Section -->
-    <section id="poster" class="py-20 bg-gradient-to-br from-gray-50 to-gray-100">
-        <div class="container mx-auto px-6">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Event Poster</h2>
-                <p class="text-xl text-gray-600">Visual overview acara Digital Transformation Summit 2025</p>
-            </div>
-
-            <div class="max-w-4xl mx-auto">
-                <div class="hero-bg text-white p-12 rounded-3xl shadow-2xl relative overflow-hidden">
-                    <!-- Background Pattern -->
-                    <div class="absolute inset-0 bg-gradient-to-br from-coral via-purple-500 to-teal opacity-20"></div>
-
-                    <div class="relative z-10 text-center space-y-8">
-                        <h2 class="text-5xl md:text-6xl font-extrabold gradient-text">HAFECS 2025</h2>
-                        <p class="text-2xl md:text-3xl text-teal font-semibold">
-                            "Accelerating Digital Excellence Through Innovation"
-                        </p>
-
-                        <div class="grid md:grid-cols-2 gap-8 mt-12">
-                            <div class="glass rounded-2xl p-6">
-                                <h4 class="text-coral font-bold text-lg mb-3">Tema Utama</h4>
-                                <p>Digital Transformation, AI Integration, Future of Work, Sustainable Technology</p>
-                            </div>
-                            <div class="glass rounded-2xl p-6">
-                                <h4 class="text-coral font-bold text-lg mb-3">Target Audience</h4>
-                                <p>C-Level Executives, IT Leaders, Digital Professionals, Entrepreneurs</p>
-                            </div>
-                            <div class="glass rounded-2xl p-6">
-                                <h4 class="text-coral font-bold text-lg mb-3">Format Event</h4>
-                                <p>Hybrid: Offline (Jakarta) + Online Platform dengan Interactive Features</p>
-                            </div>
-                            <div class="glass rounded-2xl p-6">
-                                <h4 class="text-coral font-bold text-lg mb-3">Bahasa</h4>
-                                <p>Bilingual: Bahasa Indonesia & English dengan Real-time Translation</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Trainers Section -->
-    <section id="trainers" class="py-20 bg-white">
-        <div class="container mx-auto px-6">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Para Trainer HAFECS</h2>
-                <p class="text-xl text-gray-600">Bertemu dengan para ahli dan praktisi terdepan di bidang transformasi digital</p>
-            </div>
-
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Trainer 1 -->
-                <div class="bg-white rounded-3xl p-8 shadow-xl card-hover border-t-4 border-coral">
-                    <div class="w-32 h-32 bg-gradient-to-r from-coral to-teal rounded-full mx-auto mb-6 flex items-center justify-center text-white text-4xl font-bold">
-                        DR
-                    </div>
-                    <div class="text-center space-y-4">
-                        <h3 class="text-2xl font-bold text-primary">Dr. Rina Wijaya</h3>
-
-                        <p class="text-teal font-semibold">Chief Digital Officer - TechCorp Asia</p>
-                        <p class="text-gray-600 leading-relaxed">15+ tahun pengalaman memimpin transformasi digital di perusahaan multinasional. Spesialis AI implementation dan digital strategy.</p>
-                    </div>
-                </div>
-
-                <!-- Trainer 2 -->
-                <div class="bg-white rounded-3xl p-8 shadow-xl card-hover border-t-4 border-teal">
-                    <div class="w-32 h-32 bg-gradient-to-r from-teal to-blue-500 rounded-full mx-auto mb-6 flex items-center justify-center text-white text-4xl font-bold">
-                        AH
-                    </div>
-                    <div class="text-center space-y-4">
-                        <h3 class="text-2xl font-bold text-primary">Ahmad Hidayat, M.Sc</h3>
-                        <p class="text-teal font-semibold">Senior Data Scientist - GoTech Indonesia</p>
-                        <p class="text-gray-600 leading-relaxed">Expert dalam machine learning dan big data analytics. Pernah membantu 100+ perusahaan dalam implementasi data-driven decision making.</p>
-                    </div>
-                </div>
-
-                <!-- Trainer 3 -->
-                <div class="bg-white rounded-3xl p-8 shadow-xl card-hover border-t-4 border-purple-500">
-                    <div class="w-32 h-32 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full mx-auto mb-6 flex items-center justify-center text-white text-4xl font-bold">
-                        SP
-                    </div>
-                    <div class="text-center space-y-4">
-                        <h3 class="text-2xl font-bold text-primary">Sarah Permata</h3>
-                        <p class="text-teal font-semibold">Digital Transformation Consultant</p>
-                        <p class="text-gray-600 leading-relaxed">Konsultan senior dengan track record memimpin proyek digital transformation untuk BUMN dan perusahaan swasta terkemuka.</p>
-                    </div>
-                </div>
-
-                <!-- Trainer 4 -->
-                <div class="bg-white rounded-3xl p-8 shadow-xl card-hover border-t-4 border-coral">
-                    <div class="w-32 h-32 bg-gradient-to-r from-coral to-orange-500 rounded-full mx-auto mb-6 flex items-center justify-center text-white text-4xl font-bold">
-                        MF
-                    </div>
-                    <div class="text-center space-y-4">
-                        <h3 class="text-2xl font-bold text-primary">Michael Fernando</h3>
-                        <p class="text-teal font-semibold">Cybersecurity Expert - SecureNet</p>
-                        <p class="text-gray-600 leading-relaxed">Certified security professional dengan keahlian khusus dalam digital security dan risk management untuk enterprise solutions.</p>
-                    </div>
-                </div>
-
-                <!-- Trainer 5 -->
-                <div class="bg-white rounded-3xl p-8 shadow-xl card-hover border-t-4 border-green-500">
-                    <div class="w-32 h-32 bg-gradient-to-r from-green-500 to-teal rounded-full mx-auto mb-6 flex items-center justify-center text-white text-4xl font-bold">
-                        LK
-                    </div>
-                    <div class="text-center space-y-4">
-                        <h3 class="text-2xl font-bold text-primary">Lisa Kartika</h3>
-                        <p class="text-teal font-semibold">Innovation Manager - StartupHub</p>
-                        <p class="text-gray-600 leading-relaxed">Pemimpin inovasi dengan pengalaman membangun ekosistem startup dan mengintegrasikan teknologi emerging dalam bisnis.</p>
-                    </div>
-                </div>
-
-                <!-- Trainer 6 -->
-                <div class="bg-white rounded-3xl p-8 shadow-xl card-hover border-t-4 border-blue-500">
-                    <div class="w-32 h-32 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full mx-auto mb-6 flex items-center justify-center text-white text-4xl font-bold">
-                        DP
-                    </div>
-                    <div class="text-center space-y-4">
-                        <h3 class="text-2xl font-bold text-primary">David Prasetyo</h3>
-                        <p class="text-teal font-semibold">Cloud Architecture Specialist</p>
-                        <p class="text-gray-600 leading-relaxed">Architect berpengalaman dalam merancang dan implementasi cloud infrastructure untuk digital transformation skala enterprise.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Seminars Section -->
-    <section id="seminars" class="py-20 bg-gray-100">
-        <div class="container mx-auto px-6">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Upcomings Seminars</h2>
-                <p class="text-xl text-gray-600">Join our upcoming seminars to stay ahead in the digital age.</p>
-            </div>
-
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                @foreach(App\Models\Seminar::all() as $seminar)
+            @endforelse --}}
+              @foreach(App\Models\Seminar::all() as $seminar)
                 @livewire('seminar-card', ['seminar' => $seminar])
                 @endforeach
-            </div>  
         </div>
-    </section>
+    </div>
+</section>
 
+        </main>
     <!-- Benefits Section -->
-    <section class="py-20 hero-bg text-white">
+    <section class="py-20 bg-gradient-to-b from-[#f2f2f2] to-[#f2f2f2] text-black">
         <div class="container mx-auto px-6">
             <div class="text-center mb-16">
                 <h2 class="text-4xl md:text-5xl font-bold mb-4">Highlight Benefits</h2>
-                <p class="text-xl text-gray-300">Keuntungan eksklusif yang akan Anda dapatkan</p>
+                <p class="text-xl text-black-300">Keuntungan eksklusif yang akan Anda dapatkan</p>
             </div>
-
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="glass rounded-2xl p-8 card-hover">
-                    <div class="w-16 h-16 bg-gradient-to-r from-coral to-teal rounded-full flex items-center justify-center text-3xl mb-6">🎯</div>
-                    <h3 class="text-2xl font-bold mb-4">Strategic Insights</h3>
-                    <p class="text-gray-300 leading-relaxed">Dapatkan strategi digital transformation terpercaya dari para ahli dengan pengalaman puluhan tahun di industri teknologi.</p>
-                </div>
-
-                <div class="glass rounded-2xl p-8 card-hover">
-                    <div class="w-16 h-16 bg-gradient-to-r from-coral to-teal rounded-full flex items-center justify-center text-3xl mb-6">🚀</div>
+           <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="glass rounded-2xl p-8 card-hover border border-blue-400/40 hover:border-blue-500 transition duration-300 shadow-md">
+                <div class="w-16 h-16 bg-gradient-to-r from-sky-500 to-orange-200 rounded-full flex items-center justify-center text-3xl mb-6 shadow-lg">🎯</div>
+                <h3 class="text-2xl font-bold mb-4">Strategic Insights</h3>
+                <p class="text-black-300 leading-relaxed">
+                    Dapatkan strategi digital transformation terpercaya dari para ahli dengan pengalaman puluhan tahun di industri teknologi.
+                </p>
+            </div>
+                <div class="glass rounded-2xl p-8 card-hover border border-blue-400/40 hover:border-blue-500 transition duration-300 shadow-md">
+                    <div class="w-16 h-16 bg-gradient-to-r from-blue-500 to-amber-300 rounded-full flex items-center justify-center text-3xl mb-6 shadow-lg">🚀</div>
                     <h3 class="text-2xl font-bold mb-4">Latest Technology Trends</h3>
-                    <p class="text-gray-300 leading-relaxed">Update terkini tentang AI, IoT, Blockchain, dan teknologi emerging yang akan membentuk masa depan bisnis Anda.</p>
+                    <p class="text-black-700 leading-relaxed">
+                        Update terkini tentang AI, IoT, Blockchain, dan teknologi emerging yang akan membentuk masa depan bisnis Anda.
+                    </p>
                 </div>
 
-                <div class="glass rounded-2xl p-8 card-hover">
-                    <div class="w-16 h-16 bg-gradient-to-r from-coral to-teal rounded-full flex items-center justify-center text-3xl mb-6">🤝</div>
+                  <div class="glass rounded-2xl p-8 card-hover border border-blue-400/40 hover:border-blue-500 transition duration-300 shadow-md">
+                    <div class="w-16 h-16 bg-gradient-to-r from-blue-500 to-amber-300 rounded-full flex items-center justify-center text-3xl mb-6 shadow-lg">🤝</div>
                     <h3 class="text-2xl font-bold mb-4">Premium Networking</h3>
-                    <p class="text-gray-300 leading-relaxed">Berinteraksi langsung dengan 1000+ C-level executives, tech leaders, dan decision makers dari berbagai industri.</p>
+                    <p class="text-black-300 leading-relaxed">Berinteraksi langsung dengan 1000+ C-level executives, tech leaders, dan decision makers dari berbagai industri.</p>
                 </div>
 
-                <div class="glass rounded-2xl p-8 card-hover">
-                    <div class="w-16 h-16 bg-gradient-to-r from-coral to-teal rounded-full flex items-center justify-center text-3xl mb-6">📊</div>
+               <div class="glass rounded-2xl p-8 card-hover border border-blue-400/40 hover:border-blue-500 transition duration-300 shadow-md">
+                    <div class="w-16 h-16 bg-gradient-to-r from-blue-500 to-amber-300 rounded-full flex items-center justify-center text-3xl mb-6 shadow-lg">📊</div>
                     <h3 class="text-2xl font-bold mb-4">Practical Case Studies</h3>
-                    <p class="text-gray-300 leading-relaxed">Analisis mendalam success stories dan failure lessons dari implementasi digital transformation di perusahaan ternama.</p>
+                    <p class="text-black-300 leading-relaxed">Analisis mendalam success stories dan failure lessons dari implementasi digital transformation di perusahaan ternama.</p>
                 </div>
 
-                <div class="glass rounded-2xl p-8 card-hover">
-                    <div class="w-16 h-16 bg-gradient-to-r from-coral to-teal rounded-full flex items-center justify-center text-3xl mb-6">🏆</div>
+                <div class="glass rounded-2xl p-8 card-hover border border-blue-400/40 hover:border-blue-500 transition duration-300 shadow-md">
+                    <div class="w-16 h-16 bg-gradient-to-r from-blue-500 to-amber-300 rounded-full flex items-center justify-center text-3xl mb-6 shadow-lg">🏆</div>
                     <h3 class="text-2xl font-bold mb-4">Industry Recognition</h3>
-                    <p class="text-gray-300 leading-relaxed">Sertifikat kehadiran dari HAFECS yang diakui industri untuk mendukung pengembangan karir profesional Anda.</p>
+                    <p class="text-black-300 leading-relaxed">Sertifikat kehadiran dari HAFECS yang diakui industri untuk mendukung pengembangan karir profesional Anda.</p>
                 </div>
 
-                <div class="glass rounded-2xl p-8 card-hover">
-                    <div class="w-16 h-16 bg-gradient-to-r from-coral to-teal rounded-full flex items-center justify-center text-3xl mb-6">💡</div>
+                <div class="glass rounded-2xl p-8 card-hover border border-blue-400/40 hover:border-blue-500 transition duration-300 shadow-md">
+                    <div class="w-16 h-16 bg-gradient-to-r from-blue-500 to-amber-300 rounded-full flex items-center justify-center text-3xl mb-6 shadow-lg">💡</div>
                     <h3 class="text-2xl font-bold mb-4">Innovation Workshop</h3>
-                    <p class="text-gray-300 leading-relaxed">Hands-on workshop untuk mengimplementasikan strategi digital langsung pada bisnis atau project Anda.</p>
+                    <p class="text-black-300 leading-relaxed">Hands-on workshop untuk mengimplementasikan strategi digital langsung pada bisnis atau project Anda.</p>
                 </div>
             </div>
         </div>
@@ -503,279 +467,199 @@
             </div>
         </div>
     </section>
+<section class="max-w-7xl mx-auto px-6 lg:px-8 py-10">
+    <div class="max-w-4xl mx-auto bg-white p-6 md:p-8 rounded-2xl shadow-xl">
+        <h2 class="text-2xl md:text-3xl font-extrabold text-primary mb-5">
+            Masukkan Ulasan Anda
+        </h2>
 
-    <!-- Reviews Section -->
-    <section class="py-20 bg-gradient-to-br from-gray-50 to-gray-100">
-        <div class="container mx-auto px-6">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Ulasan Peserta</h2>
-                <p class="text-xl text-gray-600">Testimoni dari peserta HAFECS event sebelumnya</p>
+        <form action="#" method="POST" class="space-y-4">
+            <div class="relative">
+                <textarea
+                    name="review_message"
+                    id="review_message"
+                    rows="5"
+                    class="block w-full rounded-xl border-gray-300 shadow-inner p-4 text-gray-800 placeholder-gray-500 focus:ring-accent focus:border-accent border-2 transition duration-200 resize-none text-base"
+                    placeholder="Tulis ulasan, saran, atau testimoni Anda di sini..."
+                    required
+                ></textarea>
             </div>
 
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Review 1 -->
-                <div class="bg-white rounded-3xl p-8 shadow-xl card-hover relative">
-                    <div class="absolute -top-4 left-8 text-6xl text-teal opacity-20">"</div>
-                    <p class="text-gray-600 italic leading-relaxed mb-6 relative z-10">
-                        HAFECS 2024 benar-benar mengubah perspektif saya tentang digital transformation. Insights dari para trainer sangat actionable dan langsung bisa diimplementasikan di perusahaan. ROI dari mengikuti event ini luar biasa!
-                    </p>
-                    <div class="flex items-center space-x-4">
-                        <div class="w-14 h-14 bg-gradient-to-r from-coral to-teal rounded-full flex items-center justify-center text-white font-bold text-lg">BW</div>
-                        <div>
-                            <h4 class="font-bold text-primary">Budi Wicaksono</h4>
-                            <p class="text-gray-500 text-sm">CTO - TechSolution Indonesia</p>
-                            <div class="text-yellow-400 mt-1">★★★★★</div>
-                        </div>
-                    </div>
-                </div>
+            <div class="flex flex-col sm:flex-row-reverse sm:justify-between items-center pt-2">
+                <button type="submit"
+                    class="gradient-button text-white px-8 py-3 rounded-xl font-bold text-lg hover:gradient-button focus:outline-none focus:ring-4 focus:ring-blue-300 transition-all duration-300 w-full sm:w-auto shadow-lg hover:shadow-xl transform hover:scale-[1.01]">
+                    <span class="flex items-center justify-center">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
+                        Kirimi
+                    </span>
+                </button>
 
-                <!-- Review 2 -->
-                <div class="bg-white rounded-3xl p-8 shadow-xl card-hover relative">
-                    <div class="absolute -top-4 left-8 text-6xl text-teal opacity-20">"</div>
-                    <p class="text-gray-600 italic leading-relaxed mb-6 relative z-10">
-                        Networking opportunities di HAFECS luar biasa. Saya bertemu dengan banyak decision makers yang akhirnya menjadi business partners. Event ini worth every penny dan waktu yang diinvestasikan.
-                    </p>
-                    <div class="flex items-center space-x-4">
-                        <div class="w-14 h-14 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white font-bold text-lg">SP</div>
-                        <div>
-                            <h4 class="font-bold text-primary">Sari Pertiwi</h4>
-                            <p class="text-gray-500 text-sm">Digital Marketing Director - RetailCorp</p>
-                            <div class="text-yellow-400 mt-1">★★★★★</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Review 3 -->
-                <div class="bg-white rounded-3xl p-8 shadow-xl card-hover relative">
-                    <div class="absolute -top-4 left-8 text-6xl text-teal opacity-20">"</div>
-                    <p class="text-gray-600 italic leading-relaxed mb-6 relative z-10">
-                        Sebagai startup founder, HAFECS memberi saya blueprint yang jelas untuk scaling up dengan technology. Workshop-nya sangat hands-on dan materinya up-to-date dengan trend terbaru.
-                    </p>
-                    <div class="flex items-center space-x-4">
-                        <div class="w-14 h-14 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center text-white font-bold text-lg">RM</div>
-                        <div>
-                            <h4 class="font-bold text-primary">Rico Mahendra</h4>
-                            <p class="text-gray-500 text-sm">Founder & CEO - InnovateNow</p>
-                            <div class="text-yellow-400 mt-1">★★★★★</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Review 4 -->
-                <div class="bg-white rounded-3xl p-8 shadow-xl card-hover relative">
-                    <div class="absolute -top-4 left-8 text-6xl text-teal opacity-20">"</div>
-                    <p class="text-gray-600 italic leading-relaxed mb-6 relative z-10">
-                        Platform virtual HAFECS sangat impressive! Meskipun join secara online, experience-nya tetap engaging. Interactive features-nya memungkinkan networking yang efektif bahkan dari jarak jauh.
-                    </p>
-                    <div class="flex items-center space-x-4">
-                        <div class="w-14 h-14 bg-gradient-to-r from-green-500 to-teal rounded-full flex items-center justify-center text-white font-bold text-lg">AN</div>
-                        <div>
-                            <h4 class="font-bold text-primary">Andini Nur</h4>
-                            <p class="text-gray-500 text-sm">Data Science Manager - FinTechPlus</p>
-                            <div class="text-yellow-400 mt-1">★★★★★</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Review 5 -->
-                <div class="bg-white rounded-3xl p-8 shadow-xl card-hover relative">
-                    <div class="absolute -top-4 left-8 text-6xl text-teal opacity-20">"</div>
-                    <p class="text-gray-600 italic leading-relaxed mb-6 relative z-10">
-                        Content quality HAFECS selalu excellent. Para trainer bukan hanya theoretical experts tapi juga practitioners yang punya real experience. Saya selalu dapat actionable insights yang bisa langsung diterapkan.
-                    </p>
-                    <div class="flex items-center space-x-4">
-                        <div class="w-14 h-14 bg-gradient-to-r from-orange-500 to-red-500 rounded-full flex items-center justify-center text-white font-bold text-lg">DL</div>
-                        <div>
-                            <h4 class="font-bold text-primary">Diana Larasati</h4>
-                            <p class="text-gray-500 text-sm">VP Technology - BankMaju</p>
-                            <div class="text-yellow-400 mt-1">★★★★★</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Review 6 -->
-                <div class="bg-white rounded-3xl p-8 shadow-xl card-hover relative">
-                    <div class="absolute -top-4 left-8 text-6xl text-teal opacity-20">"</div>
-                    <p class="text-gray-600 italic leading-relaxed mb-6 relative z-10">
-                        HAFECS bukan sekedar event, tapi learning ecosystem. Post-event support dengan community access dan recording materials sangat membantu untuk continuous learning dan implementation.
-                    </p>
-                    <div class="flex items-center space-x-4">
-                        <div class="w-14 h-14 bg-gradient-to-r from-teal to-blue-500 rounded-full flex items-center justify-center text-white font-bold text-lg">FA</div>
-                        <div>
-                            <h4 class="font-bold text-primary">Farid Alzamzami</h4>
-                            <p class="text-gray-500 text-sm">IT Director - ManufacturingPro</p>
-                            <div class="text-yellow-400 mt-1">★★★★★</div>
-                        </div>
-                    </div>
-                </div>
+                <a href="#" class="text-sm text-gray-600 hover:text-primary font-semibold transition duration-150 mt-4 sm:mt-0 sm:mr-4 flex items-center">
+                    <svg class="w-4 h-4 mr-1 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    Lihat Semua Ulasan
+                </a>
             </div>
-        </div>
-    </section>
+        </form>
+    </div>
+</section>
 
-    <!-- CTA Section -->
-    <section id="register" class="py-20 hero-bg text-white text-center">
-        <div class="container mx-auto px-6">
-            <div class="max-w-4xl mx-auto space-y-8">
-                <h2 class="text-4xl md:text-5xl font-bold">Ready to Transform Your Digital Future?</h2>
-                <p class="text-xl text-gray-300">Jangan lewatkan kesempatan emas untuk bergabung dengan para leaders dalam Digital Transformation Summit 2025</p>
-                <div class="flex flex-col sm:flex-row justify-center gap-6 pt-8">
-                    <a href="#" class="bg-gradient-to-r from-coral to-red-500 text-white px-10 py-4 rounded-full font-bold text-lg hover:shadow-2xl hover:scale-105 transition-all duration-300">
-                        Daftar Sekarang - Early Bird
-                    </a>
-                    <a href="#" class="border-2 border-teal text-teal px-10 py-4 rounded-full font-bold text-lg hover:bg-teal hover:text-primary transition-all duration-300">
-                        Download Brochure
-                    </a>
+<style>
+    /* Asumsi warna kustom Anda sudah ada */
+    .text-primary { color: #1e3a8a; /* Biru Tua */ }
+    .bg-accent { background-color: #f59e0b; /* Kuning/Amber */ }
+    .focus\:ring-accent:focus { --tw-ring-color: #f59e0b; }
+    .focus\:border-accent:focus { border-color: #f59e0b; }
+
+    /* Gunakan gradient-button yang sudah Anda definisikan di kode awal */
+    .gradient-button {
+        background-image: linear-gradient(to right, #1e3a8a, #3b82f6); /* Gradient Biru */
+    }
+
+    .hover\:gradient-button:hover {
+        background-image: linear-gradient(to right, #1d4ed8, #2563eb);
+    }
+</style>
+
+   <footer class="bg-gray-800 text-gray-300">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8 py-12 md:py-16">
+        <div class="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 gap-10 border-b border-gray-700 pb-10 mb-8">
+
+            <div class="md:col-span-2 lg:col-span-2">
+                <a href="{{ url('/') }}" class="inline-flex items-center mb-4">
+                    <img src="{{ asset('images/admin/LOGO HAFECS.png') }}" alt="HAFECS Logo" class="h-10 filter brightness-0 invert mr-2">
+                    <span class="text-xl font-extrabold text-white">HAFECS</span>
+                </a>
+                <p class="text-sm text-gray-400 mt-2 pr-8">
+                    Pusat pengembangan profesional dan edukasi terdepan di Indonesia.
+                </p>
                 </div>
 
-                <div class="glass rounded-3xl p-8 mt-12 max-w-2xl mx-auto">
-                    <h3 class="text-2xl font-bold text-coral mb-4">⏰ Limited Time Offer</h3>
-                    <div class="space-y-2">
-                        <p class="text-2xl font-bold">
-                            Early Bird: <span class="text-green-400">Rp 2.500.000</span>
-                            <span class="text-lg text-gray-400 line-through ml-2">Rp 3.500.000</span>
-                        </p>
-                        <p class="text-gray-300">*Berlaku hingga 30 September 2025 atau 500 pendaftar pertama</p>
+            <div>
+                <h3 class="text-lg font-bold text-white mb-4 border-b-2 border-accent inline-block pb-1">
+                    Quick Link
+                </h3>
+                <ul class="space-y-3">
+                    <li>
+                        <a href="#" class="flex items-center text-gray-400 hover:text-accent transition duration-200">
+                            <svg class="w-4 h-4 mr-2 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                            Tentang Kami
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="flex items-center text-gray-400 hover:text-accent transition duration-200">
+                            <svg class="w-4 h-4 mr-2 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                            Syarat & Ketentuan
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="flex items-center text-gray-400 hover:text-accent transition duration-200">
+                            <svg class="w-4 h-4 mr-2 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                            FAQ
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="flex items-center text-gray-400 hover:text-accent transition duration-200">
+                            <svg class="w-4 h-4 mr-2 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                            Kebijakan Privasi
+                        </a>
+                    </li>
+                </ul>
+            </div>
 
-                        <div class="flex justify-center items-center space-x-8 pt-4">
-                            <div class="text-center">
-                                <div class="text-3xl font-bold text-coral">30%</div>
-                                <div class="text-sm text-gray-300">Discount</div>
-                            </div>
-                            <div class="text-center">
-                                <div class="text-3xl font-bold text-teal">2</div>
-                                <div class="text-sm text-gray-300">Hari</div>
-                            </div>
-                            <div class="text-center">
-                                <div class="text-3xl font-bold text-yellow-400">1000+</div>
-                                <div class="text-sm text-gray-300">Peserta</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="md:col-span-1 lg:col-span-2">
+                <h3 class="text-lg font-bold text-white mb-4 border-b-2 border-accent inline-block pb-1">
+                    Hubungi Kami
+                </h3>
+                <ul class="space-y-3 text-sm">
+                    <li class="flex items-start">
+                        <svg class="w-5 h-5 text-accent flex-shrink-0 mt-1 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                        <span class="text-gray-400">Jl. Contoh Alamat Gedung No. 123, Kota Banjarmasin 70123</span>
+                    </li>
+                    <li class="flex items-center">
+                        <svg class="w-5 h-5 text-accent flex-shrink-0 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                        <span class="text-gray-400">info@hafecs.com</span>
+                    </li>
+                    <li class="flex items-center">
+                        <svg class="w-5 h-5 text-accent flex-shrink-0 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+                        <span class="text-gray-400">+62 812-3456-7890 (WA Only)</span>
+                    </li>
+                </ul>
             </div>
         </div>
-    </section>
 
-    <!-- Footer -->
-    <footer class="bg-primary text-white py-12">
-        <div class="container mx-auto px-6 text-center space-y-4">
-            <div class="text-2xl font-bold gradient-text">HAFECS</div>
-            <p class="text-gray-400">High-Performance Academy for Executive & Corporate Success</p>
-            <div class="flex flex-col sm:flex-row justify-center items-center space-y-2 sm:space-y-0 sm:space-x-8 text-gray-400">
-                <div class="flex items-center space-x-2">
-                    <span>📧</span>
-                    <span>info@hafecs.com</span>
-                </div>
-                <div class="flex items-center space-x-2">
-                    <span>📱</span>
-                    <span>+62-21-5555-0123</span>
-                </div>
-                <div class="flex items-center space-x-2">
-                    <span>🌐</span>
-                    <span>www.hafecs.com</span>
-                </div>
-            </div>
-            <div class="border-t border-gray-700 pt-8 mt-8">
-                <p class="text-gray-400">&copy; 2025 HAFECS. All rights reserved.</p>
-            </div>
+        <div class="text-center">
+            <p class="text-sm text-gray-500">
+                &copy; {{ date('Y') }} HAFECS. All rights reserved. Dibuat dengan ❤️ di Indonesia.
+            </p>
         </div>
-    </footer>
-
+    </div>
+</footer>    <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
     <script>
-        // Mobile Menu Toggle
-        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-        const mobileMenu = document.getElementById('mobileMenu');
+        document.addEventListener('DOMContentLoaded', function () {
+            // Mobile menu toggle
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
 
-        mobileMenuBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
-
-        // FAQ Toggle
-        document.addEventListener('DOMContentLoaded', function() {
-            const faqItems = document.querySelectorAll('.faq-item');
-
-            faqItems.forEach(item => {
-                const question = item.querySelector('.faq-question');
-                const answer = item.querySelector('.faq-answer');
-                const icon = question.querySelector('span');
-
-                question.addEventListener('click', () => {
-                    const isActive = answer.style.maxHeight && answer.style.maxHeight !== '0px';
-
-                    // Close all other items
-                    faqItems.forEach(otherItem => {
-                        if (otherItem !== item) {
-                            const otherAnswer = otherItem.querySelector('.faq-answer');
-                            const otherIcon = otherItem.querySelector('.faq-question span');
-                            otherAnswer.style.maxHeight = '0px';
-                            otherIcon.textContent = '+';
-                            otherItem.querySelector('.faq-question').classList.remove('bg-gray-100');
-                        }
-                    });
-
-                    // Toggle current item
-                    if (isActive) {
-                        answer.style.maxHeight = '0px';
-                        icon.textContent = '+';
-                        question.classList.remove('bg-gray-100');
-                    } else {
-                        answer.style.maxHeight = answer.scrollHeight + 'px';
-                        icon.textContent = '-';
-                        question.classList.add('bg-gray-100');
-                    }
+            if (mobileMenuButton && mobileMenu) {
+                mobileMenuButton.addEventListener('click', function() {
+                    mobileMenu.classList.toggle('active');
                 });
-            });
-        });
-
-        // Smooth scroll for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth'
-                        , block: 'start'
-                    });
-                }
-            });
-        });
-
-        // Header background change on scroll
-        window.addEventListener('scroll', () => {
-            const header = document.getElementById('header');
-            if (window.scrollY > 100) {
-                header.style.background = 'rgba(26, 26, 46, 0.95)';
-                header.style.backdropFilter = 'blur(10px)';
-            } else {
-                header.style.background = 'linear-gradient(135deg, #1a1a2e, #16213e, #0f3460)';
-                header.style.backdropFilter = 'none';
             }
-        });
 
-        // Animate elements on scroll
-        const observerOptions = {
-            threshold: 0.1
-            , rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('fade-in-up');
+            // Trainer Swiper
+            const trainerSwiper = new Swiper('.trainer-swiper', {
+                slidesPerView: 1,
+                spaceBetween: 30,
+                pagination: {
+                    el: '.trainer-swiper .swiper-pagination',
+                    clickable: true,
+                },
+                navigation: {
+                    nextEl: '.trainer-swiper .swiper-button-next',
+                    prevEl: '.trainer-swiper .swiper-button-prev',
+                },
+                breakpoints: {
+                    640: {
+                        slidesPerView: 2,
+                        spaceBetween: 20,
+                    },
+                    768: {
+                        slidesPerView: 3,
+                        spaceBetween: 30,
+                    },
+                    1024: {
+                        slidesPerView: 4,
+                        spaceBetween: 40,
+                    },
                 }
             });
-        }, observerOptions);
 
-        // Observe all cards and sections for animation
-        document.querySelectorAll('.card-hover').forEach(el => {
-            observer.observe(el);
-        });
-
-        // Close mobile menu when clicking on links
-        document.querySelectorAll('#mobileMenu a').forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.add('hidden');
+            // Seminar Swiper
+            const seminarSwiper = new Swiper('.seminar-swiper', {
+                slidesPerView: 1,
+                spaceBetween: 30,
+                pagination: {
+                    el: '.seminar-swiper .swiper-pagination',
+                    clickable: true,
+                },
+                breakpoints: {
+                    640: {
+                        slidesPerView: 1,
+                        spaceBetween: 20,
+                    },
+                    768: {
+                        slidesPerView: 2,
+                        spaceBetween: 30,
+                    },
+                    1024: {
+                        slidesPerView: 3,
+                        spaceBetween: 40,
+                    },
+                }
             });
         });
 
@@ -802,4 +686,5 @@
 
     </script>
 </body>
+
 </html>
