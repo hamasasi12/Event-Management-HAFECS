@@ -16,6 +16,7 @@ class SeminarRegistration extends Model
         'email',
         'phone',
         'is_paid',
+        'attendance_status',
     ];
 
     public function user()
