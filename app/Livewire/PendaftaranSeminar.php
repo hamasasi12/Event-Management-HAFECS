@@ -46,8 +46,9 @@ class PendaftaranSeminar extends Component
             Log::info('Seminar found: ' . $this->seminar->title);
 
             if (Auth::check()) {
-                $this->name = Auth::user()->name;
-                $this->email = Auth::user()->email;
+                // Allow setting initial values from authenticated user but keep them editable
+                $this->name = $this->name ?? Auth::user()->name;
+                $this->email = $this->email ?? Auth::user()->email;
             }
         } catch (\Exception $e) {
             Log::error('Error mounting PendftaranSeminar: ' . $e->getMessage());
@@ -85,6 +86,17 @@ class PendaftaranSeminar extends Component
                     $this->dispatch('show-error', title: 'Gagal Mendaftar', message: 'Anda sudah terdaftar di seminar ini. Silakan selesaikan pembayaran terlebih dahulu.', redirectTo: 'payments/' . \Hashids::encode($existingRegistration->id) . '/create');
                 }
                 return;
+            }
+
+            // If user is authenticated and has changed their name or email, update their profile
+            if (Auth::check()) {
+                $user = Auth::user();
+                if ($user->name !== $this->name || $user->email !== $this->email) {
+                    $user->update([
+                        'name' => $this->name,
+                        'email' => $this->email
+                    ]);
+                }
             }
 
             if($this->seminar->type === 'gratis') {

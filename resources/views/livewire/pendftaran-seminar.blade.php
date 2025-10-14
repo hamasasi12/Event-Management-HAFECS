@@ -157,11 +157,10 @@
                         <label for="name" class="block text-sm font-semibold text-gray-700 mb-1">Nama Lengkap</label>
                         <input wire:model="name" type="text" id="name"
                             class="mt-1 block w-full rounded-lg border-gray-300 shadow-md p-3 focus:ring-accent focus:border-accent border-2 transition duration-150 @error('name') border-red-500 @enderror"
-                            placeholder="Masukkan nama lengkap Anda"
-                            @auth disabled @endauth>
+                            placeholder="Masukkan nama lengkap Anda">
                         @error('name') <span class="text-red-500 text-sm mt-1 block">{{ $message }}</span> @enderror
                         @auth
-                            <p class="text-xs text-gray-500 mt-1">Nama terisi otomatis dari akun Anda.</p>
+                            <p class="text-xs text-gray-500 mt-1">Anda dapat mengedit nama Anda di sini.</p>
                         @endauth
                     </div>
 
@@ -169,11 +168,10 @@
                         <label for="email" class="block text-sm font-semibold text-gray-700 mb-1">Email Aktif</label>
                         <input wire:model="email" type="email" id="email"
                             class="mt-1 block w-full rounded-lg border-gray-300 shadow-md p-3 focus:ring-accent focus:border-accent border-2 transition duration-150 @error('email') border-red-500 @enderror"
-                            placeholder="Contoh: nama@email.com"
-                            @auth disabled @endauth>
+                            placeholder="Contoh: nama@email.com">
                         @error('email') <span class="text-red-500 text-sm mt-1 block">{{ $message }}</span> @enderror
                         @auth
-                            <p class="text-xs text-gray-500 mt-1">Email terisi otomatis dari akun Anda.</p>
+                            <p class="text-xs text-gray-500 mt-1">Anda dapat mengedit email Anda di sini.</p>
                         @endauth
                     </div>
 
