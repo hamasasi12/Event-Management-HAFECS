@@ -99,19 +99,30 @@
 
                 <!-- Image Area (Stacks on Mobile, fixed width on Desktop) -->
                 <div class="lg:w-1/3 flex-shrink-0">
-                    <!-- Using a professional placeholder image for the trainer -->
-                            <img src="{{ asset('images/admin/pa yudhis.png') }}" alt="Trainer"
-                                class="rounded-lg mx-auto mb-4 object-cover w-full h-64">
+                    <!-- Using seminar image or default placeholder -->
+                    @if($seminar->image_url)
+                        <img src="{{ $seminar->image_url }}" alt="{{ $seminar->title }}"
+                            class="rounded-lg mx-auto mb-4 object-cover w-full h-64">
+                    @else
+                        <img src="{{ asset('images/admin/default_seminar.jpg') }}" alt="{{ $seminar->title }}"
+                            class="rounded-lg mx-auto mb-4 object-cover w-full h-64">
+                    @endif
                 </div>
 
                 <!-- Text Content Area -->
                 <div class="lg:w-2/3 flex flex-col justify-center">
                     <h1 class="text-2xl sm:text-3xl font-extrabold text-primary-dark leading-snug">
-                        Work Life Balance
+                        {{ $seminar->title }}
                     </h1>
+                    @if($seminar->trainer)
                     <h2 class="text-lg sm:text-xl font-medium mt-1 text-gray-700">
-                        Oleh: Hamas Akif Sanie, A.Md.Kom
+                        Oleh: {{ $seminar->trainer->name }}
                     </h2>
+                    @else
+                        <h2 class="text-lg sm:text-xl font-medium mt-1 text-gray-700">
+                            Oleh: Trainer Belum Ditentukan
+                        </h2>
+                    @endif
 
                     <!-- Info Grid -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-5 text-gray-800">
@@ -122,7 +133,7 @@
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary-dark" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                             </svg>
-                            <span class="font-semibold">17 September 2024</span>
+                            <span class="font-semibold">{{ $seminar->start_time->format('d F Y') }}</span>
                         </div>
 
                         <!-- Platform -->
@@ -132,7 +143,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
                             </svg>
                             <span>Online Via</span>
-                            <span class="bg-white px-3 py-1 text-sm font-bold rounded-full shadow-md">Zoom</span>
+                            <span class="bg-white px-3 py-1 text-sm font-bold rounded-full shadow-md">{{ parse_url($seminar->link)['host'] ?? 'Platform' }}</span>
                         </div>
 
                         <!-- Organizer -->
@@ -151,7 +162,7 @@
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary-dark" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
-                            <span class="font-semibold">09:00 - 11:00 WIB</span>
+                            <span class="font-semibold">{{ $seminar->start_time->format('H:i') }} - {{ $seminar->end_time->format('H:i') }} WIB</span>
                         </div>
 
                     </div>
@@ -164,7 +175,7 @@
                     Tentang Acara
                 </h2>
                 <p class="text-base text-gray-700 leading-relaxed">
-                    Webinar **"Work-Life Balance"** akan membahas cara menjaga keseimbangan antara pekerjaan dan kehidupan pribadi. Dapatkan tips dan strategi sederhana untuk tetap produktif, sehat, dan bahagia tanpa harus mengorbankan waktu berharga bersama diri sendiri maupun orang terdekat. Fokus pada penerapan praktis dan langkah-langkah yang dapat segera Anda mulai hari ini!
+                    {{ $seminar->description }}
                 </p>
 
                 <!-- NEW: Topics Section -->
@@ -172,33 +183,31 @@
                     <h3 class="text-lg font-bold mb-4 text-primary-dark border-b pb-1 border-primary-dark/10">
                         Materi yang Akan Dibahas
                     </h3>
-                    <ul class="space-y-4 text-gray-700">
-                        <li class="flex items-start space-x-3">
-                            <!-- Checkmark Icon in Yellow -->
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-button-yellow flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.618a1.5 1.5 0 010 2.121L10.707 15.657a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414l3.293 3.293 3.293-3.293a1 1 0 011.414 1.414z" />
-                            </svg>
-                            <p class="font-medium">Mengenali Batasan Diri (Self-Limitation Awareness)</p>
-                        </li>
-                        <li class="flex items-start space-x-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-button-yellow flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.618a1.5 1.5 0 010 2.121L10.707 15.657a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414l3.293 3.293 3.293-3.293a1 1 0 011.414 1.414z" />
-                            </svg>
-                            <p class="font-medium">Teknik *Time Blocking* untuk Produktivitas Maksimal</p>
-                        </li>
-                        <li class="flex items-start space-x-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-button-yellow flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.618a1.5 1.5 0 010 2.121L10.707 15.657a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414l3.293 3.293 3.293-3.293a1 1 0 011.414 1.414z" />
-                            </svg>
-                            <p class="font-medium">Pentingnya *'Me Time'* dan Dampaknya pada Kesejahteraan Emosional</p>
-                        </li>
-                        <li class="flex items-start space-x-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-button-yellow flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.618a1.5 1.5 0 010 2.121L10.707 15.657a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414l3.293 3.293 3.293-3.293a1 1 0 011.414 1.414z" />
-                            </svg>
-                            <p class="font-medium">Studi Kasus dan Sesi Tanya Jawab Interaktif</p>
-                        </li>
-                    </ul>
+                    @if($seminar->materi)
+                    <div class="text-gray-700">
+                        @php
+                            // Parse the materi text into individual topics
+                            $topics = explode("\n", $seminar->materi);
+                            foreach($topics as $topic) {
+                                $cleanTopic = trim($topic);
+                                if(!empty($cleanTopic)) {
+                                    // Remove leading dash or asterisk if present
+                                    $cleanTopic = preg_replace('/^[\-\*]\s*/', '', $cleanTopic);
+                                    if(!empty($cleanTopic)) {
+                                        echo '<div class="flex items-start space-x-3 mb-2">';
+                                        echo '<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-button-yellow flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">';
+                                        echo '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.618a1.5 1.5 0 010 2.121L10.707 15.657a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414l3.293 3.293 3.293-3.293a1 1 0 011.414 1.414z" />';
+                                        echo '</svg>';
+                                        echo '<p class="font-medium">' . e($cleanTopic) . '</p>';
+                                        echo '</div>';
+                                    }
+                                }
+                            }
+                        @endphp
+                    </div>
+                    @else
+                    <p class="text-gray-700 italic">Belum ada materi yang ditentukan untuk seminar ini.</p>
+                    @endif
                 </div>
                 <!-- END NEW: Topics Section -->
 

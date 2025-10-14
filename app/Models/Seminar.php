@@ -20,6 +20,7 @@ class Seminar extends Model
         'type',
         'link',
         'trainer_id',
+        'materi',
     ];
 
     protected $casts = [

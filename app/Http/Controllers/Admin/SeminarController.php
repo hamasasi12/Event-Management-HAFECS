@@ -58,6 +58,7 @@ class SeminarController extends Controller
             'status' => 'required|in:upcoming,active,completed,cancelled',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'trainer_id' => 'nullable|exists:trainers,id',
+            'materi' => 'nullable|string',
         ]);
 
 
@@ -105,6 +106,7 @@ class SeminarController extends Controller
             'status' => 'required|in:upcoming,active,completed,cancelled',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'trainer_id' => 'nullable|exists:trainers,id',
+            'materi' => 'nullable|string',
         ]);
 
         $data = $request->except('image');

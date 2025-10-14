@@ -16,7 +16,7 @@ use App\Livewire\PendaftaranSeminar;
 // Public & User Routes
 // =======================
 Route::middleware(['preventAdminAccess'])->group(function () {
-    Route::get('/', fn() => view('welcome'))->name('welcome');
+    Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('welcome');
 
 
     // Route::get('/seminar.show/inputdatadiri', [SeminarController::class, 'inputdatadiri'])->name('detailseminar.inputdatadiri');
