@@ -81,25 +81,25 @@
                     e.stopImmediatePropagation();
 
                     Swal.fire({
-                        title: 'Delete Seminar!',
-                        text: 'Are you sure you want to delete this seminar?',
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#dc2626',
-                        cancelButtonColor: '#6b7280',
-                        confirmButtonText: 'Yes, delete it!',
-                        cancelButtonText: 'Cancel',
-                        reverseButtons: true
+                        title: 'Delete !'
+                        , text: 'Are you sure you want to delete this data?'
+                        , icon: 'warning'
+                        , showCancelButton: true
+                        , confirmButtonColor: '#dc2626'
+                        , cancelButtonColor: '#6b7280'
+                        , confirmButtonText: 'Yes, delete it!'
+                        , cancelButtonText: 'Cancel'
+                        , reverseButtons: true
                     }).then((result) => {
                         if (result.isConfirmed) {
                             // Show loading
                             Swal.fire({
-                                title: 'Deleting...',
-                                text: 'Please wait',
-                                allowOutsideClick: false,
-                                allowEscapeKey: false,
-                                showConfirmButton: false,
-                                didOpen: () => {
+                                title: 'Deleting...'
+                                , text: 'Please wait'
+                                , allowOutsideClick: false
+                                , allowEscapeKey: false
+                                , showConfirmButton: false
+                                , didOpen: () => {
                                     Swal.showLoading();
                                 }
                             });
@@ -138,42 +138,47 @@
         // Show success message if present
         @if(session('success'))
         Swal.fire({
-            title: 'Success!',
-            text: '{{ session('success') }}',
-            icon: 'success',
-            confirmButtonText: 'OK'
+            title: 'Success!'
+            , text: '{{ session('
+            success ') }}'
+            , icon: 'success'
+            , confirmButtonText: 'OK'
         });
         @endif
 
         // Show error message if present
         @if(session('error'))
         Swal.fire({
-            title: 'Error!',
-            text: '{{ session('error') }}',
-            icon: 'error',
-            confirmButtonText: 'OK'
+            title: 'Error!'
+            , text: '{{ session('
+            error ') }}'
+            , icon: 'error'
+            , confirmButtonText: 'OK'
         });
         @endif
 
         // Show warning message if present
         @if(session('warning'))
         Swal.fire({
-            title: 'Warning!',
-            text: '{{ session('warning') }}',
-            icon: 'warning',
-            confirmButtonText: 'OK'
+            title: 'Warning!'
+            , text: '{{ session('
+            warning ') }}'
+            , icon: 'warning'
+            , confirmButtonText: 'OK'
         });
         @endif
 
         // Show info message if present
         @if(session('info'))
         Swal.fire({
-            title: 'Info!',
-            text: '{{ session('info') }}',
-            icon: 'info',
-            confirmButtonText: 'OK'
+            title: 'Info!'
+            , text: '{{ session('
+            info ') }}'
+            , icon: 'info'
+            , confirmButtonText: 'OK'
         });
         @endif
+
     </script>
 
     @stack('scripts')
