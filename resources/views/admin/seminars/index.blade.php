@@ -79,24 +79,24 @@
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                             @if($seminar->status == 'upcoming')
-                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300">
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300 cursor-pointer hover:bg-blue-200 transition" onclick="toggleStatusPopup({{ $seminar->id }}, event)">
                                 Upcoming
                             </span>
                             @elseif($seminar->status == 'active')
-                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300">
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300 cursor-pointer hover:bg-green-200 transition" onclick="toggleStatusPopup({{ $seminar->id }}, event)">
                                 Active
                             </span>
                             @elseif($seminar->status == 'completed')
-                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300">
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300 cursor-pointer hover:bg-gray-200 transition" onclick="toggleStatusPopup({{ $seminar->id }}, event)">
                                 Completed
                             </span>
                             @elseif($seminar->status == 'cancelled')
-                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300">
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300 cursor-pointer hover:bg-red-200 transition" onclick="toggleStatusPopup({{ $seminar->id }}, event)">
                                 Cancelled
                             </span>
                             @endif
                         </td>
-                        
+
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                             <a href="{{ route('admin.seminars.show', $seminar) }}" class="text-indigo-600 hover:text-indigo-900 mr-3 dark:text-indigo-400 dark:hover:text-indigo-300" wire:navigate>Show</a>
                             <a href="{{ route('admin.seminars.edit', $seminar) }}" class="text-indigo-600 hover:text-indigo-900 mr-3 dark:text-indigo-400 dark:hover:text-indigo-300" wire:navigate>Edit</a>
@@ -112,4 +112,26 @@
             </table>
         </div>
     </div>
+
+<livewire:seminar-status-manager />
+    <!-- Livewire Component for Status Management -->
+
+
+    <!-- JavaScript to handle status update events -->
+<script>
+    function toggleStatusPopup(seminarId, event) {
+        const rect = event.target.getBoundingClientRect();
+        Livewire.dispatch('toggleStatusPopup', { 
+            seminarId: seminarId, 
+            position: { top: rect.bottom + window.scrollY, left: rect.left + window.scrollX }
+        });
+    }
+
+    document.addEventListener('livewire:init', () => {
+        Livewire.on('statusUpdated', ({ message, status, seminarId }) => {
+            Swal.fire("Status Updated", message, "success");
+            window.location.reload();
+        });
+    });
+</script>
 </x-layouts.admin>

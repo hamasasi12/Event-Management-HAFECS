@@ -122,9 +122,19 @@ class SeminarController extends Controller
 
             $imagePath = $request->file('image')->store('seminars', 'public');
             $data['image_url'] = Storage::url($imagePath);
+        } else {
+            // If no image is uploaded, still update the other fields
+            $seminar->update($data);
         }
 
-        $seminar->update($data);
+        // If it's an AJAX request, return JSON response
+        if ($request->expectsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Seminar updated successfully',
+                'seminar' => $seminar
+            ]);
+        }
 
         return redirect()->route('admin.seminars.index')
             ->with('success', 'Seminar updated successfully.');
