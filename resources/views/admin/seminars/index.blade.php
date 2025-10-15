@@ -68,7 +68,9 @@
                             Rp {{ number_format($seminar->price, 0, ',', '.') }}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                            {{ $seminar->registrations->count() }} registrations
+                            <a href="{{ route('admin.attendance.seminar.registrants', $seminar) }}" class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300" wire:navigate>
+                                {{ $seminar->registrations->count() }} registrations
+                            </a>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                             {{ $seminar->type }}
