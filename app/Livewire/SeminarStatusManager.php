@@ -10,23 +10,44 @@ class SeminarStatusManager extends Component
     public $seminarId;
     public $newStatus;
     public $showPopup = false;
-    public $position = ['top' => 0, 'left' => 0];
-    protected $listeners = ['toggleStatusPopup' => 'togglePopup'];
+    protected $listeners = [
+        'toggleStatusPopup' => 'togglePopup',
+        'closeOtherPopups' => 'closePopup'
+    ];
 
-    public function togglePopup($seminarId, $position = null)
+    public function togglePopup($data)
     {
-        if ($seminarId == 0) {
+        // Pastikan $data adalah array sebelum diakses
+        if (is_array($data) && isset($data[0])) {
+            $seminarId = $data[0];
+        } elseif (is_array($data) && isset($data['seminarId'])) {
+            $seminarId = $data['seminarId'];
+        } elseif (!is_array($data)) {
+            $seminarId = $data;
+        } else {
+            $seminarId = null;
+        }
+
+        if ($seminarId == 0 || $seminarId === null) {
             $this->showPopup = false;
         } elseif ($this->seminarId === $seminarId) {
             $this->showPopup = !$this->showPopup;
         } else {
-            $this->seminarId = $seminarId;
-            $seminar = Seminar::find($seminarId);
-            if ($seminar) {
-                $this->newStatus = $seminar->status;
-                $this->position = $position ?? ['top' => 0, 'left' => 0];
-                $this->showPopup = true;
-            }
+            // Hanya update komponen ini jika ID sesuai
+            // Jika bukan komponen ini yang dituju, jangan lakukan apa-apa
+            return;
+        }
+        
+        // Dispatch event untuk menutup popup lain
+        if ($this->showPopup) {
+            $this->dispatch('closeOtherPopups', except: $this->seminarId);
+        }
+    }
+    
+    public function closePopup($except = null)
+    {
+        if ($this->seminarId != $except) {
+            $this->showPopup = false;
         }
     }
 

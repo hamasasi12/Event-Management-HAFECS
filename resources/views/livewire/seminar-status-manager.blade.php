@@ -1,10 +1,12 @@
-<div>
+<div class="relative ">
     @if($showPopup)
     <div id="seminar-status-popup"
-        class="absolute z-10 w-40 bg-white dark:bg-gray-800 rounded-md shadow-lg py-2 px-3 
+        class="absolute z-50 w-40 bg-white dark:bg-gray-800 rounded-md shadow-lg py-2 px-3 
                border border-gray-200 dark:border-gray-700
                transform translate-x-2 md:-translate-x-6 
-               top-0 left-0 md:left-auto md:right-0">
+               top-2 left-0 md:left-auto md:right-0
+               "
+               >
 
         <div class="text-xs font-semibold mb-2 dark:text-gray-300">
             Update Status
