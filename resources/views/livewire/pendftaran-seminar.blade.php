@@ -45,10 +45,10 @@
                     </div>
 
                 <div class="hidden md:flex items-center justify-center space-x-8 flex-grow">
-                    <a href="{{ url('/') }}" class="font-semibold text-gray-700 hover:text-primary transition px-3 py-1 rounded-md">Home</a>
-                    <a href="#webinar" class="font-semibold text-gray-700 hover:text-primary transition px-3 py-1 rounded-md">Webinar</a>
-                    <a href="#trainer" class="font-semibold text-gray-700 hover:text-primary transition px-3 py-1 rounded-md">Trainer</a>
-                    <a href="#dokumentasi" class="font-semibold text-gray-700 hover:text-primary transition px-3 py-1 rounded-md">Dokumentasi</a>
+                    <a href="{{ url('/') }}" class="font-semibold text-dark-700 hover:text-primary transition px-3 py-1 rounded-md">Home</a>
+                    <a href="#webinar" class="font-semibold text-dark-700 hover:text-primary transition px-3 py-1 rounded-md">Webinar</a>
+                    <a href="#trainer" class="font-semibold text-dark-700 hover:text-primary transition px-3 py-1 rounded-md">Trainer</a>
+                    <a href="#dokumentasi" class="font-semibold text-dark-700 hover:text-primary transition px-3 py-1 rounded-md">Dokumentasi</a>
                 </div>
 
                 <div class="md:hidden flex-shrink-0">
@@ -101,7 +101,7 @@
                         <div class="text-right text-xl font-extrabold text-accent">Rp {{ number_format($seminar->price, 0, ',', '.') }}</div>
                     </div>
                 </div>
-
+ 
                 @auth
                 <div class="bg-blue-50 rounded-xl p-4 mb-6 border border-blue-200">
                     <div class="flex items-center space-x-4">
