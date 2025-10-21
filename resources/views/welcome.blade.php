@@ -138,95 +138,51 @@
         <h2 class="text-4xl md:text-5xl font-extrabold text-[#004599] border-b-4 border-[#034ba3] inline-block pb-2">Trainer</h2>
         </div>
 
-
-
+        @if($trainers->count() > 0)
             <!-- Swiper Wrapper -->
             <div class="swiper trainer-swiper">
                 <div class="swiper-wrapper">
-
+                    @foreach($trainers as $trainer)
                     <!-- Trainer Card -->
                     <div class="swiper-slide">
                         <div class="bg-[#F9FAFB] rounded-2xl shadow-lg p-6 text-center relative hover:shadow-xl transition transform hover:-translate-y-1 duration-300">
                           <span class="absolute top-4 left-1/2 transform -translate-x-1/2 bg-[#F9D423] text-xs font-semibold px-3 py-1 rounded-full text-[#0b2341] shadow-md">
                             Trainer
                         </span>
-                            <img src="{{ asset('images/admin/pa yudhis.png') }}" alt="Trainer"
-                                class="rounded-lg mx-auto mb-4 object-cover w-full h-64">
-                            <h3 class="text-lg font-bold text-[#184883]">Danang Bagus Yudistira</h3>
-                            <p class="text-sm text-gray-600 mb-3">Deputy Director and Senior Trainer HAFECS</p>
+                            @if($trainer->image_url)
+                                <img src="{{ $trainer->image_url }}" alt="{{ $trainer->name }}"
+                                    class="rounded-lg mx-auto mb-4 object-cover w-full h-64">
+                            @else
+                                <img src="{{ asset('images/admin/default_trainer.jpg') }}" alt="{{ $trainer->name }}"
+                                    class="rounded-lg mx-auto mb-4 object-cover w-full h-64">
+                            @endif
+                            <h3 class="text-lg font-bold text-[#184883]">{{ $trainer->name }}</h3>
+                            <p class="text-sm text-gray-600 mb-3">{{ $trainer->position }}</p>
                             <p class="text-sm text-gray-600 mb-5">
-                                Pengalaman luas di bidang pelatihan pendidikan dan kurikulum. Aktif memberikan workshop di bidang metodologi pengajaran dan pengembangan kurikulum.
+                                {{ Str::limit($trainer->bio, 100) }}
                             </p>
-                            <div class="flex justify-center gap-3">
-                                <span class="bg-[#E8F0FE] text-blue-700 text-xs font-semibold px-3 py-1 rounded-full">Pengembangan Kurikulum</span>
-                                <span class="bg-[#E8F0FE] text-blue-700 text-xs font-semibold px-3 py-1 rounded-full">Metode Pengajaran</span>
-                            </div>
+                            @if($trainer->skills)
+                                <div class="flex flex-wrap justify-center gap-2">
+                                    @foreach($trainer->skills as $skill)
+                                        <span class="bg-[#E8F0FE] text-blue-700 text-xs font-semibold px-3 py-1 rounded-full">{{ $skill }}</span>
+                                    @endforeach
+                                </div>
+                            @endif
                         </div>
                     </div>
-                       <!-- Trainer Card 2 -->
-                    <div class="swiper-slide">
-                        <div class="bg-[#F9FAFB] rounded-2xl shadow-lg p-6 text-center relative hover:shadow-xl transition transform hover:-translate-y-1 duration-300">
-                          <span class="absolute top-4 left-1/2 transform -translate-x-1/2 bg-[#F9D423] text-xs font-semibold px-3 py-1 rounded-full text-[#0b2341] shadow-md">
-                            Trainer
-                        </span>
-                            <img src="{{ asset('images/admin/pa yudhis.png') }}" alt="Trainer"
-                                class="rounded-lg mx-auto mb-4 object-cover w-full h-64">
-                            <h3 class="text-lg font-bold text-[#184883]">Danang Bagus Yudistira</h3>
-                            <p class="text-sm text-gray-600 mb-3">Deputy Director and Senior Trainer HAFECS</p>
-                            <p class="text-sm text-gray-600 mb-5">
-                                Pengalaman luas di bidang pelatihan pendidikan dan kurikulum. Aktif memberikan workshop di bidang metodologi pengajaran dan pengembangan kurikulum.
-                            </p>
-                            <div class="flex justify-center gap-3">
-                                <span class="bg-[#E8F0FE] text-blue-700 text-xs font-semibold px-3 py-1 rounded-full">Pengembangan Kurikulum</span>
-                                <span class="bg-[#E8F0FE] text-blue-700 text-xs font-semibold px-3 py-1 rounded-full">Metode Pengajaran</span>
-                            </div>
-                        </div>
-                    </div>
-                             <!-- Trainer Card 3 -->
-                    <div class="swiper-slide">
-                        <div class="bg-[#F9FAFB] rounded-2xl shadow-lg p-6 text-center relative hover:shadow-xl transition transform hover:-translate-y-1 duration-300">
-                          <span class="absolute top-4 left-1/2 transform -translate-x-1/2 bg-[#F9D423] text-xs font-semibold px-3 py-1 rounded-full text-[#0b2341] shadow-md">
-                            Trainer
-                        </span>
-                            <img src="{{ asset('images/admin/pa yudhis.png') }}" alt="Trainer"
-                                class="rounded-lg mx-auto mb-4 object-cover w-full h-64">
-                            <h3 class="text-lg font-bold text-[#184883]">Danang Bagus Yudistira</h3>
-                            <p class="text-sm text-gray-600 mb-3">Deputy Director and Senior Trainer HAFECS</p>
-                            <p class="text-sm text-gray-600 mb-5">
-                                Pengalaman luas di bidang pelatihan pendidikan dan kurikulum. Aktif memberikan workshop di bidang metodologi pengajaran dan pengembangan kurikulum.
-                            </p>
-                            <div class="flex justify-center gap-3">
-                                <span class="bg-[#E8F0FE] text-blue-700 text-xs font-semibold px-3 py-1 rounded-full">Pengembangan Kurikulum</span>
-                                <span class="bg-[#E8F0FE] text-blue-700 text-xs font-semibold px-3 py-1 rounded-full">Metode Pengajaran</span>
-                            </div>
-                        </div>
-                    </div>
-                       <!-- Trainer Card  -->
-                    <div class="swiper-slide">
-                        <div class="bg-[#F9FAFB] rounded-2xl shadow-lg p-6 text-center relative hover:shadow-xl transition transform hover:-translate-y-1 duration-300">
-                          <span class="absolute top-4 left-1/2 transform -translate-x-1/2 bg-[#F9D423] text-xs font-semibold px-3 py-1 rounded-full text-[#0b2341] shadow-md">
-                            Trainer
-                        </span>
-                            <img src="{{ asset('images/admin/pa yudhis.png') }}" alt="Trainer"
-                                class="rounded-lg mx-auto mb-4 object-cover w-full h-64">
-                            <h3 class="text-lg font-bold text-[#184883]">Danang Bagus Yudistira</h3>
-                            <p class="text-sm text-gray-600 mb-3">Deputy Director and Senior Trainer HAFECS</p>
-                            <p class="text-sm text-gray-600 mb-5">
-                                Pengalaman luas di bidang pelatihan pendidikan dan kurikulum. Aktif memberikan workshop di bidang metodologi pengajaran dan pengembangan kurikulum.
-                            </p>
-                            <div class="flex justify-center gap-3">
-                                <span class="bg-[#E8F0FE] text-blue-700 text-xs font-semibold px-3 py-1 rounded-full">Pengembangan Kurikulum</span>
-                                <span class="bg-[#E8F0FE] text-blue-700 text-xs font-semibold px-3 py-1 rounded-full">Metode Pengajaran</span>
-                            </div>
-                        </div>
-                    </div>
-                    </div>
+                    @endforeach
+                </div>
                 <!-- Add Pagination -->
                 <div class="swiper-pagination mt-8"></div>
                 <!-- Add Navigation -->
                 <div class="swiper-button-next"></div>
                 <div class="swiper-button-prev"></div>
             </div>
+        @else
+            <div class="text-center py-12">
+                <p class="text-gray-600 text-lg">Belum ada data trainer yang tersedia.</p>
+            </div>
+        @endif
         </section>
 
   <!-- Seminars Section -->
@@ -262,9 +218,13 @@
                     <p class="text-gray-600">Belum ada seminar yang tersedia</p>
                 </div>
             @endforelse --}}
-              @foreach(App\Models\Seminar::all() as $seminar)
+              @forelse($seminars as $seminar)
                 @livewire('seminar-card', ['seminar' => $seminar])
-                @endforeach
+              @empty
+                <div class="text-center w-full p-8">
+                    <p class="text-gray-600">Belum ada seminar yang tersedia</p>
+                </div>
+              @endforelse
         </div>
     </div>
 </section>

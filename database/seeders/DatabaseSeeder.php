@@ -12,13 +12,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Buat user biasa
+        // // Buat user biasa
         User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]);
 
-        // Buat admin
+        // // Buat admin
         User::factory()->create([
             'name' => 'Admin User',
             'email' => 'admin@gmail.com',
@@ -27,6 +27,7 @@ class DatabaseSeeder extends Seeder
 
         // Panggil seeder tambahan
         $this->call([
+            TrainerSeeder::class,
             SeminarSeeder::class,
             RoleSeeder::class,
         ]);

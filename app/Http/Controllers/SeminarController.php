@@ -16,7 +16,7 @@ class SeminarController extends Controller
     public function show($id)
 
     {
-        $seminar = Seminar::findOrFail($id);
+        $seminar = Seminar::with('trainer')->findOrFail($id);
         return view('detailseminar.detailcard', compact('seminar'));
     }
 
