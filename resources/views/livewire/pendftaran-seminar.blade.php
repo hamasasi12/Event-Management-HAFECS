@@ -177,7 +177,12 @@
 
                 <div>
                     <label for="phone" class="block text-sm font-semibold text-gray-700 mb-1">Nomor WhatsApp Aktif</label>
-                    <input wire:model="phone" type="text" id="phone" class="mt-1 block w-full rounded-lg border-gray-300 shadow-md p-3 focus:ring-accent focus:border-accent border-2 transition duration-150 @error('phone') border-red-500 @enderror" placeholder="Contoh: 0812XXXXXXXX (Wajib WhatsApp)">
+                    <input wire:model="phone" type="tel" id="phone"
+                    class="mt-1 block w-full rounded-lg border-gray-300 shadow-md p-3 focus:ring-accent focus:border-accent border-2 transition duration-150 @error('phone') border-red-500 @enderror"
+                    placeholder="Contoh: 0812XXXXXXXX (Wajib WhatsApp)"
+                    pattern="[0-9]*"
+                    inputmode="numeric"
+                    oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                     @error('phone') <span class="text-red-500 text-sm mt-1 block">{{ $message }}</span> @enderror
                     <p class="text-xs text-gray-500 mt-1">Kami akan mengirimkan link dan informasi ke nomor WhatsApp ini.</p>
                 </div>

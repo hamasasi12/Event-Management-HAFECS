@@ -25,7 +25,7 @@
                                 d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
                             </path>
                         </svg>
-                        Konfirmasi Transaksi Level {{ $levelName }}
+                        Konfirmasi Transaksi Level
                     </h2>
                     <p class="text-green-100 mt-1">Detail pembayaran yang telah berhasil</p>
                 </div>
@@ -35,7 +35,7 @@
                     <!-- Transaction Details Grid -->
                     <div class="grid md:grid-cols-2 gap-6 mb-8">
                         <!-- Order ID Card -->
-                        
+
                         <div
                             class="bg-gradient-to-br from-gray-50 to-gray-100 p-6 rounded-xl border border-gray-200 hover:shadow-md transition-all duration-300">
                             <div class="flex items-center mb-3">
@@ -129,7 +129,7 @@
                             </div>
 
                             <!-- Start Now Button -->
-                            <a href="{{ route('asesi.sertifikasi') }}#kategori-sertifikasi"
+                            <a href=""
                                 class="group relative inline-block px-8 py-4 bg-gradient-to-r from-green-500 to-emerald-600 text-white font-bold text-lg rounded-xl hover:from-green-600 hover:to-emerald-700 focus:outline-none focus:ring-4 focus:ring-green-300 transition-all duration-300 transform hover:scale-105 hover:shadow-xl">
                                 <span class="flex items-center justify-center">
                                     <svg class="w-6 h-6 mr-3 group-hover:animate-pulse" fill="none" stroke="currentColor"
@@ -175,7 +175,7 @@
                             <p class="text-gray-600 text-sm mb-2">
                                 <span class="font-medium">📧 Bukti Pembayaran:</span> Konfirmasi telah dikirim ke alamat
                                 email
-                                <span class="text-blue-500">{{ Auth::user()->email }}</span>
+                                {{-- <span class="text-blue-500">{{ Auth::user()->email }}</span> --}}
                             </p>
                             {{-- <p class="text-gray-600 text-sm">
                                 <span class="font-medium">🎯 Akses Tersedia:</span> Anda sekarang dapat menggunakan semua fitur yang telah dibayar.
@@ -224,7 +224,7 @@
             <!-- Back to Dashboard Alternative -->
             <div class="text-center mt-8">
                 <div class="flex justify-center space-x-4">
-                    <a href="{{ route('asesi.dashboard') }}"
+                    <a href=""
                         class="inline-flex items-center px-6 py-3 bg-white border border-gray-200 text-gray-700 font-medium rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-200 transition-all duration-200">
                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -233,7 +233,7 @@
                         Kembali ke Dashboard
                     </a>
 
-                    <a href="{{ route('asesi.profile') }}"
+                    <a href="#"
                         class="inline-flex items-center px-6 py-3 bg-white border border-gray-200 text-gray-700 font-medium rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-200 transition-all duration-200">
                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

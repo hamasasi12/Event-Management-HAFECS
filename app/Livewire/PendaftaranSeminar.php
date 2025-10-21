@@ -5,6 +5,7 @@ namespace App\Livewire;
 use Livewire\Component;
 use App\Models\Seminar;
 use App\Models\SeminarRegistration;
+use App\Models\User;
 use Livewire\Attributes\Layout;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -24,7 +25,7 @@ class PendaftaranSeminar extends Component
     protected $rules = [
         'name' => 'required|string|max:255',
         'email' => 'required|email|max:255',
-        'phone' => 'required|string|max:15',
+        'phone' => ['required', 'regex:/^[0-9]+$/', 'min:10', 'max:15'],
     ];
 
     public function mount($hashid)
@@ -83,7 +84,7 @@ class PendaftaranSeminar extends Component
                 if ($existingRegistration->is_paid === 'yes') {
                     $this->dispatch('show-error', title: 'Gagal Mendaftar', message: 'Anda sudah terdaftar dan membayar di seminar ini.');
                 } else {
-                    $this->dispatch('show-error', title: 'Gagal Mendaftar', message: 'Anda sudah terdaftar di seminar ini. Silakan selesaikan pembayaran terlebih dahulu.', redirectTo: 'payments/' . \Hashids::encode($existingRegistration->id) . '/create');
+                    $this->dispatch('show-error', title: 'Gagal Mendaftar', message: 'Anda sudah terdaftar di seminar ini. Silakan selesaikan pembayaran terlebih dahulu.', redirectTo: 'payments/' . Hashids::encode($existingRegistration->id) . '/create');
                 }
                 return;
             }
@@ -101,14 +102,25 @@ class PendaftaranSeminar extends Component
 
             if($this->seminar->type === 'gratis') {
                 // Registrasi gratis langsung masuk database
-                $registration = SeminarRegistration::create([
-                    'seminar_id' => $this->seminar->id,
-                    'name' => $this->name,
-                    'email' => $this->email,
-                    'phone' => $this->phone,
-                    'user_id' => Auth::check() ? Auth::id() : null,
-                    'is_paid' => 'yes', // Gratis dianggap sudah bayar
-                ]);
+            $user = Auth::check()
+                ? Auth::user()
+                : User::firstOrCreate(
+                    ['email' => $this->email],
+                    [
+                        'name' => $this->name,
+                        'phone' => $this->phone,
+                    ]
+                );
+
+            // Simpan registrasi seminar
+            $registration = SeminarRegistration::create([
+                'seminar_id' => $this->seminar->id,
+                'name'       => $this->name,
+                'email'      => $this->email,
+                'phone'      => $this->phone,
+                'user_id'    => $user->id, //
+                'is_paid'    => 'no', // status gratis tapi dianggap sudah "bayar"
+            ]);
 
                 Mail::to($this->email)->send(new SeminarRegistrationMail($this->seminar, $registration));
 
@@ -117,18 +129,29 @@ class PendaftaranSeminar extends Component
                 // Kirim event untuk menampilkan SweetAlert
                 $this->dispatch('show-success', title: 'Success!', message: 'Pendaftaran berhasil! Silakan cek email Anda untuk konfirmasi.', redirectTo: '/');
             } else {
-                // Registrasi berbayar: buat dengan status "belum bayar"
-                $registration = SeminarRegistration::create([
-                    'seminar_id' => $this->seminar->id,
-                    'name' => $this->name,
-                    'email' => $this->email,
-                    'phone' => $this->phone,
-                    'user_id' => Auth::check() ? Auth::id() : null,
-                    'is_paid' => 'no', // Belum bayar
-                ]);
+            $user = Auth::check()
+                ? Auth::user()
+                : User::firstOrCreate(
+                    ['email' => $this->email],
+                    [
+                        'name' => $this->name,
+                        'phone' => $this->phone,
+                        'password' => bcrypt('defaultpassword'), // atau null kalau memang tidak pakai login
+                    ]
+                );
+
+            // Simpan registrasi seminar
+            $registration = SeminarRegistration::create([
+                'seminar_id' => $this->seminar->id,
+                'name'       => $this->name,
+                'email'      => $this->email,
+                'phone'      => $this->phone,
+                'user_id'    => $user->id, // ✅ aman, karena pasti terisi
+                'is_paid'    => 'no', // status gratis tapi dianggap sudah "bayar"
+            ]);
 
                 // Langsung redirect ke halaman pembayaran
-                return redirect('payments/' . \Hashids::encode($registration->id) . '/create');
+                return redirect('payments/' . Hashids::encode($registration->id) . '/create');
             }
         } catch (\Exception $e) {
             Log::error('Error in register method: ' . $e->getMessage(), [

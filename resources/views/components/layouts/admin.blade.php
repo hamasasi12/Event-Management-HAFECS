@@ -8,7 +8,7 @@
           } else {
             document.documentElement.classList.remove('dark');
           }
-          
+
           this.$watch('darkMode', val => {
             localStorage.setItem('darkMode', val);
             if (val) {
@@ -49,7 +49,7 @@
 
     @livewireScripts
     @include('sweetalert::alert')
-    
+
     <script>
         // Ensure dark mode is applied immediately on page load
         (function() {
@@ -64,22 +64,22 @@
         // Function to initialize delete confirmations
         function initDeleteConfirmations() {
             const deleteForms = document.querySelectorAll('form[data-confirm-delete="true"]');
-            
+
             deleteForms.forEach(function(form) {
                 // Skip if already initialized
                 if (form.dataset.confirmInitialized === 'true') {
                     return;
                 }
-                
+
                 // Mark as initialized
                 form.dataset.confirmInitialized = 'true';
-                
+
                 // Add event listener
                 form.addEventListener('submit', function(e) {
                     e.preventDefault();
                     e.stopPropagation();
                     e.stopImmediatePropagation();
-                    
+
                     Swal.fire({
                         title: 'Delete Seminar!',
                         text: 'Are you sure you want to delete this seminar?',
@@ -103,10 +103,10 @@
                                     Swal.showLoading();
                                 }
                             });
-                            
+
                             // Remove the event listener to prevent recursion
                             form.removeEventListener('submit', arguments.callee);
-                            
+
                             // Submit form
                             form.submit();
                         }
@@ -175,7 +175,7 @@
         });
         @endif
     </script>
-    
+
     @stack('scripts')
 </body>
 </html>

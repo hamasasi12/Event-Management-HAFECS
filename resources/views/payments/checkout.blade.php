@@ -292,9 +292,9 @@ body {
                 <div class="summary-row"><span>Order ID</span><strong>{{ $payment->order_id }}</strong></div>
                 <div class="summary-row"><span>Tanggal</span><strong>{{ $payment->created_at->format('d M Y') }}</strong></div>
                 <div class="summary-row"><span>Status</span><strong style="color:#f59e0b;">Menunggu Pembayaran</strong></div>
-                <div class="summary-row"><span>Nama</span><strong>{{ Auth::user()->name ?? '-' }}</strong></div>
-                <div class="summary-row"><span>Email</span><strong>{{ Auth::user()->email ?? '-' }}</strong></div>
-                <div class="summary-row"><span>No. HP</span><strong>{{ Auth::user()->phone ?? ($biodata->phone ?? '-') }}</strong></div>
+                <div class="summary-row"><span>Nama</span><strong>{{ $payment->seminarRegistration->name ?? '-' }}</strong></div>
+                <div class="summary-row"><span>Email</span><strong>{{ $payment->seminarRegistration->email ?? '-'  }}</strong></div>
+                <div class="summary-row"><span>No. HP</span><strong>{{ $payment->seminarRegistration->phone ?? '-'  }}</strong></div>
                 <div class="summary-total">Rp {{ number_format($payment->amount, 0, ',', '.') }}</div>
             </div>
         </div>

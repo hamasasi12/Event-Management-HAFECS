@@ -8,9 +8,12 @@ use App\Http\Controllers\Admin\SeminarRegistrationController;
 use App\Http\Controllers\Admin\SeminarController;
 use App\Http\Controllers\SeminarController as PublicSeminarController;
 use App\Http\Controllers\Admin\TrainerController;
+use App\Http\Controllers\Asesi\TransactionController as AsesiTransactionController;
+use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\Auth\GoogleController;
 use App\Livewire\DetailCard;
 use App\Livewire\PendaftaranSeminar;
+use Midtrans\Transaction;
 
 // =======================
 // Public & User Routes
@@ -30,7 +33,7 @@ Route::middleware(['preventAdminAccess'])->group(function () {
 
 Route::get('/seminar/register/{hashid}', PendaftaranSeminar::class)->name('seminar.register');
 
- Route::get('/seminar/{id}', [PublicSeminarController::class, 'show'])->name('seminar.show');
+Route::get('/seminar/{id}', [PublicSeminarController::class, 'show'])->name('seminar.show');
 // Route::get('/seminar/{id}', [PublicSeminarController::class, 'show'])->name('seminar.detail');
 Route::post('admin/logout', [AuthController::class, 'logout'])->name('admin.logout');
 
@@ -104,11 +107,13 @@ Route::post('attend/{seminar}/{token}', [AttendanceController::class, 'markAtten
 // =======================
 Route::prefix('payments')->name('payments.')->group(function () {
     Route::get('/', [PaymentController::class, 'index'])->name('index');
-    Route::get('finish/{id}', [PaymentController::class, 'finish'])->name('finish');
+    Route::get('/payments/finish/{id}', [PaymentController::class, 'finish'])->name('finish');
     Route::get('pending', [PaymentController::class, 'pending'])->name('pending');
-    Route::get('error', [PaymentController::class, 'error'])->name('error'); // fixed typo
+    Route::get('error', [PaymentController::class, 'error'])->name('error');
     Route::get('{id}/create', [PaymentController::class, 'create'])->name('create');
     Route::post('/', [PaymentController::class, 'store'])->name('store');
     Route::get('{id}/checkout', [PaymentController::class, 'checkout'])->name('checkout');
     Route::get('{id}', [PaymentController::class, 'detail'])->name('detail');
+    Route::get('/transaksi', [TransactionController::class, 'index'])->name('transaksi');
 });
+
