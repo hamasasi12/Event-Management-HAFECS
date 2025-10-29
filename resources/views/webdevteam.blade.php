@@ -82,7 +82,7 @@
                     <div class="bg-white rounded-3xl p-6 sm:p-8 text-center shadow-2xl card-hover">
                 <!-- Foto di tengah -->
                 <div class="mb-6 flex justify-center">
-                   <img src="{{ asset('images/team/saidi.png') }}"
+                   <img src="{{ asset('images/team/saidi.jpg') }}"
                         alt="team"
                         class="rounded-lg shadow-lg w-48 h-auto object-cover">
                 </div>
