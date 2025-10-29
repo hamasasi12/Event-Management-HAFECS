@@ -42,11 +42,18 @@ Route::post('admin/logout', [AuthController::class, 'logout'])->name('admin.logo
 // =======================
 Route::get('auth/google', [GoogleController::class, 'redirectToGoogle'])->name('google.login');
 Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
+
 // =======================
 // General Logout
 // =======================
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
+// =======================
+// Web Dev Team Page
+// =======================
+Route::get('/web-dev-team', function () {
+    return view('webdevteam');
+})->name('webdev.team');
 
 // =======================
 // Admin Routes
@@ -116,4 +123,3 @@ Route::prefix('payments')->name('payments.')->group(function () {
     Route::get('{id}', [PaymentController::class, 'detail'])->name('detail');
     Route::get('/transaksi', [TransactionController::class, 'index'])->name('transaksi');
 });
-

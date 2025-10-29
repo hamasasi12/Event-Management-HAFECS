@@ -62,7 +62,6 @@
             <div class="md:col-span-2 lg:col-span-2">
                 <a href="{{ url('/') }}" class="inline-flex items-center mb-4">
                     <img src="{{ asset('images/admin/LOGO HAFECS.png') }}" alt="HAFECS Logo" class="h-10 filter brightness-0 invert mr-2">
-                    <span class="text-xl font-extrabold text-white">HAFECS</span>
                 </a>
                 <p class="text-sm text-gray-400 mt-2 pr-8">
                     Pusat pengembangan profesional dan edukasi terdepan di Indonesia.
@@ -123,11 +122,14 @@
         </div>
 
         <div class="text-center">
-            <p class="text-sm text-gray-500">
-                &copy; {{ date('Y') }} HAFECS. All rights reserved. Dibuat dengan ❤️ di Indonesia.
-            </p>
-        </div>
-    </div>
+    <p class="text-xs sm:text-sm text-gray-500">
+        &copy; {{ date('Y') }} HAFECS. All rights reserved. Dibuat dengan ❤️ oleh
+        <a href="{{ route('webdev.team') }}" class="text-amber-500 hover:text-amber-400 font-semibold underline transition duration-200">
+            Web Dev Team
+        </a>
+        di Indonesia.
+    </p>
+</div>
 </footer>
 
     @livewireScripts

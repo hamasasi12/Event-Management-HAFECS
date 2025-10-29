@@ -157,9 +157,18 @@
 
             <form wire:submit.prevent="register" class="space-y-6">
 
-                <div>
+                    <div>
                     <label for="name" class="block text-sm font-semibold text-gray-700 mb-1">Nama Lengkap</label>
-                    <input wire:model="name" type="text" id="name" class="mt-1 block w-full rounded-lg border-gray-300 shadow-md p-3 focus:ring-accent focus:border-accent border-2 transition duration-150 @error('name') border-red-500 @enderror" placeholder="Masukkan nama lengkap Anda">
+                    <input
+                        wire:model="name"
+                        type="text"
+                        id="name"
+                        class="mt-1 block w-full rounded-lg border-gray-300 shadow-md p-3 focus:ring-accent focus:border-accent border-2 transition duration-150 @error('name') border-red-500 @enderror"
+                        placeholder="Masukkan nama lengkap Anda"
+                        oninput="this.value = this.value.replace(/[0-9]/g, '')"
+                        pattern="[A-Za-z\s]+"
+                        title="Nama hanya boleh berisi huruf dan spasi"
+                    >
                     @error('name') <span class="text-red-500 text-sm mt-1 block">{{ $message }}</span> @enderror
                     @auth
                     <p class="text-xs text-gray-500 mt-1">Anda dapat mengedit nama Anda di sini.</p>
