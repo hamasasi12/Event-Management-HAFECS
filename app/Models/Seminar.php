@@ -19,6 +19,8 @@ class Seminar extends Model
         'image_url',
         'type',
         'link',
+        'trainer_id',
+        'materi',
     ];
 
     protected $casts = [
@@ -29,5 +31,10 @@ class Seminar extends Model
     public function registrations()
     {
         return $this->hasMany(SeminarRegistration::class);
+    }
+
+    public function trainer()
+    {
+        return $this->belongsTo(Trainer::class);
     }
 }

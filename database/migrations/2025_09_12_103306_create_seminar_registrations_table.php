@@ -19,6 +19,9 @@ return new class extends Migration
             $table->string('email');
             $table->string('is_paid')->default('no');
             $table->string('phone');
+            // --- Kolom Status Kehadiran ---
+            $table->enum('attendance_status', ['pending', 'attended', 'absent'])
+                ->default('pending');
             $table->timestamps();
         });
     }
@@ -31,4 +34,3 @@ return new class extends Migration
         Schema::dropIfExists('seminar_registrations');
     }
 };
-

@@ -1,6 +1,6 @@
 <x-layouts.admin title="View Seminar">
     <!-- Breadcrumb -->
-     <livewire:breadcrumb :page-title="'Show Seminar '" :breadcrumbs="[
+    <livewire:breadcrumb :page-title="'Show Seminar '" :breadcrumbs="[
         ['title' => 'Manage Seminar', 'url' => route('admin.seminars.index')],
         ['title' => 'Dashboard', 'url' => route('admin.dashboard')],
     ]" />
@@ -69,6 +69,14 @@
                     </dt>
                     <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2 dark:text-white">
                         Rp {{ number_format($seminar->price, 0, ',', '.') }}
+                    </dd>
+                </div>
+                <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 dark:bg-gray-800">
+                    <dt class="text-sm font-medium text-gray-500 dark:text-gray-300">
+                        Trainer
+                    </dt>
+                    <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2 dark:text-white">
+                        {{ $seminar->trainer->name ?? '-' }}
                     </dd>
                 </div>
                 <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 dark:bg-gray-800">

@@ -39,7 +39,7 @@
                     }
                 });
             });
-            
+
             Livewire.on('show-error', (event) => {
                 Swal.fire({
                     title: event.title,
