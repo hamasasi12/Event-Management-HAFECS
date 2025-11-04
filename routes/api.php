@@ -8,4 +8,6 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-Route::post('/asesi/payments/notification', [PaymentController::class, 'notification'])->name('payments.notification');
+Route::post('/payments/notification', [PaymentController::class, 'notification'])->name('payments.notification');
+
+
