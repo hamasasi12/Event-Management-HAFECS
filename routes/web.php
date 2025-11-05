@@ -8,28 +8,39 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\Admin\SeminarRegistrationController;
 use App\Http\Controllers\Admin\SeminarController;
+use App\Http\Controllers\SeminarController as PublicSeminarController;
 use App\Http\Controllers\Admin\TrainerController;
+use App\Http\Controllers\Asesi\TransactionController as AsesiTransactionController;
+use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\Auth\GoogleController;
+use App\Livewire\DetailCard;
 use App\Livewire\PendaftaranSeminar;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Barryvdh\DomPDF\Facade\Pdf;
 
 
+use Midtrans\Transaction;
 
 // =======================
 // Public & User Routes
 // =======================
 Route::middleware(['preventAdminAccess'])->group(function () {
-    Route::get('/', fn() => view('welcome'))->name('welcome');
+    Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('welcome');
 
 
-    Route::get('/seminar/register/{hashid}', PendaftaranSeminar::class)->name('seminar.register');
+    // Route::get('/seminar.show/inputdatadiri', [SeminarController::class, 'inputdatadiri'])->name('detailseminar.inputdatadiri');
+
     // =======================
     // Admin Authentication
     // =======================
     Route::get('admin/login', [AuthController::class, 'showLoginForm'])->name('admin.login');
     Route::post('admin/login', [AuthController::class, 'login']);
 });
+
+Route::get('/seminar/register/{hashid}', PendaftaranSeminar::class)->name('seminar.register');
+
+Route::get('/seminar/{id}', [PublicSeminarController::class, 'show'])->name('seminar.show');
+// Route::get('/seminar/{id}', [PublicSeminarController::class, 'show'])->name('seminar.detail');
 Route::post('admin/logout', [AuthController::class, 'logout'])->name('admin.logout');
 
 // =======================
@@ -42,6 +53,13 @@ Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallba
 // General Logout
 // =======================
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+// =======================
+// Web Dev Team Page
+// =======================
+Route::get('/web-dev-team', function () {
+    return view('webdevteam');
+})->name('webdev.team');
 
 // =======================
 // Admin Routes
@@ -111,13 +129,14 @@ Route::post('/certificates/issue-from-attendance/{attendance}', [CertificateCont
 // =======================
 Route::prefix('payments')->name('payments.')->group(function () {
     Route::get('/', [PaymentController::class, 'index'])->name('index');
-    Route::get('finish/{id}', [PaymentController::class, 'finish'])->name('finish');
+    Route::get('/payments/finish/{id}', [PaymentController::class, 'finish'])->name('finish');
     Route::get('pending', [PaymentController::class, 'pending'])->name('pending');
-    Route::get('error', [PaymentController::class, 'error'])->name('error'); // fixed typo
+    Route::get('error', [PaymentController::class, 'error'])->name('error');
     Route::get('{id}/create', [PaymentController::class, 'create'])->name('create');
     Route::post('/', [PaymentController::class, 'store'])->name('store');
     Route::get('{id}/checkout', [PaymentController::class, 'checkout'])->name('checkout');
     Route::get('{id}', [PaymentController::class, 'detail'])->name('detail');
+    Route::get('/transaksi', [TransactionController::class, 'index'])->name('transaksi');
 });
 
 

@@ -5,9 +5,9 @@
         <h3 class="text-2xl font-bold text-primary">{{ $seminar->status }}</h3>
         <p class="text-gray-600 leading-relaxed">{{ $seminar->description }}</p>
         @if($seminar->status === 'upcoming')
-            <a href="{{ route('seminar.register', \Vinkla\Hashids\Facades\Hashids::encode($seminar->id)) }}" class="bg-gradient-to-r from-coral to-red-500 text-white px-6 py-3 rounded-full font-semibold hover:shadow-lg hover:scale-105 transition-all duration-300">
-                Daftar Sekarang
-            </a>
+
+            <a href="{{ route('seminar.show', $seminar->id) }}" class="bg-gradient-to-r from-coral to-red-500 text-white px-6 py-3 rounded-full font-semibold hover:shadow-lg hover:scale-105 transition-all duration-300">
+                LIhat detail & Daftar             </a>
         @else
             <button class="bg-gray-400 text-white px-6 py-3 rounded-full font-semibold cursor-not-allowed" disabled>
                 Seminar Telah Berakhir

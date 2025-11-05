@@ -8,7 +8,7 @@
           } else {
             document.documentElement.classList.remove('dark');
           }
-          
+
           this.$watch('darkMode', val => {
             localStorage.setItem('darkMode', val);
             if (val) {
@@ -19,6 +19,7 @@
           });
         }
       }" :class="darkMode ? 'dark' : ''">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,6 +29,7 @@
 
     @livewireStyles
 </head>
+
 <body x-data="{ sidebarToggle: false }">
     <div class="flex h-screen overflow-hidden bg-gray-50 dark:bg-gray-900">
         <!-- Sidebar -->
@@ -49,133 +51,138 @@
 
     @livewireScripts
     @include('sweetalert::alert')
-    
-    <script>
-        // Ensure dark mode is applied immediately on page load
-        (function() {
-            const isDark = localStorage.getItem('darkMode') === 'true';
-            if (isDark) {
-                document.documentElement.classList.add('dark');
-            } else {
-                document.documentElement.classList.remove('dark');
-            }
-        })();
 
-        // Function to initialize delete confirmations
-        function initDeleteConfirmations() {
-            const deleteForms = document.querySelectorAll('form[data-confirm-delete="true"]');
-            
-            deleteForms.forEach(function(form) {
-                // Skip if already initialized
-                if (form.dataset.confirmInitialized === 'true') {
-                    return;
-                }
-                
-                // Mark as initialized
-                form.dataset.confirmInitialized = 'true';
-                
-                // Add event listener
-                form.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    e.stopImmediatePropagation();
-                    
-                    Swal.fire({
-                        title: 'Delete Seminar!',
-                        text: 'Are you sure you want to delete this seminar?',
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#dc2626',
-                        cancelButtonColor: '#6b7280',
-                        confirmButtonText: 'Yes, delete it!',
-                        cancelButtonText: 'Cancel',
-                        reverseButtons: true
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            // Show loading
-                            Swal.fire({
-                                title: 'Deleting...',
-                                text: 'Please wait',
-                                allowOutsideClick: false,
-                                allowEscapeKey: false,
-                                showConfirmButton: false,
-                                didOpen: () => {
-                                    Swal.showLoading();
-                                }
-                            });
-                            
-                            // Remove the event listener to prevent recursion
-                            form.removeEventListener('submit', arguments.callee);
-                            
-                            // Submit form
-                            form.submit();
-                        }
-                    });
+    <script>
+    // Ensure dark mode is applied immediately on page load
+    (function() {
+        const isDark = localStorage.getItem('darkMode') === 'true';
+        if (isDark) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    })();
+
+    // Function to initialize delete confirmations
+    function initDeleteConfirmations() {
+        const deleteForms = document.querySelectorAll('form[data-confirm-delete="true"]');
+
+        deleteForms.forEach(function(form) {
+            // Skip if already initialized
+            if (form.dataset.confirmInitialized === 'true') {
+                return;
+            }
+
+            // Mark as initialized
+            form.dataset.confirmInitialized = 'true';
+
+            // Add event listener
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                e.stopImmediatePropagation();
+
+                Swal.fire({
+                    title: 'Delete !',
+                    text: 'Are you sure you want to delete this data?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#dc2626',
+                    cancelButtonColor: '#6b7280',
+                    confirmButtonText: 'Yes, delete it!',
+                    cancelButtonText: 'Cancel',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Show loading
+                        Swal.fire({
+                            title: 'Deleting...',
+                            text: 'Please wait',
+                            allowOutsideClick: false,
+                            allowEscapeKey: false,
+                            showConfirmButton: false,
+                            didOpen: () => {
+                                Swal.showLoading();
+                            }
+                        });
+
+                        // Remove the event listener to prevent recursion
+                        form.removeEventListener('submit', arguments.callee);
+
+                        // Submit form
+                        form.submit();
+                    }
                 });
             });
-        }
-
-        // Initialize on DOM ready
-        document.addEventListener('DOMContentLoaded', function() {
-            initDeleteConfirmations();
         });
+    }
 
-        // Re-initialize after Livewire navigation
-        document.addEventListener('livewire:navigated', function() {
-            initDeleteConfirmations();
-        });
+    // Initialize on DOM ready
+    document.addEventListener('DOMContentLoaded', function() {
+        initDeleteConfirmations();
+    });
 
-        // Re-initialize after Livewire updates
-        document.addEventListener('livewire:load', function() {
-            initDeleteConfirmations();
-        });
+    // Re-initialize after Livewire navigation
+    document.addEventListener('livewire:navigated', function() {
+        initDeleteConfirmations();
+    });
 
-        // For Livewire v3
-        document.addEventListener('livewire:init', function() {
-            initDeleteConfirmations();
-        });
+    // Re-initialize after Livewire updates
+    document.addEventListener('livewire:load', function() {
+        initDeleteConfirmations();
+    });
 
-        // Show success message if present
-        @if(session('success'))
-        Swal.fire({
-            title: 'Success!',
-            text: '{{ session('success') }}',
-            icon: 'success',
-            confirmButtonText: 'OK'
-        });
-        @endif
+    // For Livewire v3
+    document.addEventListener('livewire:init', function() {
+        initDeleteConfirmations();
+    });
 
-        // Show error message if present
-        @if(session('error'))
-        Swal.fire({
-            title: 'Error!',
-            text: '{{ session('error') }}',
-            icon: 'error',
-            confirmButtonText: 'OK'
-        });
-        @endif
+    // Show success message if present
+    @if(session('success'))
+    Swal.fire({
+        title: 'Success!',
+        text: '{{ session('
+        success ') }}',
+        icon: 'success',
+        confirmButtonText: 'OK'
+    });
+    @endif
 
-        // Show warning message if present
-        @if(session('warning'))
-        Swal.fire({
-            title: 'Warning!',
-            text: '{{ session('warning') }}',
-            icon: 'warning',
-            confirmButtonText: 'OK'
-        });
-        @endif
+    // Show error message if present
+    @if(session('error'))
+    Swal.fire({
+        title: 'Error!',
+        text: '{{ session('
+        error ') }}',
+        icon: 'error',
+        confirmButtonText: 'OK'
+    });
+    @endif
 
-        // Show info message if present
-        @if(session('info'))
-        Swal.fire({
-            title: 'Info!',
-            text: '{{ session('info') }}',
-            icon: 'info',
-            confirmButtonText: 'OK'
-        });
-        @endif
+    // Show warning message if present
+    @if(session('warning'))
+    Swal.fire({
+        title: 'Warning!',
+        text: '{{ session('
+        warning ') }}',
+        icon: 'warning',
+        confirmButtonText: 'OK'
+    });
+    @endif
+
+    // Show info message if present
+    @if(session('info'))
+    Swal.fire({
+        title: 'Info!',
+        text: '{{ session('
+        info ') }}',
+        icon: 'info',
+        confirmButtonText: 'OK'
+    });
+    @endif
     </script>
-    
+
     @stack('scripts')
 </body>
+
 </html>
