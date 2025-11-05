@@ -8,6 +8,7 @@ use App\Models\Seminar;
 use App\Models\Trainer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use RealRashid\SweetAlert\Facades\Alert;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
@@ -203,7 +204,7 @@ class SeminarController extends Controller
                 'qr' => (string) $qrCodeSvg,
             ]);
         } catch (\Exception $e) {
-            \Log::error('Error generating QR code: ' . $e->getMessage());
+            Log::error('Error generating QR code: ' . $e->getMessage());
             return response()->json([
                 'success' => false,
                 'message' => 'Failed to generate QR code'
