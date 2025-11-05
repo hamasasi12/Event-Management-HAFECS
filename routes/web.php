@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Admin\AttendanceController;
 use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Sertifikasi\CertificateController;
+use App\Http\Controllers\Sertifikasi\CertificateController as CertController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\Admin\SeminarRegistrationController;
@@ -13,6 +15,10 @@ use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\Auth\GoogleController;
 use App\Livewire\DetailCard;
 use App\Livewire\PendaftaranSeminar;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Barryvdh\DomPDF\Facade\Pdf;
+
+
 use Midtrans\Transaction;
 
 // =======================
@@ -110,6 +116,15 @@ Route::post('attend/{seminar}/{token}', [AttendanceController::class, 'markAtten
     ->name('attend.mark');
 
 // =======================
+// Certificate 
+// =======================
+Route::get('/certificates', [CertificateController::class, 'index'])->name('certificates.index');
+
+// Opsional (buat test manual via URL): issue sertif dari 1 attendance id
+Route::post('/certificates/issue-from-attendance/{attendance}', [CertificateController::class, 'issueFromAttendance'])
+    ->name('certificates.issue-from-attendance');
+
+// =======================
 // Payment Routes
 // =======================
 Route::prefix('payments')->name('payments.')->group(function () {
@@ -122,4 +137,29 @@ Route::prefix('payments')->name('payments.')->group(function () {
     Route::get('{id}/checkout', [PaymentController::class, 'checkout'])->name('checkout');
     Route::get('{id}', [PaymentController::class, 'detail'])->name('detail');
     Route::get('/transaksi', [TransactionController::class, 'index'])->name('transaksi');
+});
+
+
+Route::prefix('certificates')->name('certificates.')->group(function () {
+    // Halaman index preview
+    Route::get('/', [CertController::class, 'index'])->name('index');
+
+    // Demo preview HTML (opsional)
+    Route::get('/demo/preview', [CertController::class, 'demoPreview'])
+        ->name('demo.preview.html');
+
+    // Demo preview PDF (INI YANG DIPAKAI DI BLADE)
+    Route::get('/demo/preview-pdf', [CertController::class, 'demoPreviewPdf'])
+        ->name('demo.preview.pdf');
+
+    // Preview by attendance (opsional)
+    Route::get('/attendance/{attendance}/preview', [CertController::class, 'attendancePreview'])
+        ->name('attendance.preview.html');
+
+    Route::get('/attendance/{attendance}/preview-pdf', [CertController::class, 'attendancePreviewPdf'])
+        ->name('attendance.preview.pdf');
+
+    // Download by certificate id (opsional)
+    Route::get('/{id}/download', [CertController::class, 'download'])
+        ->name('download');
 });
