@@ -45,7 +45,7 @@ class TrainerController extends Controller
         $data = $request->except('image', 'skills');
 
         if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('public/trainers');
+            $path = $request->file('image')->store('trainers', 'public');
             $data['image_url'] = Storage::url($path);
         }
 
@@ -95,9 +95,10 @@ class TrainerController extends Controller
         if ($request->hasFile('image')) {
             // Delete old image
             if ($trainer->image_url) {
-                Storage::delete(str_replace('/storage', 'public', $trainer->image_url));
+                $oldImagePath = str_replace('/storage', 'public', $trainer->image_url);
+                Storage::delete($oldImagePath);
             }
-            $path = $request->file('image')->store('public/trainers');
+            $path = $request->file('image')->store('trainers', 'public');
             $data['image_url'] = Storage::url($path);
         }
 
@@ -118,7 +119,8 @@ class TrainerController extends Controller
     public function destroy(Trainer $trainer)
     {
         if ($trainer->image_url) {
-            Storage::delete(str_replace('/storage', 'public', $trainer->image_url));
+            $imagePath = str_replace('/storage', 'public', $trainer->image_url);
+            Storage::delete($imagePath);
         }
         $trainer->delete();
 

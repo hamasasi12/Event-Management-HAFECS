@@ -55,7 +55,7 @@ class PaymentController extends Controller
             }
 
             return view('payments.create', [
-                'seminarRegistration' => $seminarRegistration, 
+                'seminarRegistration' => $seminarRegistration,
                 'seminar' => $seminar
             ]);
         } catch (\Exception $e) {
@@ -116,14 +116,15 @@ class PaymentController extends Controller
             $snapToken = Snap::getSnapToken($params);
 
             // Create payment record
-            $payment = Payment::create([
-                'user_id' => Auth::check() ? Auth::id() : null,
-                'seminar_registration_id' => $seminarRegistration->id,
-                'order_id' => $orderId,
-                'amount' => $request->amount,
-                'snap_token' => $snapToken,
-                'status' => 'pending',
-            ]);
+            // Gunakan user_id dari Auth atau dari registrasi
+        $payment = Payment::create([
+            'user_id' => Auth::check() ? Auth::id() : $seminarRegistration->user_id,
+            'seminar_registration_id' => $seminarRegistration->id,
+            'order_id' => $orderId,
+            'amount' => $request->amount,
+            'snap_token' => $snapToken,
+            'status' => 'pending',
+        ]);
 
             return redirect()->route('payments.checkout', ['id' => $payment->id]);
         } catch (\Exception $e) {
@@ -188,7 +189,7 @@ class PaymentController extends Controller
 
             $snapToken = $payment->snap_token;
 
-            return view('payments.checkout', compact('payment', 'snapToken'));
+            return view('payments.checkout', compact('payment', 'snapToken', ));
         } catch (\Exception $e) {
             Log::error('Error in checkout: ' . $e->getMessage(), [
                 'trace' => $e->getTraceAsString()
@@ -200,7 +201,7 @@ class PaymentController extends Controller
     public function finish(string $id)
     {
         $payment = Payment::with('seminarRegistration.seminar')->where('order_id', $id)->first();
-        
+
         if (!$payment) {
             abort(404);
         }
@@ -213,12 +214,12 @@ class PaymentController extends Controller
 
         if($payment->status === 'success') {
             $seminarRegistration = $payment->seminarRegistration;
-            
+
             if ($seminarRegistration) {
                 $seminarRegistration->update([
                     'is_paid' => 'yes'
                 ]);
-                
+
                 // Gunakan queue untuk mengirim email
                 SendSeminarRegistrationEmail::dispatch($seminarRegistration->seminar, $seminarRegistration);
             }
@@ -226,7 +227,14 @@ class PaymentController extends Controller
 
         // Display success alert and redirect to home page
         Alert::success('Success!', 'Pendaftaran berhasil! Silakan cek email Anda untuk konfirmasi.');
-        return redirect('/');
+        Log::info('Payment finished successfully:', [
+            'payment_id' => $payment->id,
+            'order_id' => $payment->order_id,
+            'status' => $payment->status,
+        ]);
+        return view('payments.finish', [
+            'payment' => $payment,
+        ]);
     }
 
     public function notification(Request $request)
@@ -271,15 +279,15 @@ class PaymentController extends Controller
                     $seminarRegistration->update([
                         'is_paid' => 'yes'
                     ]);
-                    
+
                     // Gunakan queue untuk mengirim email
                     SendSeminarRegistrationEmail::dispatch($seminarRegistration->seminar, $seminarRegistration);
                 }
-                
+
                 if ($payment->status === 'success') {
                     event(new PaymentSuccessful($payment));
                 }
-                
+
                 return response()->json(['status' => 'success']);
             }
 
@@ -308,6 +316,6 @@ class PaymentController extends Controller
             session()->flash('error', 'Terjadi kesalahan saat mengakses detail pembayaran.');
             return redirect('/');
         }
-        
+
     }
 }

@@ -23,9 +23,4 @@ class Trainer extends Model
     protected $casts = [
         'skills' => 'array',
     ];
-
-    public function seminars()
-    {
-        return $this->hasMany(Seminar::class);
-    }
 }

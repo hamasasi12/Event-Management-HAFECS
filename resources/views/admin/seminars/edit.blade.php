@@ -101,6 +101,13 @@
                         </select>
                     </div>
 
+                    <!-- Materi yang Akan Dibahas -->
+                    <div class="md:col-span-2">
+                        <label for="materi" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Materi yang Akan Dibahas</label>
+                        <textarea name="materi" id="materi" rows="4" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white">{{ old('materi', $seminar->materi) }}</textarea>
+                        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Gunakan format markdown untuk daftar (gunakan tanda * untuk bullet points). Contoh: * Mengenali Batasan Diri (Self-Limitation Awareness)</p>
+                    </div>
+
                     <!-- Current Image -->
                     @if($seminar->image_url)
                     <div class="md:col-span-2">
