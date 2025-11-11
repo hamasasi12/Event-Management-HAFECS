@@ -10,9 +10,18 @@ class Attendance extends Model
     use HasFactory;
 
     protected $fillable = [
-        'seminar_id',
-        'token',
-    ];
+    'seminar_id',
+    'token',
+    'name',
+    'email',
+    'phone',
+    'jenjang_sekolah',
+    'asal_sekolah',
+    'jabatan',
+    'kota_kabupaten',
+    'provinsi',
+    'scanned_at',          
+];
 
     protected $casts = [
         'scanned_at' => 'datetime',

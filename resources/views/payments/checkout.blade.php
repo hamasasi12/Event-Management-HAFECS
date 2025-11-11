@@ -288,7 +288,7 @@ body {
         <div class="section">
             <h2>Ringkasan Pembayaran</h2>
             <div class="summary-box">
-                <h3>{{ $payment->webinar->judul ?? 'Work Life Balance' }}</h3>
+                <h3>{{ $payment->webinar->judul ?? '' }}</h3>
                 <div class="summary-row"><span>Order ID</span><strong>{{ $payment->order_id }}</strong></div>
                 <div class="summary-row"><span>Tanggal</span><strong>{{ $payment->created_at->format('d M Y') }}</strong></div>
                 <div class="summary-row"><span>Status</span><strong style="color:#f59e0b;">Menunggu Pembayaran</strong></div>
@@ -310,10 +310,20 @@ const finishUrlWithOrder = "{{ route('payments.finish', ['id' => 'REPLACE_ORDER_
 payButton.addEventListener('click', function() {
     payButton.disabled = true;
     payButton.innerText = "Memproses...";
-    window.snap.pay(snapToken, {
+   window.snap.pay(snapToken, {
         onSuccess: () => window.location.href = finishUrlWithOrder.replace('REPLACE_ORDER_ID', orderId),
-        onPending: () => window.location.href = finishUrlWithOrder.replace('REPLACE_ORDER_ID', orderId),
-        onError: () => window.location.href = finishUrlWithOrder.replace('REPLACE_ORDER_ID', orderId),
+        onPending: () => {
+            // Tetap di halaman ini saat pembayaran pending
+            alert('Pembayaran sedang diproses. Status: Pending. Anda akan tetap di halaman ini.');
+            payButton.disabled = false;
+            payButton.innerText = "Bayar Sekarang";
+        },
+        onError: () => {
+            // Tetap di halaman ini saat pembayaran error
+            alert('Terjadi kesalahan saat pembayaran. Status: Error. Anda akan tetap di halaman ini.');
+            payButton.disabled = false;
+            payButton.innerText = "Bayar Sekarang";
+        },
         onClose: () => {
             payButton.disabled = false;
             payButton.innerText = "Bayar Sekarang";

@@ -61,6 +61,8 @@ Route::get('/web-dev-team', function () {
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('dashboard', fn() => view('admin.dashboard'))->name('dashboard');
 
+
+
     Route::resource('trainers', TrainerController::class)->names('trainers');
 
     // Seminar CRUD
