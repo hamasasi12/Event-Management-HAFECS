@@ -58,46 +58,80 @@
 <body class="font-sans">
 
     <!-- Header -->
-    <header class="bg-white shadow-md sticky top-0 z-50">
-        <nav class="container mx-auto px-4 sm:px-6 py-4">
-            <div class="flex justify-between items-center">
-                <div class="text-2xl font-bold text-gray-800">
+<header class="bg-white shadow-md sticky top-0 z-50">
+    <nav class="container mx-auto px-4 sm:px-6 py-4">
+        <div class="flex justify-between items-center">
+            <!-- Logo -->
+            <div class="flex items-center">
+                <a href="{{ url('/') }}">
                     <img src="{{ asset('images/admin/LOGO HAFECS.png') }}" alt="HAFECS Logo" class="h-10">
-                </div>
-                <div class="hidden md:flex items-center justify-center space-x-8">
-                    <a href="#webinar" class="font-semibold text-gray-800 hover:text-blue-700 transition">Webinar</a>
-                    <a href="#trainer" class="font-semibold text-gray-800 hover:text-blue-700 transition">Trainer</a>
-                    <a href="#dokumentasi" class="font-semibold text-gray-800 hover:text-blue-700 transition">Dokumentasi</a>
-                </div>
-                <div class="md:hidden">
-                    <button id="mobile-menu-button" class="text-gray-600 focus:outline-none">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M4 6h16M4 12h16m-7 6h7"></path>
-                        </svg>
-                    </button>
-                </div>
+                </a>
             </div>
-            <!-- Mobile Menu -->
-            <div id="mobile-menu" class="mobile-menu md:hidden mt-4">
-                <a href="#webinar" class="block py-2 text-gray-600 hover:text-blue-700">Webinar</a>
-                <a href="#trainer" class="block py-2 text-gray-600 hover:text-blue-700">Trainer</a>
-                <a href="#dokumentasi" class="block py-2 text-gray-600 hover:text-blue-700">Dokumentasi</a>
-            </div>
-        </nav>
-    </header>
-<main>
-    <!-- Hero Section -->
-    <section class="hero-section py-16 sm:py-20 text-white">
-        <div class="container mx-auto px-4 sm:px-6">
-            <div class="bg-white text-gray-800 rounded-lg shadow-lg p-6 sm:p-8">
-                <div class="flex flex-col md:flex-row items-center gap-6 sm:gap-8">
-                    <!-- Poster Image - Kiri di desktop, Atas di mobile -->
-                    <div class="w-full md:w-1/2 order-1">
-                        <img src="{{ asset('images/admin/LOGO HAFECS.png') }}" alt="Seminar" class="rounded-lg shadow-lg w-full h-auto">
-                    </div>
 
+            <!-- Desktop Menu -->
+            <div class="hidden lg:flex items-center justify-center space-x-8 flex-grow">
+                <a href="{{ url('/#seminars') }}" class="font-semibold text-gray-700 hover:text-blue-600 transition px-3 py-1 rounded-md">Webinar</a>
+                <a href="{{ url('/#trainer') }}" class="font-semibold text-gray-700 hover:text-blue-600 transition px-3 py-1 rounded-md">Trainer</a>
+                <a href="{{ url('/#dokumentasi') }}" class="font-semibold text-gray-700 hover:text-blue-600 transition px-3 py-1 rounded-md">Dokumentasi</a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <div class="lg:hidden">
+                <button id="mobile-menu-button" class="text-gray-700 hover:text-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded-md p-2">
+                    <svg id="hamburger-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                    <svg id="close-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+     <!-- Mobile Menu -->
+             <div id="mobile-menu" class="lg:hidden mt-4 hidden border-t pt-4">
+                     <a href="{{ url('/#seminars') }}" class="block py-2 px-3 rounded-md text-gray-700 hover:bg-gray-100 font-medium">Webinar</a>
+                     <a href="{{ url('/#trainer') }}" class="block py-2 px-3 rounded-md text-gray-700 hover:bg-gray-100 font-medium">Trainer</a>
+                     <a href="{{ url('/#dokumentasi') }}" class="block py-2 px-3 rounded-md text-gray-700 hover:bg-gray-100 font-medium">Dokumentasi</a>
+                    </div>
+                </nav>
+            </header>
+            <main>
+     <!-- Hero Section -->
+          <section class="hero-section py-16 sm:py-20 text-white">
+              <div class="container mx-auto px-4 sm:px-6">
+              <div class="bg-white text-gray-800 rounded-lg shadow-lg p-6 sm:p-8">
+             <div class="flex flex-col md:flex-row items-center gap-6 sm:gap-8">
+     <!-- Poster Image - Kiri di desktop, Atas di mobile -->
+                <div class="w-full md:w-1/2 order-1">
+                    <!-- Swiper Container -->
+                 <div class="swiper mySwiper rounded-lg shadow-lg">
+                 <div class="swiper-wrapper">
+                 <!-- Slide 1 -->
+                 <div class="swiper-slide">
+                 <img src="{{ asset('images/poster/poster1.jpg') }}"
+                     alt="Poster 1"
+                     class="w-full h-auto object-cover rounded-lg">
+                 </div>
+                <!-- Slide 2 -->
+                 <div class="swiper-slide">
+                <img src="{{ asset('images/poster/poster2.jpg') }}"
+                     alt="Poster 2"
+                     class="w-full h-auto object-cover rounded-lg">
+                 </div>
+                <!-- Slide 3 -->
+                 <div class="swiper-slide">
+                    <img src="{{ asset('images/poster/poster3.jpg') }}"
+                    alt="Poster 3"
+                    class="w-full h-auto object-cover rounded-lg">
+                </div>
+                </div>
+                 <!-- Pagination (titik bawah) -->
+                        <div class="swiper-pagination"></div>
+                       <!-- Tombol Next & Prev -->
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
+                    </div>
+                </div>
                     <!-- Content - Kanan di desktop, Bawah di mobile -->
                     <div class="w-full md:w-1/2 space-y-4 order-2">
                         <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold">Seminar Nasional 2025</h1>
@@ -390,45 +424,7 @@
             </div>
         </div>
     </section>
-<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-    <div class="max-w-4xl mx-auto bg-white p-6 md:p-8 rounded-2xl shadow-xl">
-        <h2 class="text-2xl md:text-3xl font-extrabold text-primary mb-5">
-            Masukkan Ulasan Anda
-        </h2>
 
-        <form action="#" method="POST" class="space-y-4">
-            <div>
-                <textarea
-                    name="review_message"
-                    id="review_message"
-                    rows="5"
-                    class="block w-full rounded-xl border-gray-300 shadow-inner p-4 text-gray-800 placeholder-gray-500 focus:ring-accent focus:border-accent border-2 transition duration-200 resize-none text-base"
-                    placeholder="Tulis ulasan, saran, atau testimoni Anda di sini..."
-                    required
-                ></textarea>
-            </div>
-
-            <div class="flex flex-col sm:flex-row-reverse sm:justify-between items-center pt-2 gap-4">
-                <button type="submit"
-                    class="gradient-button text-white px-8 py-3 rounded-xl font-bold text-lg hover:gradient-button focus:outline-none focus:ring-4 focus:ring-blue-300 transition-all duration-300 w-full sm:w-auto shadow-lg hover:shadow-xl transform hover:scale-[1.01]">
-                    <span class="flex items-center justify-center">
-                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-                        </svg>
-                        Kirim
-                    </span>
-                </button>
-
-                <a href="#" class="text-sm text-gray-600 hover:text-primary font-semibold transition duration-150 flex items-center">
-                    <svg class="w-4 h-4 mr-1 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                    </svg>
-                    Lihat Semua Ulasan
-                </a>
-            </div>
-        </form>
-    </div>
-</section>
 
 <style>
     .text-primary { color: #1e3a8a; }
@@ -530,85 +526,106 @@
     </p>
 </div>
 </footer>
-    <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Mobile menu toggle
-            const mobileMenuButton = document.getElementById('mobile-menu-button');
-            const mobileMenu = document.getElementById('mobile-menu');
+ <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Mobile menu toggle (revisi)
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const hamburgerIcon = document.getElementById('hamburger-icon');
+        const closeIcon = document.getElementById('close-icon');
 
-            if (mobileMenuButton && mobileMenu) {
-                mobileMenuButton.addEventListener('click', function() {
-                    mobileMenu.classList.toggle('active');
-                });
-            }
-
-            // Trainer Swiper
-            const trainerSwiper = new Swiper('.trainer-swiper', {
-                slidesPerView: 1,
-                spaceBetween: 16,
-                pagination: {
-                    el: '.trainer-swiper .swiper-pagination',
-                    clickable: true,
-                },
-                navigation: {
-                    nextEl: '.trainer-swiper .swiper-button-next',
-                    prevEl: '.trainer-swiper .swiper-button-prev',
-                },
-                breakpoints: {
-                    640: {
-                        slidesPerView: 2,
-                        spaceBetween: 20,
-                    },
-                    768: {
-                        slidesPerView: 3,
-                        spaceBetween: 30,
-                    },
-                    1024: {
-                        slidesPerView: 4,
-                        spaceBetween: 30,
-                    },
-                }
-            });
-
-            // FAQ Accordion
-            const faqItems = document.querySelectorAll('.faq-item');
-            faqItems.forEach(item => {
-                const question = item.querySelector('.faq-question');
-                question.addEventListener('click', () => {
-                    const wasActive = item.classList.contains('active');
-                    faqItems.forEach(i => i.classList.remove('active'));
-                    if (!wasActive) {
-                        item.classList.add('active');
-                    }
-                });
-            });
-        });
-
-    </script>
-    <!-- Include SweetAlert2 for Livewire component -->
-
-    <!-- Include SweetAlert2 CDN -->
-    {{-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> --}}
-
-    <script>
-        // Check for payment success parameter in URL
-        const urlParams = new URLSearchParams(window.location.search);
-        if (urlParams.get('payment_success') === 'true') {
-            Swal.fire({
-                title: 'Pendaftaran Berhasil!'
-                , text: 'Anda telah berhasil melakukan pendaftaran! Silakan cek email Anda untuk konfirmasi.'
-                , icon: 'success'
-                , confirmButtonText: 'OK'
-            }).then(() => {
-                // Remove the parameter from URL to prevent repeated alerts
-                const url = new URL(window.location);
-                url.searchParams.delete('payment_success');
-                history.replaceState({}, document.title, url);
+        if (mobileMenuButton && mobileMenu) {
+            mobileMenuButton.addEventListener('click', function() {
+                mobileMenu.classList.toggle('hidden');
+                hamburgerIcon.classList.toggle('hidden');
+                closeIcon.classList.toggle('hidden');
             });
         }
 
-    </script>
+        //  Hero Poster Swiper
+        const heroSwiper = new Swiper('.mySwiper', {
+            direction: 'horizontal',
+            loop: true,
+            grabCursor: true,
+            autoplay: {
+                delay: 3000,
+                disableOnInteraction: false,
+            },
+            pagination: {
+                el: '.mySwiper .swiper-pagination',
+                clickable: true,
+            },
+            navigation: {
+                nextEl: '.mySwiper .swiper-button-next',
+                prevEl: '.mySwiper .swiper-button-prev',
+            },
+        });
+
+        //  Trainer Swiper
+        const trainerSwiper = new Swiper('.trainer-swiper', {
+            slidesPerView: 1,
+            spaceBetween: 16,
+            pagination: {
+                el: '.trainer-swiper .swiper-pagination',
+                clickable: true,
+            },
+            navigation: {
+                nextEl: '.trainer-swiper .swiper-button-next',
+                prevEl: '.trainer-swiper .swiper-button-prev',
+            },
+            breakpoints: {
+                640: {
+                    slidesPerView: 2,
+                    spaceBetween: 20,
+                },
+                768: {
+                    slidesPerView: 3,
+                    spaceBetween: 30,
+                },
+                1024: {
+                    slidesPerView: 4,
+                    spaceBetween: 30,
+                },
+            }
+        });
+
+        // FAQ Accordion
+        const faqItems = document.querySelectorAll('.faq-item');
+        faqItems.forEach(item => {
+            const question = item.querySelector('.faq-question');
+            question.addEventListener('click', () => {
+                const wasActive = item.classList.contains('active');
+                faqItems.forEach(i => i.classList.remove('active'));
+                if (!wasActive) {
+                    item.classList.add('active');
+                }
+            });
+        });
+    });
+</script>
+
+<!-- Include SweetAlert2 CDN -->
+{{-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> --}}
+
+<script>
+    // Check for payment success parameter in URL
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('payment_success') === 'true') {
+        Swal.fire({
+            title: 'Pendaftaran Berhasil!',
+            text: 'Anda telah berhasil melakukan pendaftaran! Silakan cek email Anda untuk konfirmasi.',
+            icon: 'success',
+            confirmButtonText: 'OK'
+        }).then(() => {
+            // Remove the parameter from URL to prevent repeated alerts
+            const url = new URL(window.location);
+            url.searchParams.delete('payment_success');
+            history.replaceState({}, document.title, url);
+        });
+    }
+</script>
+
 </body>
 
 </html>

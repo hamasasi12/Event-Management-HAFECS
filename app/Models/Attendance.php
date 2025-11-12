@@ -11,13 +11,18 @@ class Attendance extends Model
     use HasFactory;
 
     protected $fillable = [
-        'seminar_id',
-        'seminar_registration_id',
-        'user_id',
-        'email',
-        'token',
-        'scanned_at',
-    ];
+    'seminar_id',
+    'token',
+    'name',
+    'email',
+    'phone',
+    'jenjang_sekolah',
+    'asal_sekolah',
+    'jabatan',
+    'kota_kabupaten',
+    'provinsi',
+    'scanned_at',          
+];
 
     /**
      * Casting supaya query & format tanggal enak dipakai.

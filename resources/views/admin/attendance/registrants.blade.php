@@ -81,9 +81,9 @@
                                 </div>
                                 <p class="mt-4 text-gray-600 dark:text-gray-400">Scan QR ini untuk absensi.</p>
                                 <div class="mt-3 w-full px-4">
-                                    <input type="text" value="${data.link}" 
-                                        class="w-full px-3 py-2 border rounded text-sm text-gray-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white" 
-                                        readonly 
+                                    <input type="text" value="${data.link}"
+                                        class="w-full px-3 py-2 border rounded text-sm text-gray-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                                        readonly
                                         onclick="this.select()" />
                                 </div>
                                 <button onclick="
@@ -94,7 +94,7 @@
                                     inputElement.select();
                                     document.execCommand('copy');
                                     document.body.removeChild(inputElement);
-                                    Swal.fire({icon:'success',title:'Link berhasil dicopy!',timer:1500,showConfirmButton:false});" 
+                                    Swal.fire({icon:'success',title:'Link berhasil dicopy!',timer:1500,showConfirmButton:false});"
                                     class="mt-2 px-4 py-2 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 text-sm transition duration-150">
                                     Copy Link
                                 </button>

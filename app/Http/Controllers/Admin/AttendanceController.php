@@ -18,6 +18,7 @@ class AttendanceController extends Controller
             'token'      => $token,
         ]);
 
+        // Verify the token is valid
         $attendance = Attendance::where('seminar_id', $seminar->id)
             ->where('token', $token)
             ->first();
@@ -51,10 +52,15 @@ class AttendanceController extends Controller
         ]);
 
         $request->validate([
-            'name'  => 'required|string|max:255',
-            'email' => 'required|email|max:255',
-            'phone' => 'required|string|max:20',
-        ]);
+                'name' => 'required|string|max:255',
+                'email' => 'required|email|max:255',
+                'phone' => 'required|string|max:20',
+                'jenjang_sekolah' => 'nullable|string|max:255',
+                'asal_sekolah' => 'nullable|string|max:255',
+                'jabatan' => 'required|string|max:255',
+                'kota_kabupaten' => 'required|string|max:255',
+                'provinsi' => 'required|string|max:255',            
+            ]);
 
         $attendance = Attendance::where('seminar_id', $seminar->id)
             ->where('token', $token)
@@ -77,12 +83,18 @@ class AttendanceController extends Controller
             return redirect()->back()->with('error', 'This QR code has already been used.');
         }
 
-        // Tandai hadir
-        $attendance->name       = $request->name;
-        $attendance->email      = $request->email;
-        $attendance->phone      = $request->phone;
-        $attendance->scanned_at = now();
-        $attendance->save();
+        // Update attendance record
+        $attendance->update([
+                'name' => $request->name,
+                'email' => $request->email,
+                'phone' => $request->phone,
+                'jenjang_sekolah' => $request->jenjang_sekolah,
+                'asal_sekolah' => $request->asal_sekolah,
+                'jabatan' => $request->jabatan,
+                'kota_kabupaten' => $request->kota_kabupaten,
+                'provinsi' => $request->provinsi,
+                'scanned_at' => now(),
+            ]);
 
         // Cocokkan pendaftaran by email (case-insensitive)
         $registration = $seminar->registrations()
@@ -90,16 +102,17 @@ class AttendanceController extends Controller
             ->first();
 
         if ($registration) {
-            // Update status hadir di pendaftaran
-            $registration->update(['attendance_status' => 'attended']);
-
-            Log::info('Attendance matched with registration', [
-                'registration_id' => $registration->id,
-                'email'           => $request->email,
+    // Update registration attendance status
+            $registration->update([
+                'attendance_status' => 'attended',
+                'jenjang_sekolah' => $request->jenjang_sekolah,
+                'asal_sekolah' => $request->asal_sekolah,
+                'jabatan' => $request->jabatan,
+                'kota_kabupaten' => $request->kota_kabupaten,
+                'provinsi' => $request->provinsi,
             ]);
 
-            // TRIGGER: kirim sertifikat via job (jalan setelah commit)
-            Log::info('Dispatching IssueCertificateFromRegistration', [
+            \Log::info('Attendance matched with registration', [
                 'registration_id' => $registration->id,
                 'email'           => $registration->email,
             ]);

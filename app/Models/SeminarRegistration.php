@@ -9,15 +9,20 @@ class SeminarRegistration extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'user_id',
-        'seminar_id',
-        'name',
-        'email',
-        'phone',
-        'is_paid',
-        'attendance_status',
-    ];
+   protected $fillable = [
+    'user_id',
+    'seminar_id',
+    'name',
+    'email',
+    'phone',
+    'jenjang_sekolah',
+    'asal_sekolah',
+    'jabatan',
+    'kota_kabupaten',      
+    'provinsi',
+    'is_paid',
+    'attendance_status',
+];
 
     public function user()
     {

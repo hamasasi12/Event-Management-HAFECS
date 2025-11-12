@@ -31,7 +31,8 @@
                     <span class="bg-gradient-to-r from-blue-700 via-indigo-500 to-blue-400 bg-clip-text text-transparent">
                         Pembayaran Berhasil!
                     </span>
-                </h1>
+                </h1>""
+                d 
                 <p class="text-gray-600 text-xl">🎉 Transaksi telah dikonfirmasi dengan sukses</p>
             </div>
 
