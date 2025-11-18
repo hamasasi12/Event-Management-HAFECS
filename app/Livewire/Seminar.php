@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Seminar as SeminarModel;
+use App\Models\SeminarRegistration;
 use Livewire\Component;
 
 class Seminar extends Component
@@ -16,31 +17,35 @@ class Seminar extends Component
 
     public function render()
     {
-        $query = SeminarModel::query();
+        $seminars = SeminarModel::withCount([
+            'registrations as access_seminar_registrations_count' => function ($q) {
+                $q->whereHas('user', fn($u) => $u->permission('access_seminar'));
+            }
+        ])->get();
 
         if ($this->search) {
-            $query->where(function ($q) {
+            $seminars->where(function ($q) {
                 $q->where('title', 'like', '%' . $this->search . '%');
             });
         }
 
         if ($this->status) {
-            $query->where(function ($q) {
+            $seminars->where(function ($q) {
                 $q->where('status', 'like', '%' . $this->status . '%');
             });
         }
 
         if ($this->dateFrom) {
-            $query->whereDate('start_time', '>=', $this->dateFrom);
+            $seminars->whereDate('start_time', '>=', $this->dateFrom);
         }
 
         if ($this->dateTo) {
-            $query->whereDate('end_time', '<=', $this->dateTo);
+            $seminars->whereDate('end_time', '<=', $this->dateTo);
         }
 
 
         return view('livewire.seminar', [
-            'seminars' => $query->latest()->get(),
+            'seminars' => $seminars
         ]);
     }
 

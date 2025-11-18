@@ -22,6 +22,7 @@ class SeminarRegistrants extends Component
     public function mount($seminarId)
     {
         $this->seminarId = $seminarId;
+        $this->loadRegistrations();
     }
 
     /**
@@ -30,18 +31,36 @@ class SeminarRegistrants extends Component
      */
     public function render()
     {
-        // Ambil data seminar beserta pendaftarannya (registrations)
-        // load('registrations.user') penting untuk performa
-        $this->seminar = Seminar::with('registrations.user')
-            ->findOrFail($this->seminarId);
-
-        // Simpan koleksi pendaftaran untuk diakses di view
-        $this->registrations = $this->seminar->registrations;
+        $this->loadRegistrations();
 
         // Melewatkan data ke view Livewire
         return view('livewire.seminar-registrants', [
             'seminar' => $this->seminar,
             'registrations' => $this->registrations,
         ]);
+    }
+
+    /**
+     * Method untuk memuat data registrations dengan eager loading
+     */
+    private function loadRegistrations()
+    {
+        // Ambil data seminar beserta pendaftarannya dengan eager loading
+        $this->seminar = Seminar::with(['registrations.user'])
+            ->findOrFail($this->seminarId);
+
+        // Filter registrations berdasarkan permission (jika diperlukan)
+        $this->registrations = $this->seminar->registrations
+            ->filter(function ($registration) {
+                // Jika user ada dan memiliki permission 'access_seminar', tampilkan
+                if ($registration->user && $registration->user->can('access_seminar')) {
+                    return true;
+                }
+                // Jika tidak ada user (guest registration), tetap tampilkan
+                if (!$registration->user) {
+                    return true;
+                }
+                return false;
+            });
     }
 }

@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
 use App\Mail\SeminarRegistrationMail;
+use Predis\Command\Traits\Replace;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class PaymentController extends Controller
@@ -189,6 +190,7 @@ class PaymentController extends Controller
 
             $snapToken = $payment->snap_token;
 
+
             return view('payments.checkout', compact('payment', 'snapToken', ));
         } catch (\Exception $e) {
             Log::error('Error in checkout: ' . $e->getMessage(), [
@@ -224,6 +226,8 @@ class PaymentController extends Controller
                 SendSeminarRegistrationEmail::dispatch($seminarRegistration->seminar, $seminarRegistration);
             }
         }
+        $user = User::firstWhere('id', $payment->user_id);
+        $user->givePermissionTo('access_seminar');
 
         // Display success alert and redirect to home page
         Alert::success('Success!', 'Pendaftaran berhasil! Silakan cek email Anda untuk konfirmasi.');
@@ -318,4 +322,6 @@ class PaymentController extends Controller
         }
 
     }
+
+    
 }

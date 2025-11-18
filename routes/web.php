@@ -67,8 +67,6 @@ Route::get('/web-dev-team', function () {
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('dashboard', fn() => view('admin.dashboard'))->name('dashboard');
 
-
-
     Route::resource('trainers', TrainerController::class)->names('trainers');
 
     // Seminar CRUD
@@ -139,6 +137,7 @@ Route::prefix('payments')->name('payments.')->group(function () {
     Route::get('{id}/checkout', [PaymentController::class, 'checkout'])->name('checkout');
     Route::get('{id}', [PaymentController::class, 'detail'])->name('detail');
     Route::get('/transaksi', [TransactionController::class, 'index'])->name('transaksi');
+    
 });
 
 

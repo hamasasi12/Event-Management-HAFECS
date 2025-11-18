@@ -16,8 +16,7 @@
                 </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
-                @if($seminar->registrations->count() > 0)
-                @foreach($seminar->registrations as $registration)
+                @forelse($registrations as $registration)
                 <tr>
                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
                         {{ $registration->user ? $registration->user->name : $registration->name }}
@@ -63,31 +62,33 @@
                     </td>
                 </tr>
                 @endforeach
-                @else
-                <tr>
+                <!-- <tr>
                     <td colspan="10" class="px-6 py-4 text-center text-sm text-gray-500 dark:text-gray-400">
                         Tidak ada peserta terdaftar
                     </td>
-                </tr>
-                @endif
+                </tr> -->
             </tbody>
         </table>
     </div>
 
     <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div class="bg-gray-50 p-4 rounded-lg dark:bg-gray-700">
-            <p class="text-sm font-medium text-gray-500 dark:text-gray-300">Total Peserta</p>
-            <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ $seminar->registrations->count() }}</p>
-        </div>
-        @if($seminar->registrations->count() > 0)
-        <div class="bg-gray-50 p-4 rounded-lg dark:bg-gray-700">
-            <p class="text-sm font-medium text-gray-500 dark:text-gray-300">Hadir</p>
-            <p class="text-2xl font-bold text-green-600 dark:text-green-400">{{ $seminar->registrations->where('attendance_status', 'attended')->count() }}</p>
-        </div>
-        <div class="bg-gray-50 p-4 rounded-lg dark:bg-gray-700">
-            <p class="text-sm font-medium text-gray-500 dark:text-gray-300">Belum Hadir</p>
-            <p class="text-2xl font-bold text-yellow-600 dark:text-yellow-400">{{ $seminar->registrations->where('attendance_status', '!=', 'attended')->count() }}</p>
-        </div>
-        @endif
+    <div class="bg-gray-50 p-4 rounded-lg dark:bg-gray-700">
+        <p class="text-sm font-medium text-gray-500 dark:text-gray-300">Total Peserta</p>
+        <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ $registrations->count() }}</p>
     </div>
+
+    <div class="bg-gray-50 p-4 rounded-lg dark:bg-gray-700">
+        <p class="text-sm font-medium text-gray-500 dark:text-gray-300">Hadir</p>
+        <p class="text-2xl font-bold text-green-600 dark:text-green-400">
+            {{ $registrations->where('attendance_status', 'attended')->count() }}
+        </p>
+    </div>
+
+    <div class="bg-gray-50 p-4 rounded-lg dark:bg-gray-700">
+        <p class="text-sm font-medium text-gray-500 dark:text-gray-300">Belum Hadir</p>
+        <p class="text-2xl font-bold text-yellow-600 dark:text-yellow-400">
+            {{ $registrations->where('attendance_status', '!=', 'attended')->count() }}
+        </p>
+    </div>
+
 </div>
