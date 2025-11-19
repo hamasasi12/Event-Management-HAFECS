@@ -219,7 +219,11 @@ class PendaftaranSeminar extends Component
 
             // Step 7: Dispatch success event
             Log::info('Step 7: Dispatching show-success event');
-            return redirect('/')->with('success', 'Pendaftaran berhasil! Silakan cek email Anda untuk konfirmasi.');
+            
+            $this->dispatch('show-success', 
+                title: 'Berhasil',
+                message: 'Pendaftaran berhasil! Silakan cek email Anda.',
+            );
 
             Log::info('=== END registerGratis (SUCCESS) ===');
 

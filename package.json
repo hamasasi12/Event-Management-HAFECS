@@ -17,6 +17,7 @@
     "dependencies": {
         "esbuild": "^0.27.0",
         "html5-qrcode": "^2.3.8",
+        "sweetalert2": "^11.26.3",
         "swiper": "^12.0.2"
     }
 }
