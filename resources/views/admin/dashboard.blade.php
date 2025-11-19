@@ -65,7 +65,7 @@
             <div class="mt-4 flex items-end justify-between">
                 <div>
                     <h4 class="text-title-md font-bold text-gray-900 dark:text-white">
-                        Rp {{ number_format(\App\Models\Seminar::sum('price'), 0, ',', '.') }}
+                        Rp {{ number_format(\App\Models\Payment::where('status', 'success')->sum('amount'), 0, ',', '.') }}
                     </h4>
                     <span class="text-sm font-medium text-gray-600 dark:text-gray-300">Total Revenue</span>
                 </div>
@@ -138,7 +138,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach(\App\Models\Seminar::where('start_time', '>', now())->orderBy('start_time')->limit(5)->get() as $seminar)
+                        @foreach(\App\Models\Seminar::where('start_time', '<', now())->orderBy('start_time')->limit(5)->get() as $seminar)
                         <tr class="border-b border-gray-200 dark:border-gray-700">
                             <td class="py-5 px-4">
                                 <p class="font-medium text-gray-900 dark:text-white">{{ $seminar->title }}</p>
@@ -148,7 +148,10 @@
                                 <p class="text-sm text-gray-500 dark:text-gray-400">{{ $seminar->start_time->format('H:i') }} - {{ $seminar->end_time->format('H:i') }}</p>
                             </td>
                             <td class="py-5 px-4">
-                                <p class="text-black dark:text-white">{{ $seminar->registrations->count() }} registrations</p>
+                                <p class="text-black dark:text-white">{{ $seminar->registrations()
+                                ->whereHas('user', fn($q) => $q->permission('access_seminar'))
+                                ->count()
+                            }} registrations</p>
                             </td>
                         </tr>
                         @endforeach

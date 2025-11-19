@@ -331,4 +331,6 @@ payButton.addEventListener('click', function() {
     });
 });
 </script>
+
+
 @endsection

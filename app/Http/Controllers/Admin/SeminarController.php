@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Attendance;
 use App\Models\Seminar;
 use App\Models\Trainer;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
@@ -22,6 +23,7 @@ class SeminarController extends Controller
 
     {
         $seminars = Seminar::latest()->get();
+        
 
         // $title = 'Delete User!';
         // $text = "Are you sure you want to delete?";

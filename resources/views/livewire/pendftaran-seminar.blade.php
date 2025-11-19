@@ -1,5 +1,4 @@
 <div class="min-h-screen bg-gray-50 font-sans">
-    <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
 
@@ -103,7 +102,7 @@
                     <div class="text-right">{{ $seminar->start_time->format('H:i') }} - {{ $seminar->end_time->format('H:i') }}</div>
 
                     <div class="font-medium text-primary text-lg">Biaya Investasi:</div>
-                    <div class="text-right text-xl font-extrabold text-accent">Rp {{ number_format($seminar->price, 0, ',', '.') }}</div>
+                    <div class="text-right text-xl font-extrabold text-accent">{{ $seminar->type == 'berbayar' ? number_format($seminar->price) : "Gratis" }}</div>
                 </div>
             </div>
 
@@ -201,7 +200,12 @@
                         <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path>
                         </svg>
-                        Daftar & Lanjutkan ke Pembayaran
+                        @if ($seminar->type === 'gratis')
+                            Daftar
+                         @else 
+                            Daftar & Lanjutkan ke Pembayaran
+                        
+                        @endif
                     </span>
                     <span wire:loading wire:target="register" class="flex items-center justify-center">
                         <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
