@@ -234,6 +234,7 @@
         </div>
 
         <!-- Grid: responsive columns -->
+
         <div class="grid gap-6 sm:gap-8 justify-center sm:grid-cols-2 lg:grid-cols-3">
               @forelse($seminars as $seminar)
                 @livewire('seminar-card', ['seminar' => $seminar])

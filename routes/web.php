@@ -118,7 +118,7 @@ Route::post('attend/{seminar}/{token}', [AttendanceController::class, 'markAtten
     ->name('attend.mark');
 
 // =======================
-// Certificate 
+// Certificate
 // =======================
 Route::get('/certificates', [CertificateController::class, 'index'])->name('certificates.index');
 
