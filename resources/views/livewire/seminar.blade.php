@@ -97,19 +97,14 @@
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                             {{ $seminar->type }}
                         </td>
-                        <td class="px-6 py-4">
-                            <div class="relative inline-block">
-                                <span wire:click="toggleStatusPopup({{ $seminar->id }})" class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full cursor-pointer transition
+                        <td class="px-6 py-4 whitespace-nowrap text-sm">
+                            <span wire:click="toggleStatusPopup({{ $seminar->id }})" class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full cursor-pointer transition
                                         @if($seminar->status=='upcoming') bg-blue-100 text-blue-800 hover:bg-blue-200
                                         @elseif($seminar->status=='active') bg-green-100 text-green-800 hover:bg-green-200
                                         @elseif($seminar->status=='completed') bg-gray-100 text-gray-800 hover:bg-gray-200
                                         @else bg-red-100 text-red-800 hover:bg-red-200 @endif">
-                                    {{ ucfirst($seminar->status) }}
-                                </span>
-
-                                <livewire:seminar-status-manager :seminarId="$seminar->id"
-                                    :wire:key="'status-manager-'.$seminar->id" />
-                            </div>
+                                {{ ucfirst($seminar->status) }}
+                            </span>
                         </td>
 
 
@@ -134,4 +129,7 @@
             </table>
         </div>
     </div>
+    
+    <!-- Seminar Status Modal - Moved outside table -->
+    <livewire:seminar-status-manager />
 </div>

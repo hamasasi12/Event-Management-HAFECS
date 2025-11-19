@@ -14,19 +14,26 @@ class SeminarStatusManager extends Component
 
     public function openModal($seminarId)
     {
-        if ($this->seminarId == $seminarId) {
-            $this->showModal = true;
-        }
+        $this->seminarId = $seminarId;
+        $this->showModal = true;
     }
 
     public function updateStatus($status)
     {
         $seminar = Seminar::find($this->seminarId);
-        $seminar->status = $status;
-        $seminar->save();
+        if ($seminar) {
+            $seminar->status = $status;
+            $seminar->save();
 
+            $this->showModal = false;
+            $this->dispatch('statusUpdated', message: 'Status updated successfully');
+        }
+    }
+
+    public function closeModal()
+    {
         $this->showModal = false;
-        $this->dispatch('statusUpdated', message: 'Status updated successfully');
+        $this->seminarId = null;
     }
 
     public function render()
