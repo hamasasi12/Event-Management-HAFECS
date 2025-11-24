@@ -47,7 +47,7 @@
             </div>
             @endif
 
-            <form method="POST" action="{{ route('attend.mark', ['seminar' => $seminar->id, 'token' => $token]) }}" class="space-y-4">
+            <form method="POST" action="{{ route('attend.mark', ['seminar_hashid' => $seminar->hashid, 'token' => $token]) }}" class="space-y-4">
                 @csrf
                 <div>
                     <label for="name" class="block text-sm font-medium text-gray-700">Nama</label>

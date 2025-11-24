@@ -8,11 +8,15 @@ use App\Models\Seminar;
 use App\Models\Attendance;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Vinkla\Hashids\Facades\Hashids;
 
 class AttendanceController extends Controller
 {
-    public function showAttendanceForm(Seminar $seminar, $token)
+    public function showAttendanceForm($seminar_hashid, $token)
     {
+        $seminar_id = Hashids::decode($seminar_hashid)[0] ?? null;
+        $seminar = Seminar::findOrFail($seminar_id);
+
         Log::info('Attendance form requested', [
             'seminar_id' => $seminar->id,
             'token'      => $token,
@@ -43,8 +47,11 @@ class AttendanceController extends Controller
         return view('absen.form', compact('seminar', 'attendance', 'token'));
     }
 
-    public function markAttendance(Request $request, Seminar $seminar, $token)
+    public function markAttendance(Request $request, $seminar_hashid, $token)
     {
+        $seminar_id = Hashids::decode($seminar_hashid)[0] ?? null;
+        $seminar = Seminar::findOrFail($seminar_id);
+        
         Log::info('Marking attendance', [
             'seminar_id'   => $seminar->id,
             'token'        => $token,

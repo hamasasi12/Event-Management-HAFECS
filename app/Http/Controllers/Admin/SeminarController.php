@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use RealRashid\SweetAlert\Facades\Alert;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Vinkla\Hashids\Facades\Hashids;
 
 class SeminarController extends Controller
 {
@@ -81,16 +82,20 @@ class SeminarController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Seminar $seminar)
+    public function show($seminar_hashid)
     {
+        $id = Hashids::decode($seminar_hashid)[0] ?? null;
+        $seminar = Seminar::findOrFail($id);
         return view('admin.seminars.show', compact('seminar'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Seminar $seminar)
+    public function edit($seminar_hashid)
     {
+        $id = Hashids::decode($seminar_hashid)[0] ?? null;
+        $seminar = Seminar::findOrFail($id);
         $trainers = Trainer::all();
         return view('admin.seminars.edit', compact('seminar', 'trainers'));
     }
@@ -98,8 +103,11 @@ class SeminarController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Seminar $seminar)
+    public function update(Request $request, $seminar_hashid)
     {
+        $id = Hashids::decode($seminar_hashid)[0] ?? null;
+        $seminar = Seminar::findOrFail($id);
+
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
@@ -146,8 +154,11 @@ class SeminarController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Seminar $seminar)
+    public function destroy($seminar_hashid)
     {
+        $id = Hashids::decode($seminar_hashid)[0] ?? null;
+        $seminar = Seminar::findOrFail($id);
+
         // Delete image if exists
         if ($seminar->image_url) {
             $imagePath = str_replace('/storage', 'public', $seminar->image_url);
@@ -180,8 +191,11 @@ class SeminarController extends Controller
     /**
      * Display registrants for a specific seminar
      */
-    public function registrants(Seminar $seminar)
+    public function registrants($seminar_hashid)
     {
+        $id = Hashids::decode($seminar_hashid)[0] ?? null;
+        $seminar = Seminar::findOrFail($id);
+
         // Load the seminar with its registrants
         $seminar->load('registrations.user');
 
@@ -191,8 +205,11 @@ class SeminarController extends Controller
     /**
      * Start presentation mode for a seminar (generate QR code)
      */
-    public function startPresentation(Request $request, Seminar $seminar)
+    public function startPresentation(Request $request, $seminar_hashid)
     {
+        $id = Hashids::decode($seminar_hashid)[0] ?? null;
+        $seminar = Seminar::findOrFail($id);
+
         try {
             // Generate token unik
             $token = Str::random(32);

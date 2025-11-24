@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\SeminarRegistration;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
+use Vinkla\Hashids\Facades\Hashids;
 
 class SeminarRegistrationController extends Controller
 {
@@ -55,8 +57,10 @@ class SeminarRegistrationController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(User $user)
+    public function show($user_hashid)
     {
+        $id = Hashids::decode($user_hashid)[0] ?? null;
+        $user = User::findOrFail($id);
         $user->load('roles', 'seminars');
         return view('admin.seminar_registration.index');
     }
@@ -64,16 +68,20 @@ class SeminarRegistrationController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(User $user)
+    public function edit($user_hashid)
     {
+        $id = Hashids::decode($user_hashid)[0] ?? null;
+        $user = User::findOrFail($id);
         return view('admin.seminar_registration.index');
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, $user_hashid)
     {
+        $id = Hashids::decode($user_hashid)[0] ?? null;
+        $user = User::findOrFail($id);
         // $request->validate([
         //     'name' => 'required|string|max:255',
         //     'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
@@ -95,8 +103,10 @@ class SeminarRegistrationController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user)
+    public function destroy($user_hashid)
     {
+        $id = Hashids::decode($user_hashid)[0] ?? null;
+        $user = User::findOrFail($id);
         // // Prevent deleting the currently logged in user
         // if ($user->id === auth()->id()) {
         //     return redirect()->route('admin.users.index')

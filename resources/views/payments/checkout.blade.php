@@ -305,7 +305,7 @@ body {
 const payButton = document.getElementById('pay-button');
 const snapToken = {!! json_encode($snapToken) !!};
 const orderId = {!! json_encode($payment->order_id ?? '') !!};
-const finishUrlWithOrder = "{{ route('payments.finish', ['id' => 'REPLACE_ORDER_ID']) }}";
+const finishUrlWithOrder = "{{ route('payments.finish', ['order_id' => 'REPLACE_ORDER_ID']) }}";
 
 payButton.addEventListener('click', function() {
     payButton.disabled = true;

@@ -30,7 +30,7 @@
   // Pakai sertifikat pertama sebagai sumber preview jika ada,
   // fallback ke demo preview kalau belum ada data.
   $initialPdfUrl = (isset($certificates) && $certificates->count())
-      ? route('certificates.download', ['id' => $certificates->first()->id])
+      ? route('certificates.download', ['hashid' => $certificates->first()->hashid])
       : route('certificates.demo.preview.pdf');
 @endphp
 

@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Carbon\Carbon;
+use Vinkla\Hashids\Facades\Hashids;
 
 class CertificateController extends Controller
 {
@@ -25,8 +26,9 @@ class CertificateController extends Controller
     // =========================
     // DOWNLOAD / PREVIEW BY ID
     // =========================
-    public function download($id)
+    public function download($hashid)
     {
+        $id = Hashids::decode($hashid)[0] ?? null;
         $certificate = Certificate::with(['seminar', 'registration'])->findOrFail($id);
         $seminar     = $certificate->seminar;
         $reg         = $certificate->registration;
@@ -138,8 +140,10 @@ class CertificateController extends Controller
     // =========================
     // PREVIEW DARI ATTENDANCE
     // =========================
-    public function attendancePreview(Attendance $attendance)
+    public function attendancePreview($attendance_hashid)
     {
+        $id = Hashids::decode($attendance_hashid)[0] ?? null;
+        $attendance = Attendance::findOrFail($id);
         [$seminar, $reg, $certificate, $bg] = $this->buildAttendancePayload($attendance);
 
         return view('certificates.sertifikat', [
@@ -156,8 +160,10 @@ class CertificateController extends Controller
         ]);
     }
 
-    public function attendancePreviewPdf(Attendance $attendance)
+    public function attendancePreviewPdf($attendance_hashid)
     {
+        $id = Hashids::decode($attendance_hashid)[0] ?? null;
+        $attendance = Attendance::findOrFail($id);
         [$seminar, $reg, $certificate, $bg] = $this->buildAttendancePayload($attendance);
 
         $pdfBinary = Pdf::loadView('certificates.sertifikat', [

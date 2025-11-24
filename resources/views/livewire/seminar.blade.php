@@ -88,7 +88,7 @@
                             {{ $seminar->type == 'berbayar' ? number_format($seminar->price) : "-" }}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                            <a href="{{ route('admin.attendance.seminar.registrants', $seminar) }}"
+                            <a href="{{ route('admin.attendance.seminar.registrants', ['seminar_hashid' => $seminar->hashid]) }}"
                                 class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300"
                                 wire:navigate>
                                {{ $seminar->access_seminar_registrations_count }} registrations
@@ -109,13 +109,13 @@
 
 
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                            <a href="{{ route('admin.seminars.show', $seminar) }}"
+                            <a href="{{ route('admin.seminars.show', ['seminar_hashid' => $seminar->hashid]) }}"
                                 class="text-indigo-600 hover:text-indigo-900 mr-3 dark:text-indigo-400 dark:hover:text-indigo-300"
                                 wire:navigate>Show</a>
-                            <a href="{{ route('admin.seminars.edit', $seminar) }}"
+                            <a href="{{ route('admin.seminars.edit', ['seminar_hashid' => $seminar->hashid]) }}"
                                 class="text-indigo-600 hover:text-indigo-900 mr-3 dark:text-indigo-400 dark:hover:text-indigo-300"
                                 wire:navigate>Edit</a>
-                            <form action="{{ route('admin.seminars.destroy', $seminar) }}" method="POST"
+                            <form action="{{ route('admin.seminars.destroy', ['seminar_hashid' => $seminar->hashid]) }}" method="POST"
                                 class="inline delete-form" data-confirm-delete="true">
                                 @csrf
                                 @method('DELETE')

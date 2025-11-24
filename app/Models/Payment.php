@@ -4,6 +4,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Vinkla\Hashids\Facades\Hashids;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+
 class Payment extends Model
 {
     use HasFactory;
@@ -36,5 +39,16 @@ class Payment extends Model
     {
         return $this->belongsTo(SeminarRegistration::class);
     }
-}
 
+    /**
+     * Get the hashid attribute.
+     *
+     * @return \Illuminate\Database\Eloquent\Casts\Attribute
+     */
+    protected function hashid(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => Hashids::encode($this->id),
+        );
+    }
+}

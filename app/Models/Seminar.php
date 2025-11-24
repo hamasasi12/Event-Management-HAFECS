@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Vinkla\Hashids\Facades\Hashids;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class Seminar extends Model
 {
@@ -36,5 +38,17 @@ class Seminar extends Model
     public function trainer()
     {
         return $this->belongsTo(Trainer::class);
+    }
+
+    /**
+     * Get the hashid attribute.
+     *
+     * @return \Illuminate\Database\Eloquent\Casts\Attribute
+     */
+    protected function hashid(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => Hashids::encode($this->id),
+        );
     }
 }
