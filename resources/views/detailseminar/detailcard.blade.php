@@ -71,11 +71,11 @@
     </header>
 
     <!-- Main Card Content - HANYA SATU CARD -->
-    <div class="container mx-auto px-4 py-8 max-w-5xl">
-        <div class="bg-accent-light text-primary-dark p-6 sm:p-8 lg:p-10 rounded-3xl shadow-2xl relative">
+    <div class="container mx-auto px-2 sm:px-4 py-4 sm:py-8 max-w-5xl">
+        <div class="bg-accent-light text-primary-dark p-4 sm:p-6 lg:p-10 rounded-3xl shadow-2xl relative">
 
             <!-- Back to Home Button -->
-            <a href="/" class="absolute top-6 left-6 flex items-center space-x-1 p-2 pr-3 bg-white text-primary-dark font-medium text-sm rounded-full shadow-lg hover:shadow-xl transition duration-200">
+            <a href="/" class="absolute top-4 left-4 sm:top-6 sm:left-6 flex items-center space-x-1 p-2 pr-3 bg-white text-primary-dark font-medium text-xs sm:text-sm rounded-full shadow-lg hover:shadow-xl transition duration-200">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                 </svg>
@@ -83,7 +83,7 @@
             </a>
 
             <!-- Header / Main Content Area -->
-            <div class="flex flex-col lg:flex-row gap-6 lg:gap-8 mt-8">
+            <div class="flex flex-col lg:flex-row gap-4 sm:gap-6 lg:gap-8 mt-12 sm:mt-8">
 
                 <!-- Image Area -->
                 <div class="lg:w-1/3 flex-shrink-0">
@@ -98,7 +98,7 @@
 
                 <!-- Text Content Area -->
                 <div class="lg:w-2/3 flex flex-col justify-center">
-                    <h1 class="text-2xl sm:text-3xl font-extrabold text-primary-dark leading-snug">
+                    <h1 class="text-xl sm:text-2xl lg:text-3xl font-extrabold text-primary-dark leading-snug break-words">
                         {{ $seminar->title }}
                     </h1>
                     @if($seminar->trainer)

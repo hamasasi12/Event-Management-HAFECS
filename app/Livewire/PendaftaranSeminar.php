@@ -105,8 +105,8 @@ class PendaftaranSeminar extends Component
                 if ($existingPayment) {
                     // Ada payment pending/settlement - arahkan ke checkout payment yang ada
                     Log::info('Found existing payment with status: ' . $existingPayment->status . ', Payment ID: ' . $existingPayment->id);
-                    // ✅ Langsung redirect, tidak perlu dispatch
-                    return redirect()->route('payments.checkout', $existingPayment->id);
+                    // ✅ Langsung redirect dengan hashid, bukan plain ID
+                    return redirect()->route('payments.checkout', Hashids::encode($existingPayment->id));
                     return;
                 } else {
                     // Tidak ada payment - arahkan ke create payment

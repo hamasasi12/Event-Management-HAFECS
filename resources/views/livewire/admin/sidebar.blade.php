@@ -121,7 +121,7 @@
                     @endphp
                     <li>
                         <a href="{{ route('admin.attendance.index') }}" class="group relative flex items-center gap-3 px-4 py-3 font-medium rounded-xl hover:bg-gray-200 text-sm transition-all duration-300 ease-in-out
-                           {{ Request::routeIs('admin.attendance.index') ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg' : 'text-gray-700 hover:bg-blue-50 hover:text-blue-700 dark:text-gray-300 dark:hover:bg-blue-500/10 dark:hover:text-blue-400' }}" wire:navigate.hover>
+                           {{ Request::routeIs('admin.attendance.index') || Request::routeIs('admin.seminar.registrants') ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg' : 'text-gray-700 hover:bg-blue-50 hover:text-blue-700 dark:text-gray-300 dark:hover:bg-blue-500/10 dark:hover:text-blue-400' }}" wire:navigate.hover>
 
 
 

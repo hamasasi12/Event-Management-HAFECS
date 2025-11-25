@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AttendanceController;
-use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\Auth\LoginController;
 use App\Http\Controllers\Sertifikasi\CertificateController;
 use App\Http\Controllers\Sertifikasi\CertificateController as CertController;
 use Illuminate\Support\Facades\Route;
@@ -29,19 +29,11 @@ Route::middleware(['preventAdminAccess'])->group(function () {
 
 
     // Route::get('/seminar.show/inputdatadiri', [SeminarController::class, 'inputdatadiri'])->name('detailseminar.inputdatadiri');
-
-    // =======================
-    // Admin Authentication
-    // =======================
-    Route::get('admin/login', [AuthController::class, 'showLoginForm'])->name('admin.login');
-    Route::post('admin/login', [AuthController::class, 'login']);
 });
 
 Route::get('/seminar/register/{hashid}', PendaftaranSeminar::class)->name('seminar.register');
 
 Route::get('/seminar/{hashid}', [PublicSeminarController::class, 'show'])->name('seminar.show');
-// Route::get('/seminar/{id}', [PublicSeminarController::class, 'show'])->name('seminar.detail');
-Route::post('admin/logout', [AuthController::class, 'logout'])->name('admin.logout');
 
 // =======================
 // Google OAuth
@@ -52,7 +44,7 @@ Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallba
 // =======================
 // General Logout
 // =======================
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::post('/logout', [App\Http\Controllers\Admin\Auth\LoginController::class, 'logout'])->name('logout')->middleware('auth');
 
 // =======================
 // Web Dev Team Page
@@ -64,40 +56,47 @@ Route::get('/web-dev-team', function () {
 // =======================
 // Admin Routes
 // =======================
-Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
-    Route::get('dashboard', fn() => view('admin.dashboard'))->name('dashboard');
+Route::prefix('admin')->name('admin.')->group(function () {
+    // Auth Routes - NO guest middleware, LoginController handles it
+    Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
+    Route::post('login', [LoginController::class, 'login']);
+    Route::post('logout', [LoginController::class, 'logout'])->name('logout')->middleware('auth');
 
-    Route::resource('trainers', TrainerController::class)->names('trainers');
+    Route::middleware(['auth', 'role:admin'])->group(function () {
+        Route::get('dashboard', fn() => view('admin.dashboard'))->name('dashboard');
 
-    // Seminar CRUD
-    Route::prefix('seminars')->name('seminars.')->group(function () {
-        Route::get('/', [SeminarController::class, 'index'])->name('index');
-        Route::get('create', [SeminarController::class, 'create'])->name('create');
-        Route::post('/', [SeminarController::class, 'store'])->name('store');
-        Route::get('{seminar_hashid}', [SeminarController::class, 'show'])->name('show');
-        Route::get('{seminar_hashid}/edit', [SeminarController::class, 'edit'])->name('edit');
-        Route::put('{seminar_hashid}', [SeminarController::class, 'update'])->name('update');
-        Route::delete('{seminar_hashid}', [SeminarController::class, 'destroy'])->name('destroy');
-    });
+        Route::resource('trainers', TrainerController::class)->names('trainers');
 
-    // Seminar Registration CRUD
-    Route::prefix('seminar_registration')->name('seminar_registration.')->group(function () {
-        Route::get('/', [SeminarRegistrationController::class, 'index'])->name('index');
-        Route::get('create', [SeminarRegistrationController::class, 'create'])->name('create');
-        Route::post('/', [SeminarRegistrationController::class, 'store'])->name('store');
-        Route::get('{user_hashid}', [SeminarRegistrationController::class, 'show'])->name('show');
-        Route::get('{user_hashid}/edit', [SeminarRegistrationController::class, 'edit'])->name('edit');
-        Route::put('{user_hashid}', [SeminarRegistrationController::class, 'update'])->name('update');
-        Route::delete('{user_hashid}', [SeminarRegistrationController::class, 'destroy'])->name('destroy');
-    });
+        // Seminar CRUD
+        Route::prefix('seminars')->name('seminars.')->group(function () {
+            Route::get('/', [SeminarController::class, 'index'])->name('index');
+            Route::get('create', [SeminarController::class, 'create'])->name('create');
+            Route::post('/', [SeminarController::class, 'store'])->name('store');
+            Route::get('{seminar_hashid}', [SeminarController::class, 'show'])->name('show');
+            Route::get('{seminar_hashid}/edit', [SeminarController::class, 'edit'])->name('edit');
+            Route::put('{seminar_hashid}', [SeminarController::class, 'update'])->name('update');
+            Route::delete('{seminar_hashid}', [SeminarController::class, 'destroy'])->name('destroy');
+        });
 
-    Route::get('messages', fn() => view('admin.messages.index'))->name('messages.index');
+        // Seminar Registration CRUD
+        Route::prefix('seminar_registration')->name('seminar_registration.')->group(function () {
+            Route::get('/', [SeminarRegistrationController::class, 'index'])->name('index');
+            Route::get('create', [SeminarRegistrationController::class, 'create'])->name('create');
+            Route::post('/', [SeminarRegistrationController::class, 'store'])->name('store');
+            Route::get('{user_hashid}', [SeminarRegistrationController::class, 'show'])->name('show');
+            Route::get('{user_hashid}/edit', [SeminarRegistrationController::class, 'edit'])->name('edit');
+            Route::put('{user_hashid}', [SeminarRegistrationController::class, 'update'])->name('update');
+            Route::delete('{user_hashid}', [SeminarRegistrationController::class, 'destroy'])->name('destroy');
+        });
 
-    // Attendance Routes
-    Route::prefix('attendance')->name('attendance.')->group(function () {
-        Route::get('/', [SeminarController::class, 'activeSeminars'])->name('index');
-        Route::get('seminar/{seminar_hashid}/registrants', [SeminarController::class, 'registrants'])->name('seminar.registrants');
-        Route::post('seminar/{seminar_hashid}/start-presentation', [SeminarController::class, 'startPresentation'])->name('seminar.start-presentation');
+        Route::get('messages', fn() => view('admin.messages.index'))->name('messages.index');
+
+        // Attendance Routes
+        Route::prefix('attendance')->name('attendance.')->group(function () {
+            Route::get('/', [SeminarController::class, 'activeSeminars'])->name('index');
+            Route::get('seminar/{seminar_hashid}/registrants', [SeminarController::class, 'registrants'])->name('seminar.registrants');
+            Route::post('seminar/{seminar_hashid}/start-presentation', [SeminarController::class, 'startPresentation'])->name('seminar.start-presentation');
+        });
     });
 });
 
