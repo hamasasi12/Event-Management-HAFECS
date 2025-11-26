@@ -14,11 +14,18 @@ use Vinkla\Hashids\Facades\Hashids;
 
 class CertificateController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $certificates = Certificate::with(['seminar', 'registration'])
-            ->latest()
-            ->paginate(20);
+        $query = Certificate::with(['seminar', 'registration']);
+
+        if ($request->filled('email')) {
+            $email = strtolower(trim($request->email));
+            $query->whereHas('registration', function ($q) use ($email) {
+                $q->whereRaw('LOWER(email) = ?', [$email]);
+            });
+        }
+
+        $certificates = $query->latest()->paginate(20);
 
         return view('certificates.index', compact('certificates'));
     }

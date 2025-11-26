@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HAFECS - Absensi Seminar 2025</title>
     @vite('resources/css/app.css')
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <div>
         <header class="bg-white shadow-md sticky top-0 z-50">
@@ -51,7 +50,7 @@
                     </div>
                 @endif
 
-                <form method="POST" action="{{ route('attend.mark', ['seminar' => $seminar->id, 'token' => $token]) }}"
+                <form method="POST" action="{{ route('attend.mark', ['seminar_hashid' => $seminar->hashid, 'token' => $token]) }}"
                     class="space-y-4">
                     @csrf
                     <div>

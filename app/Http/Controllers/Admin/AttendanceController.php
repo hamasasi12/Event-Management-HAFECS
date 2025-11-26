@@ -66,7 +66,7 @@ class AttendanceController extends Controller
                 'jenjang_sekolah' => 'nullable|string|max:255',
                 'asal_sekolah' => 'nullable|string|max:255',
                 'jabatan' => 'required|string|max:255',
-                'kota_kabupaten' => 'required|string|max:255',
+                'kabupaten' => 'required|string|max:255',
                 'provinsi' => 'required|string|max:255',            
             ]);
 
@@ -99,7 +99,7 @@ class AttendanceController extends Controller
                 'jenjang_sekolah' => $request->jenjang_sekolah,
                 'asal_sekolah' => $request->asal_sekolah,
                 'jabatan' => $request->jabatan,
-                'kota_kabupaten' => $request->kota_kabupaten,
+                'kota_kabupaten' => $request->kabupaten,
                 'provinsi' => $request->provinsi,
                 'scanned_at' => now(),
             ]);
@@ -116,7 +116,7 @@ class AttendanceController extends Controller
                 'jenjang_sekolah' => $request->jenjang_sekolah,
                 'asal_sekolah' => $request->asal_sekolah,
                 'jabatan' => $request->jabatan,
-                'kota_kabupaten' => $request->kota_kabupaten,
+                'kota_kabupaten' => $request->kabupaten,
                 'provinsi' => $request->provinsi,
             ]);
 
