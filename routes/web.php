@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AttendanceController;
 use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\RegionController;
 use App\Http\Controllers\Sertifikasi\CertificateController;
 use App\Http\Controllers\Sertifikasi\CertificateController as CertController;
 use Illuminate\Support\Facades\Route;
@@ -66,11 +67,7 @@ Route::get('/web-dev-team', function () {
 // =======================
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('dashboard', fn() => view('admin.dashboard'))->name('dashboard');
-
-
-
     Route::resource('trainers', TrainerController::class)->names('trainers');
-
     // Seminar CRUD
     Route::prefix('seminars')->name('seminars.')->group(function () {
         Route::get('/', [SeminarController::class, 'index'])->name('index');
@@ -81,7 +78,6 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
         Route::put('{seminar}', [SeminarController::class, 'update'])->name('update');
         Route::delete('{seminar}', [SeminarController::class, 'destroy'])->name('destroy');
     });
-
     // Seminar Registration CRUD
     Route::prefix('seminar_registration')->name('seminar_registration.')->group(function () {
         Route::get('/', [SeminarRegistrationController::class, 'index'])->name('index');
@@ -92,9 +88,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
         Route::put('{user}', [SeminarRegistrationController::class, 'update'])->name('update');
         Route::delete('{user}', [SeminarRegistrationController::class, 'destroy'])->name('destroy');
     });
-
     Route::get('messages', fn() => view('admin.messages.index'))->name('messages.index');
-
     // Attendance Routes
     Route::prefix('attendance')->name('attendance.')->group(function () {
         Route::get('/', [SeminarController::class, 'activeSeminars'])->name('index');
@@ -103,14 +97,10 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     });
 });
 
-
-
 // =======================
 // Absent Routes
 // =======================
 Route::get('absent/Test', fn() => view('absen.index'))->name('absent.test');
-
-
 // Tambahkan route ini di luar middleware admin
 Route::get('attend/{seminar}/{token}', [AttendanceController::class, 'showAttendanceForm'])
     ->name('attend.form');
@@ -165,3 +155,8 @@ Route::prefix('certificates')->name('certificates.')->group(function () {
     Route::get('/{id}/download', [CertController::class, 'download'])
         ->name('download');
 });
+
+// ROUTE PROVIDE DATA PROVINSI DAN LAINNYA
+Route::get('/regencies/{provinceName}', [RegionController::class, 'getRegencies']);
+Route::get('/districts/{regencyName}', [RegionController::class, 'getDistricts']);
+Route::get('/villages/{districtName}', [RegionController::class, 'getVillages']);
