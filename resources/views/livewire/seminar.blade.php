@@ -85,42 +85,37 @@
                             </div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                            Rp {{ number_format($seminar->price, 0, ',', '.') }}
+                            {{ $seminar->type == 'berbayar' ? number_format($seminar->price) : "-" }}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                            <a href="{{ route('admin.attendance.seminar.registrants', $seminar) }}"
+                            <a href="{{ route('admin.attendance.seminar.registrants', ['seminar_hashid' => $seminar->hashid]) }}"
                                 class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300"
                                 wire:navigate>
-                                {{ $seminar->registrations->count() }} registrations
+                               {{ $seminar->access_seminar_registrations_count }} registrations
                             </a>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                             {{ $seminar->type }}
                         </td>
-                        <td class="px-6 py-4">
-                            <div class="relative inline-block">
-                                <span wire:click="toggleStatusPopup({{ $seminar->id }})" class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full cursor-pointer transition
+                        <td class="px-6 py-4 whitespace-nowrap text-sm">
+                            <span wire:click="toggleStatusPopup({{ $seminar->id }})" class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full cursor-pointer transition
                                         @if($seminar->status=='upcoming') bg-blue-100 text-blue-800 hover:bg-blue-200
                                         @elseif($seminar->status=='active') bg-green-100 text-green-800 hover:bg-green-200
                                         @elseif($seminar->status=='completed') bg-gray-100 text-gray-800 hover:bg-gray-200
                                         @else bg-red-100 text-red-800 hover:bg-red-200 @endif">
-                                    {{ ucfirst($seminar->status) }}
-                                </span>
-
-                                <livewire:seminar-status-manager :seminarId="$seminar->id"
-                                    :wire:key="'status-manager-'.$seminar->id" />
-                            </div>
+                                {{ ucfirst($seminar->status) }}
+                            </span>
                         </td>
 
 
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                            <a href="{{ route('admin.seminars.show', $seminar) }}"
+                            <a href="{{ route('admin.seminars.show', ['seminar_hashid' => $seminar->hashid]) }}"
                                 class="text-indigo-600 hover:text-indigo-900 mr-3 dark:text-indigo-400 dark:hover:text-indigo-300"
                                 wire:navigate>Show</a>
-                            <a href="{{ route('admin.seminars.edit', $seminar) }}"
+                            <a href="{{ route('admin.seminars.edit', ['seminar_hashid' => $seminar->hashid]) }}"
                                 class="text-indigo-600 hover:text-indigo-900 mr-3 dark:text-indigo-400 dark:hover:text-indigo-300"
                                 wire:navigate>Edit</a>
-                            <form action="{{ route('admin.seminars.destroy', $seminar) }}" method="POST"
+                            <form action="{{ route('admin.seminars.destroy', ['seminar_hashid' => $seminar->hashid]) }}" method="POST"
                                 class="inline delete-form" data-confirm-delete="true">
                                 @csrf
                                 @method('DELETE')
@@ -134,4 +129,7 @@
             </table>
         </div>
     </div>
+    
+    <!-- Seminar Status Modal - Moved outside table -->
+    <livewire:seminar-status-manager />
 </div>

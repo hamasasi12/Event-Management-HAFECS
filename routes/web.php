@@ -40,7 +40,7 @@ Route::middleware(['preventAdminAccess'])->group(function () {
 
 Route::get('/seminar/register/{hashid}', PendaftaranSeminar::class)->name('seminar.register');
 
-Route::get('/seminar/{id}', [PublicSeminarController::class, 'show'])->name('seminar.show');
+Route::get('/seminar/{hashid}', [PublicSeminarController::class, 'show'])->name('seminar.show');
 // Route::get('/seminar/{id}', [PublicSeminarController::class, 'show'])->name('seminar.detail');
 Route::post('admin/logout', [AuthController::class, 'logout'])->name('admin.logout');
 
@@ -73,27 +73,27 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
         Route::get('/', [SeminarController::class, 'index'])->name('index');
         Route::get('create', [SeminarController::class, 'create'])->name('create');
         Route::post('/', [SeminarController::class, 'store'])->name('store');
-        Route::get('{seminar}', [SeminarController::class, 'show'])->name('show');
-        Route::get('{seminar}/edit', [SeminarController::class, 'edit'])->name('edit');
-        Route::put('{seminar}', [SeminarController::class, 'update'])->name('update');
-        Route::delete('{seminar}', [SeminarController::class, 'destroy'])->name('destroy');
+        Route::get('{seminar_hashid}', [SeminarController::class, 'show'])->name('show');
+        Route::get('{seminar_hashid}/edit', [SeminarController::class, 'edit'])->name('edit');
+        Route::put('{seminar_hashid}', [SeminarController::class, 'update'])->name('update');
+        Route::delete('{seminar_hashid}', [SeminarController::class, 'destroy'])->name('destroy');
     });
     // Seminar Registration CRUD
     Route::prefix('seminar_registration')->name('seminar_registration.')->group(function () {
         Route::get('/', [SeminarRegistrationController::class, 'index'])->name('index');
         Route::get('create', [SeminarRegistrationController::class, 'create'])->name('create');
         Route::post('/', [SeminarRegistrationController::class, 'store'])->name('store');
-        Route::get('{user}', [SeminarRegistrationController::class, 'show'])->name('show');
-        Route::get('{user}/edit', [SeminarRegistrationController::class, 'edit'])->name('edit');
-        Route::put('{user}', [SeminarRegistrationController::class, 'update'])->name('update');
-        Route::delete('{user}', [SeminarRegistrationController::class, 'destroy'])->name('destroy');
+        Route::get('{user_hashid}', [SeminarRegistrationController::class, 'show'])->name('show');
+        Route::get('{user_hashid}/edit', [SeminarRegistrationController::class, 'edit'])->name('edit');
+        Route::put('{user_hashid}', [SeminarRegistrationController::class, 'update'])->name('update');
+        Route::delete('{user_hashid}', [SeminarRegistrationController::class, 'destroy'])->name('destroy');
     });
     Route::get('messages', fn() => view('admin.messages.index'))->name('messages.index');
     // Attendance Routes
     Route::prefix('attendance')->name('attendance.')->group(function () {
         Route::get('/', [SeminarController::class, 'activeSeminars'])->name('index');
-        Route::get('seminar/{seminar}/registrants', [SeminarController::class, 'registrants'])->name('seminar.registrants');
-        Route::post('seminar/{seminar}/start-presentation', [SeminarController::class, 'startPresentation'])->name('seminar.start-presentation');
+        Route::get('seminar/{seminar_hashid}/registrants', [SeminarController::class, 'registrants'])->name('seminar.registrants');
+        Route::post('seminar/{seminar_hashid}/start-presentation', [SeminarController::class, 'startPresentation'])->name('seminar.start-presentation');
     });
 });
 
@@ -102,18 +102,18 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 // =======================
 Route::get('absent/Test', fn() => view('absen.index'))->name('absent.test');
 // Tambahkan route ini di luar middleware admin
-Route::get('attend/{seminar}/{token}', [AttendanceController::class, 'showAttendanceForm'])
+Route::get('attend/{seminar_hashid}/{token}', [AttendanceController::class, 'showAttendanceForm'])
     ->name('attend.form');
-Route::post('attend/{seminar}/{token}', [AttendanceController::class, 'markAttendance'])
+Route::post('attend/{seminar_hashid}/{token}', [AttendanceController::class, 'markAttendance'])
     ->name('attend.mark');
 
 // =======================
-// Certificate 
+// Certificate
 // =======================
 Route::get('/certificates', [CertificateController::class, 'index'])->name('certificates.index');
 
 // Opsional (buat test manual via URL): issue sertif dari 1 attendance id
-Route::post('/certificates/issue-from-attendance/{attendance}', [CertificateController::class, 'issueFromAttendance'])
+Route::post('/certificates/issue-from-attendance/{attendance_hashid}', [CertificateController::class, 'issueFromAttendance'])
     ->name('certificates.issue-from-attendance');
 
 // =======================
@@ -121,14 +121,15 @@ Route::post('/certificates/issue-from-attendance/{attendance}', [CertificateCont
 // =======================
 Route::prefix('payments')->name('payments.')->group(function () {
     Route::get('/', [PaymentController::class, 'index'])->name('index');
-    Route::get('/payments/finish/{id}', [PaymentController::class, 'finish'])->name('finish');
+    Route::get('/payments/finish/{order_id}', [PaymentController::class, 'finish'])->name('finish');
     Route::get('pending', [PaymentController::class, 'pending'])->name('pending');
     Route::get('error', [PaymentController::class, 'error'])->name('error');
-    Route::get('{id}/create', [PaymentController::class, 'create'])->name('create');
+    Route::get('{hashid}/create', [PaymentController::class, 'create'])->name('create');
     Route::post('/', [PaymentController::class, 'store'])->name('store');
-    Route::get('{id}/checkout', [PaymentController::class, 'checkout'])->name('checkout');
-    Route::get('{id}', [PaymentController::class, 'detail'])->name('detail');
+    Route::get('{hashid}/checkout', [PaymentController::class, 'checkout'])->name('checkout');
+    Route::get('{hashid}', [PaymentController::class, 'detail'])->name('detail');
     Route::get('/transaksi', [TransactionController::class, 'index'])->name('transaksi');
+    
 });
 
 
@@ -145,14 +146,14 @@ Route::prefix('certificates')->name('certificates.')->group(function () {
         ->name('demo.preview.pdf');
 
     // Preview by attendance (opsional)
-    Route::get('/attendance/{attendance}/preview', [CertController::class, 'attendancePreview'])
+    Route::get('/attendance/{attendance_hashid}/preview', [CertController::class, 'attendancePreview'])
         ->name('attendance.preview.html');
 
-    Route::get('/attendance/{attendance}/preview-pdf', [CertController::class, 'attendancePreviewPdf'])
+    Route::get('/attendance/{attendance_hashid}/preview-pdf', [CertController::class, 'attendancePreviewPdf'])
         ->name('attendance.preview.pdf');
 
     // Download by certificate id (opsional)
-    Route::get('/{id}/download', [CertController::class, 'download'])
+    Route::get('/{hashid}/download', [CertController::class, 'download'])
         ->name('download');
 });
 

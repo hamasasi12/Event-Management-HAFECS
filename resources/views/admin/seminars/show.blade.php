@@ -13,10 +13,10 @@
                     {{ $seminar->title }}
                 </h3>
                 <div class="flex space-x-2">
-                    <a href="{{ route('admin.seminars.edit', $seminar) }}" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:text-indigo-300 dark:bg-indigo-900/30 dark:hover:bg-indigo-900/50">
+                    <a href="{{ route('admin.seminars.edit', ['seminar_hashid' => $seminar->hashid]) }}" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:text-indigo-300 dark:bg-indigo-900/30 dark:hover:bg-indigo-900/50">
                         Edit
                     </a>
-                    <form action="{{ route('admin.seminars.destroy', $seminar) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this seminar?');">
+                    <form action="{{ route('admin.seminars.destroy', ['seminar_hashid' => $seminar->hashid]) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this seminar?');">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-red-700 bg-red-100 hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 dark:text-red-300 dark:bg-red-900/30 dark:hover:bg-red-900/50">

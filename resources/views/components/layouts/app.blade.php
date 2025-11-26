@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $title ?? 'HAFECS Seminar Registration' }}</title>
     @vite('resources/css/app.css')
-    @include('sweetalert::alert')
+    @vite('resources/js/app.js')
     @livewireStyles
 
 </head>
@@ -15,49 +15,28 @@
     </div>
     @livewireScripts
 </body>
-@include('sweetalert::alert')
 
     <!-- Script untuk menangani SweetAlert dari Livewire events -->
     <script>
-        document.addEventListener('livewire:init', () => {
-            Livewire.on('show-success', (event) => {
-                Swal.fire({
-                    title: event.title,
-                    text: event.message,
-                    icon: 'success',
-                    confirmButtonText: 'OK'
-                }).then((result) => {
-                    // Redirect jika redirectTo diberikan dan bukan null/undefined
-                    if (event.redirectTo && event.redirectTo !== null) {
-                        if (event.redirectTo.startsWith('http')) {
-                            window.location.href = event.redirectTo;
-                        } else {
-                            // Jika tidak dimulai dengan '/', tambahkan
-                            const path = event.redirectTo.startsWith('/') ? event.redirectTo : '/' + event.redirectTo;
-                            window.location.href = path;
-                        }
-                    }
-                });
+        Livewire.on('show-success', ({title, message, redirectTo}) => {
+            Swal.fire({
+                title,
+                text: message,
+                icon: 'success',
+                confirmButtonText: 'OK'
+            }).then(() => {
+                if (redirectTo) window.location.href = redirectTo;
             });
+        });
 
-            Livewire.on('show-error', (event) => {
-                Swal.fire({
-                    title: event.title,
-                    text: event.message,
-                    icon: 'error',
-                    confirmButtonText: 'OK'
-                }).then((result) => {
-                    // Redirect hanya jika redirectTo diberikan dan bukan null/undefined
-                    if (event.redirectTo && event.redirectTo !== null) {
-                        if (event.redirectTo.startsWith('http')) {
-                            window.location.href = event.redirectTo;
-                        } else {
-                            // Jika tidak dimulai dengan '/', tambahkan
-                            const path = event.redirectTo.startsWith('/') ? event.redirectTo : '/' + event.redirectTo;
-                            window.location.href = path;
-                        }
-                    }
-                });
+        Livewire.on('show-error', ({title, message, redirectTo}) => {
+            Swal.fire({
+                title,
+                text: message,
+                icon: 'error',
+                confirmButtonText: 'OK'
+            }).then(() => {
+                if (redirectTo) window.location.href = redirectTo;
             });
         });
     </script>

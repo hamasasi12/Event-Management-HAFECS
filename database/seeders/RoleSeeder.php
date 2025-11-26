@@ -24,6 +24,7 @@ class RoleSeeder extends Seeder
             'manage seminars',
             'manage users',
             'view dashboard',
+            'access_seminar',
         ];
 
         foreach ($permissions as $permission) {
@@ -31,7 +32,12 @@ class RoleSeeder extends Seeder
         }
 
         // Assign permissions to roles
-        $adminRole->givePermissionTo(Permission::all());
+        $adminRole->givePermissionTo([
+    'manage seminars',
+    'manage users',
+    'view dashboard',
+]);
+
         
         // Assign user role to all existing users who don't have a role
         $users = User::all();

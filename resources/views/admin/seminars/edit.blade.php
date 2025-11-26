@@ -7,7 +7,7 @@
 
     <div class="bg-white shadow overflow-hidden rounded-lg dark:bg-gray-800">
         <div class="px-4 py-5 sm:p-6">
-            <form action="{{ route('admin.seminars.update', $seminar) }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('admin.seminars.update', ['seminar_hashid' => $seminar->hashid]) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
 

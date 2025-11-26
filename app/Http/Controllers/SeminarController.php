@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Seminar;
 use Illuminate\Http\Request;
+use Vinkla\Hashids\Facades\Hashids;
 
 class SeminarController extends Controller
 {
@@ -13,9 +14,10 @@ class SeminarController extends Controller
         return view('welcome', compact('seminars'));
     }
 
-    public function show($id)
+    public function show($hashid)
 
     {
+        $id = Hashids::decode($hashid)[0] ?? null;
         $seminar = Seminar::with('trainer')->findOrFail($id);
         return view('detailseminar.detailcard', compact('seminar'));
     }

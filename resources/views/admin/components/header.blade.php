@@ -287,7 +287,7 @@
             <!-- User Area -->
             <div class="relative" x-data="{ dropdownOpen: false }" @click.outside="dropdownOpen = false">
                 <a class="flex items-center text-gray-700 dark:text-gray-400" href="#" @click.prevent="dropdownOpen = ! dropdownOpen">
-                    <span class="mr-3 h-9 w-9 overflow-hidden rounded-full">
+                    <span class="mr-3 h-10 w-10 overflow-hidden rounded-full ">
                         <img src="{{ asset('images/user/blankProfile.png') }}" >
                     </span>
 

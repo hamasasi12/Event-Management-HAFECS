@@ -28,13 +28,13 @@ class LoginController extends Controller
     {
         try {
             $user = Socialite::driver('google')->user();
+            $existingUser = User::where('email', $user->email)->first();
+
         } catch (\Exception $e) {
             return redirect('/');
         }
 
         // check if they're an existing user
-        $existingUser = User::where('email', $user->email)->first();
-
         if($existingUser){
             // log them in
             auth()->login($existingUser, true);

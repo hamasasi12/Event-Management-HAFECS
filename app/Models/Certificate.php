@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
+use Vinkla\Hashids\Facades\Hashids;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 /**
  * @property int $id
@@ -56,6 +58,18 @@ class Certificate extends Model
     public function registration()
     {
         return $this->belongsTo(\App\Models\SeminarRegistration::class, 'registration_id');
+    }
+
+    /**
+     * Get the hashid attribute.
+     *
+     * @return \Illuminate\Database\Eloquent\Casts\Attribute
+     */
+    protected function hashid(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => Hashids::encode($this->id),
+        );
     }
 
     /* =========================

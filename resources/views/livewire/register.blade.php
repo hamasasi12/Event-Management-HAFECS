@@ -46,7 +46,11 @@
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase dark:text-gray-300">
                             Phone</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase dark:text-gray-300">
-                            Registrations</th>
+                            Type</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase dark:text-gray-300">
+                            Status</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase dark:text-gray-300">
+                            Tanggal Registrasi</th>
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
@@ -63,6 +67,12 @@
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                             {{ $item->phone }}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
+                            {{ $item->seminar->type ?? '-' }}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                            {{ $item->is_paid == 'yes' ? 'Sudah Bayar' : '-' }}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                             {{ $item->created_at->translatedFormat('d F Y H:i') }}

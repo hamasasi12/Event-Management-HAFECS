@@ -48,7 +48,7 @@
                                 </div>
                             </div>
                             <div class="mt-6">
-                                <a href="{{ route('admin.attendance.seminar.registrants', $seminar) }}" class="w-full inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:bg-indigo-700 dark:hover:bg-indigo-600">
+                                <a href="{{ route('admin.attendance.seminar.registrants', ['seminar_hashid' => $seminar->hashid]) }}" class="w-full inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:bg-indigo-700 dark:hover:bg-indigo-600">
                                     Lihat Peserta
                                 </a>
                             </div>

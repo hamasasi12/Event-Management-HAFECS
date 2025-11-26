@@ -67,10 +67,12 @@
                     </div>
 
                     <!-- Price -->
-                    <div>
+                    <div id="price-wrapper">
                         <label for="price" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Price (Rp)</label>
-                        <input type="number" name="price" id="price" value="{{ old('price', 0) }}" step="0.01" min="0" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                        <input type="number" name="price" id="price" value="{{ old('price', 0) }}" step="0.01" min="0"
+                            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                     </div>
+
 
                     <!-- Link -->
                     <div>
@@ -139,4 +141,25 @@
             </form>
         </div>
     </div>
+
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+    const typeSelect = document.getElementById('type');
+    const priceWrapper = document.getElementById('price-wrapper');
+    const priceInput = document.getElementById('price');
+
+    function togglePrice() {
+        if (typeSelect.value === 'berbayar') {
+            priceWrapper.style.display = 'block';
+        } else {
+            priceWrapper.style.display = 'none';
+            priceInput.value = 0;
+        }
+    }
+
+    togglePrice();            // cek saat halaman pertama kali load (agar old() berfungsi)
+    typeSelect.addEventListener('change', togglePrice);
+});
+</script>
+
 </x-layouts.admin>

@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
 use App\Mail\SeminarRegistrationMail;
+use Predis\Command\Traits\Replace;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class PaymentController extends Controller
@@ -95,7 +96,7 @@ class PaymentController extends Controller
                 ->first();
 
             if ($existingPayment) {
-                return redirect()->route('payments.checkout', $existingPayment->id)
+                return redirect()->route('payments.checkout', ['hashid' => Hashids::encode($existingPayment->id)])
                     ->with('info', 'Pembayaran sedang diproses. Silakan selesaikan pembayaran sebelumnya.');
             }
 
@@ -126,7 +127,7 @@ class PaymentController extends Controller
             'status' => 'pending',
         ]);
 
-            return redirect()->route('payments.checkout', ['id' => $payment->id]);
+            return redirect()->route('payments.checkout', ['hashid' => Hashids::encode($payment->id)]);
         } catch (\Exception $e) {
             Log::error('Midtrans Error:', [
                 'message' => $e->getMessage(),
@@ -147,9 +148,10 @@ class PaymentController extends Controller
         \Midtrans\Config::$is3ds = config('midtrans.is_3ds', true);
     }
 
-    public function checkout($id)
+    public function checkout($hashid)
     {
         try {
+            $id = Hashids::decode($hashid)[0] ?? null;
             $payment = Payment::with('seminarRegistration.seminar')->findOrFail($id);
             $seminarRegistration = $payment->seminarRegistration;
 
@@ -158,7 +160,7 @@ class PaymentController extends Controller
             }
 
             if ($payment->status != 'pending') {
-                return redirect()->route('payments.detail', $id)
+                return redirect()->route('payments.detail', ['hashid' => Hashids::encode($payment->id)])
                     ->with('error', 'Pembayaran ini sudah diproses sebelumnya');
             }
 
@@ -189,6 +191,7 @@ class PaymentController extends Controller
 
             $snapToken = $payment->snap_token;
 
+
             return view('payments.checkout', compact('payment', 'snapToken', ));
         } catch (\Exception $e) {
             Log::error('Error in checkout: ' . $e->getMessage(), [
@@ -198,9 +201,9 @@ class PaymentController extends Controller
         }
     }
 
-    public function finish(string $id)
+    public function finish(string $order_id)
     {
-        $payment = Payment::with('seminarRegistration.seminar')->where('order_id', $id)->first();
+        $payment = Payment::with('seminarRegistration.seminar')->where('order_id', $order_id)->first();
 
         if (!$payment) {
             abort(404);
@@ -224,6 +227,8 @@ class PaymentController extends Controller
                 SendSeminarRegistrationEmail::dispatch($seminarRegistration->seminar, $seminarRegistration);
             }
         }
+        $user = User::firstWhere('id', $payment->user_id);
+        $user->givePermissionTo('access_seminar');
 
         // Display success alert and redirect to home page
         Alert::success('Success!', 'Pendaftaran berhasil! Silakan cek email Anda untuk konfirmasi.');
@@ -299,9 +304,10 @@ class PaymentController extends Controller
         }
     }
 
-    public function detail($id)
+    public function detail($hashid)
     {
         try {
+            $id = Hashids::decode($hashid)[0] ?? null;
             $payment = Payment::findOrFail($id);
 
             if (Auth::check() && $payment->user_id && $payment->user_id != Auth::id()) {
@@ -318,4 +324,6 @@ class PaymentController extends Controller
         }
 
     }
+
+    
 }
