@@ -1,7 +1,8 @@
 <?php
 
 use App\Http\Controllers\Admin\AttendanceController;
-use App\Http\Controllers\Admin\Auth\LoginController;
+use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\RegionController;
 use App\Http\Controllers\Sertifikasi\CertificateController;
 use App\Http\Controllers\Sertifikasi\CertificateController as CertController;
 use Illuminate\Support\Facades\Route;
@@ -100,14 +101,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
     });
 });
 
-
-
 // =======================
 // Absent Routes
 // =======================
 Route::get('absent/Test', fn() => view('absen.index'))->name('absent.test');
-
-
 // Tambahkan route ini di luar middleware admin
 Route::get('attend/{seminar_hashid}/{token}', [AttendanceController::class, 'showAttendanceForm'])
     ->name('attend.form');
@@ -163,3 +160,8 @@ Route::prefix('certificates')->name('certificates.')->group(function () {
     Route::get('/{hashid}/download', [CertController::class, 'download'])
         ->name('download');
 });
+
+// ROUTE PROVIDE DATA PROVINSI DAN LAINNYA
+Route::get('/regencies/{provinceName}', [RegionController::class, 'getRegencies']);
+Route::get('/districts/{regencyName}', [RegionController::class, 'getDistricts']);
+Route::get('/villages/{districtName}', [RegionController::class, 'getVillages']);

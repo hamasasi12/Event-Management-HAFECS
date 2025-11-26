@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Jobs\IssueCertificateFromRegistration;
 use App\Models\Seminar;
+use App\Models\Province;
 use App\Models\Attendance;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\Controller;
+use App\Jobs\IssueCertificateFromRegistration;
 use Vinkla\Hashids\Facades\Hashids;
 
 class AttendanceController extends Controller
@@ -43,8 +44,8 @@ class AttendanceController extends Controller
             ]);
             return redirect()->route('welcome')->with('error', 'This QR code has already been used.');
         }
-
-        return view('absen.form', compact('seminar', 'attendance', 'token'));
+        $provinces = Province::all();
+        return view('absen.form', compact('seminar', 'attendance', 'token', 'provinces'));
     }
 
     public function markAttendance(Request $request, $seminar_hashid, $token)
