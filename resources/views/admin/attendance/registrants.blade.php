@@ -16,12 +16,14 @@
                         Daftar peserta yang mendaftar seminar "{{ $seminar->title }}"
                     </p>
                 </div>
+                @if($seminar->status === 'active')
                 <button id="generate-qr-btn" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500" onclick="showQrModal('{{ $seminar->hashid }}')">
                     <svg class="-ml-1 mr-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M4 4a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2V8a2 2 0 00-2-2h-5L9 4H4zm3 6a1 1 0 000 2h6a1 1 0 100-2H7z" clip-rule="evenodd" />
                     </svg>
                     Generate QR Akses
                 </button>
+                @endif
             </div>
         </div>
         <div class="border-t border-gray-200 dark:border-gray-700 px-4 py-5 sm:p-6">

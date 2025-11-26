@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\TrainerController;
 use App\Http\Controllers\Asesi\TransactionController as AsesiTransactionController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\Auth\GoogleController;
+use App\Http\Controllers\Admin\Auth\LoginController;
 use App\Livewire\DetailCard;
 use App\Livewire\PendaftaranSeminar;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;

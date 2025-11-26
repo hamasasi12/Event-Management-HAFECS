@@ -90,6 +90,7 @@ class PendaftaranSeminar extends Component
                     $this->dispatch('show-error', 
                         title: 'Sudah Terdaftar', 
                         message: 'Anda sudah terdaftar dan menyelesaikan pembayaran di seminar ini.'
+
                     );
                     return;
                 }
@@ -201,7 +202,14 @@ class PendaftaranSeminar extends Component
                 'phone'      => $this->phone,
                 'user_id'    => $user->id,
                 'is_paid'    => 'yes', // Gratis dianggap sudah "bayar"
+                
             ]);
+
+              $this->dispatch('show-success', 
+                title: 'Pendaftaran berhasil', 
+                message: 'Terima kasih telah mendaftar. Silakan cek email Anda untuk konfirmasi.',
+                redirectTo: route('welcome')
+            );
 
             Log::info('Step 4: Registration created with ID: ' . $registration->id);
 
@@ -219,7 +227,7 @@ class PendaftaranSeminar extends Component
 
             // Step 7: Dispatch success event
             Log::info('Step 7: Dispatching show-success event');
-            return redirect('/')->with('success', 'Pendaftaran berhasil! Silakan cek email Anda untuk konfirmasi.');
+            // return redirect('/')->with('success', 'Pendaftaran berhasil! Silakan cek email Anda untuk konfirmasi.');
 
             Log::info('=== END registerGratis (SUCCESS) ===');
 

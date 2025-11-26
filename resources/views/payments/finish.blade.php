@@ -31,8 +31,7 @@
                     <span class="bg-gradient-to-r from-blue-700 via-indigo-500 to-blue-400 bg-clip-text text-transparent">
                         Pembayaran Berhasil!
                     </span>
-                </h1>""
-                d 
+                </h1>
                 <p class="text-gray-600 text-xl">🎉 Transaksi telah dikonfirmasi dengan sukses</p>
             </div>
 
@@ -116,7 +115,7 @@
                             </div>
                         </div>
                     </div>
-
+        
                     <!-- Payment Method Badge -->
                     <div class="flex justify-center mb-8">
                         <div class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-green-200 rounded-full">
@@ -170,6 +169,16 @@
                                 <p class="text-sm font-bold text-gray-800">Terverifikasi</p>
                             </div>
                         </div>
+                    </div>
+
+                    <!-- Back Button -->
+                    <div class="mt-10 flex justify-center">
+                        <a href="{{ route('welcome') }}" class="inline-flex items-center px-8 py-4 bg-white text-blue-600 rounded-full font-bold text-lg shadow-lg hover:bg-blue-50 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 group">
+                            <svg class="w-5 h-5 mr-3 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                            </svg>
+                            Kembali ke Beranda
+                        </a>
                     </div>
                 </div>
             </div>

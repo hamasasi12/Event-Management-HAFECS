@@ -23,7 +23,7 @@
                             @else
                             <div class="bg-gray-200 border-2 border-dashed rounded-xl w-full h-48 flex items-center justify-center">
                                 <span class="text-gray-500 dark:text-gray-400">No Image</span>
-                            </div>s
+                            </div>
                             @endif
                         </div>
                         <div class="mt-4">
