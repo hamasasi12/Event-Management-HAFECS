@@ -21,6 +21,7 @@ class Seminar extends Model
         'image_url',
         'type',
         'link',
+        'platform',
         'trainer_id',
         'materi',
     ];

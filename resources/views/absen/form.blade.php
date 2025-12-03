@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HAFECS - Absensi Seminar 2025</title>
+    <title>HAFECS - Absensi Webinar 2025</title>
     @vite('resources/css/app.css')
 
     <div>
@@ -19,9 +19,9 @@
                     </div>
         </header>
 
-        <div class="max-w-2xl mx-auto mt-10">
-            <div class="bg-white rounded-3xl p-8 shadow-xl border-t-4 border-coral">
-                <h2 class="text-2xl font-bold text-primary text-center mb-6">Absensi Seminar</h2>
+        <div class="max-w-2xl mx-auto mt-4 sm:mt-10 px-4 sm:px-0">
+            <div class="bg-white rounded-3xl p-4 sm:p-8 shadow-xl border-t-4 border-coral">
+                <h2 class="text-2xl font-bold text-primary text-center mb-6">Absensi Webinar</h2>
 
                 <div class="bg-gray-50 rounded-xl p-4 mb-6">
                     <h3 class="text-xl font-bold text-primary">{{ $seminar->title }}</h3>
@@ -54,58 +54,69 @@
                     class="space-y-4">
                     @csrf
                     <div>
-                        <label for="name" class="block text-sm font-medium text-gray-700">Nama</label>
+                        <label for="name" class="block text-base font-medium text-gray-700 mb-1">Nama Lengkap</label>
                         <input type="text" name="name" id="name" value="{{ old('name') }}"
-                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-coral focus:ring focus:ring-coral focus:ring-opacity-50">
+                            class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-coral focus:ring-2 focus:ring-coral focus:ring-opacity-50 px-4 py-3 text-base transition duration-200 ease-in-out" placeholder="Masukkan nama lengkap Anda">
                         @error('name')
-                            <span class="text-red-500 text-xs">{{ $message }}</span>
+                            <span class="text-red-500 text-sm mt-1 block">{{ $message }}</span>
                         @enderror
                     </div>
                     <div>
-                        <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                        <label for="email" class="block text-base font-medium text-gray-700 mb-1">Email</label>
                         <input type="email" name="email" id="email" value="{{ old('email') }}"
-                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-coral focus:ring focus:ring-coral focus:ring-opacity-50">
+                            class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-coral focus:ring-2 focus:ring-coral focus:ring-opacity-50 px-4 py-3 text-base transition duration-200 ease-in-out" placeholder="contoh@email.com">
                         @error('email')
-                            <span class="text-red-500 text-xs">{{ $message }}</span>
+                            <span class="text-red-500 text-sm mt-1 block">{{ $message }}</span>
                         @enderror
                     </div>
                     <div>
-                        <label for="phone" class="block text-sm font-medium text-gray-700">No. Telp/WhatsApp</label>
+                        <label for="phone" class="block text-base font-medium text-gray-700 mb-1">No. Telp/WhatsApp</label>
                         <input type="text" name="phone" id="phone" value="{{ old('phone') }}"
-                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-coral focus:ring focus:ring-coral focus:ring-opacity-50">
+                            class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-coral focus:ring-2 focus:ring-coral focus:ring-opacity-50 px-4 py-3 text-base transition duration-200 ease-in-out" placeholder="08xxxxxxxxxx">
                         @error('phone')
-                            <span class="text-red-500 text-xs">{{ $message }}</span>
+                            <span class="text-red-500 text-sm mt-1 block">{{ $message }}</span>
                         @enderror
                     </div>
                     <div>
-                        <label for="jenjang_sekolah" class="block text-sm font-medium text-gray-700">Jenjang
-                            Sekolah</label>
-                        <input type="text" name="jenjang_sekolah" id="jenjang_sekolah"
-                            value="{{ old('jenjang_sekolah') }}"
-                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-coral focus:ring focus:ring-coral focus:ring-opacity-50">
+                        <label for="jenjang_sekolah" class="block text-base font-medium text-gray-700 mb-1">Jenjang Sekolah</label>
+                        <select name="jenjang_sekolah" id="jenjang_sekolah"
+                            class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-coral focus:ring-2 focus:ring-coral focus:ring-opacity-50 px-4 py-3 text-base bg-white transition duration-200 ease-in-out">
+                            <option value="">Pilih Jenjang Sekolah</option>
+                            <option value="SD" {{ old('jenjang_sekolah') == 'SD' ? 'selected' : '' }}>SD</option>
+                            <option value="SMP" {{ old('jenjang_sekolah') == 'SMP' ? 'selected' : '' }}>SMP</option>
+                            <option value="SMA/SMK" {{ old('jenjang_sekolah') == 'SMA/SMK' ? 'selected' : '' }}>SMA/SMK</option>
+                            <option value="D1" {{ old('jenjang_sekolah') == 'D1' ? 'selected' : '' }}>D1</option>
+                            <option value="D2" {{ old('jenjang_sekolah') == 'D2' ? 'selected' : '' }}>D2</option>
+                            <option value="D3" {{ old('jenjang_sekolah') == 'D3' ? 'selected' : '' }}>D3</option>
+                            <option value="D4" {{ old('jenjang_sekolah') == 'D4' ? 'selected' : '' }}>D4</option>
+                            <option value="S1" {{ old('jenjang_sekolah') == 'S1' ? 'selected' : '' }}>S1</option>
+                            <option value="S2" {{ old('jenjang_sekolah') == 'S2' ? 'selected' : '' }}>S2</option>
+                            <option value="S3" {{ old('jenjang_sekolah') == 'S3' ? 'selected' : '' }}>S3</option>
+                            <option value="Lainnya" {{ old('jenjang_sekolah') == 'Lainnya' ? 'selected' : '' }}>Lainnya</option>
+                        </select>
                         @error('jenjang_sekolah')
-                            <span class="text-red-500 text-xs">{{ $message }}</span>
+                            <span class="text-red-500 text-sm mt-1 block">{{ $message }}</span>
                         @enderror
                     </div>
                     <div>
-                        <label for="asal_sekolah" class="block text-sm font-medium text-gray-700 mb-1">Asal
-                            Sekolah</label>
+                        <label for="asal_sekolah" class="block text-base font-medium text-gray-700 mb-1">Asal Sekolah/Instansi</label>
                         <input type="text" name="asal_sekolah" id="asal_sekolah" value="{{ old('asal_sekolah') }}"
-                            placeholder="Masukkan nama sekolah"
-                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 px-3 py-2">
+                            placeholder="Masukkan nama sekolah atau instansi"
+                            class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-coral focus:ring-2 focus:ring-coral focus:ring-opacity-50 px-4 py-3 text-base transition duration-200 ease-in-out">
                         @error('asal_sekolah')
-                            <span class="text-red-500 text-xs mt-1">{{ $message }}</span>
+                            <span class="text-red-500 text-sm mt-1 block">{{ $message }}</span>
                         @enderror
                     </div>
 
                     <div class="space-y-6">
                         <!-- Jabatan -->
+                        <!-- Jabatan -->
                         <div>
-                            <label for="jabatan" class="block text-sm font-medium text-gray-700 mb-1">
+                            <label for="jabatan" class="block text-base font-medium text-gray-700 mb-1">
                                 Jabatan<span class="text-red-500">*</span>
                             </label>
                             <select name="jabatan" id="jabatan" required
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 bg-white px-3 py-2">
+                                class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-coral focus:ring-2 focus:ring-coral focus:ring-opacity-50 bg-white px-4 py-3 text-base transition duration-200 ease-in-out">
                                 <option value="">Pilih Jabatan</option>
                                 <option value="kepala_sekolah"
                                     {{ old('jabatan') == 'kepala_sekolah' ? 'selected' : '' }}>Kepala Sekolah</option>
@@ -117,7 +128,7 @@
                                 <option value="umum" {{ old('jabatan') == 'umum' ? 'selected' : '' }}>Umum</option>
                             </select>
                             @error('jabatan')
-                                <span class="text-red-500 text-xs mt-1">{{ $message }}</span>
+                                <span class="text-red-500 text-sm mt-1 block">{{ $message }}</span>
                             @enderror
                         </div>
 
@@ -228,11 +239,11 @@
                         
                         {{-- PROVINCES --}}
                         <div>
-                            <label for="province" class="block text-sm font-medium text-gray-700 mb-1">
+                            <label for="province" class="block text-base font-medium text-gray-700 mb-1">
                                 Provinsi<span class="text-red-500">*</span>
                             </label>
                             <select id="province" name="provinsi" required
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 bg-white px-3 py-2">
+                                class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-coral focus:ring-2 focus:ring-coral focus:ring-opacity-50 bg-white px-4 py-3 text-base transition duration-200 ease-in-out">
                                 <option value="{{ old('provinsi') }}" selected>
                                     {{ old('provinsi') ? old('provinsi') : 'Pilih Provinsi' }}</option>
                                 @foreach ($provinces as $province)
@@ -240,33 +251,33 @@
                                 @endforeach
                             </select>
                             @error('provinsi')
-                                <span class="text-red-500 text-xs mt-1">{{ $message }}</span>
+                                <span class="text-red-500 text-sm mt-1 block">{{ $message }}</span>
                             @enderror
                         </div>
 
                         {{-- REGENCIES --}}
                         <div>
-                            <label for="regency" class="block text-sm font-medium text-gray-700 mb-1">
+                            <label for="regency" class="block text-base font-medium text-gray-700 mb-1">
                                 Kabupaten<span class="text-red-500">*</span>
                             </label>
                             <select id="regency" name="kabupaten" required
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 bg-white px-3 py-2">
+                                class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-coral focus:ring-2 focus:ring-coral focus:ring-opacity-50 bg-white px-4 py-3 text-base transition duration-200 ease-in-out">
                                 <option value="" selected disabled>Pilih Kabupaten</option>
                             </select>
                             @error('kabupaten')
-                                <span class="text-red-500 text-xs mt-1">{{ $message }}</span>
+                                <span class="text-red-500 text-sm mt-1 block">{{ $message }}</span>
                             @enderror
                         </div>
                     </div>
                     <div>
-                        <label for="ulasan" class="block text-sm font-medium text-gray-700 mb-1">
+                        <label for="ulasan" class="block text-base font-medium text-gray-700 mb-1">
                             Ulasan<span class="text-red-500">*</span>
                         </label>
                         <textarea name="ulasan" id="ulasan" rows="4" placeholder="Tulis ulasan atau komentar Anda di sini..."
                             required
-                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 px-3 py-2 resize-none">{{ old('ulasan') }}</textarea>
+                            class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-coral focus:ring-2 focus:ring-coral focus:ring-opacity-50 px-4 py-3 text-base resize-none transition duration-200 ease-in-out">{{ old('ulasan') }}</textarea>
                         @error('ulasan')
-                            <span class="text-red-500 text-xs mt-1">{{ $message }}</span>
+                            <span class="text-red-500 text-sm mt-1 block">{{ $message }}</span>
                         @enderror
                     </div>
 

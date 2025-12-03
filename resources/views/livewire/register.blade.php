@@ -80,7 +80,7 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="5" class="text-center text-gray-500 dark:text-gray-400 py-4">
+                        <td colspan="7" class="text-center text-gray-500 dark:text-gray-400 py-4">
                             Tidak ada data ditemukan
                         </td>
                     </tr>

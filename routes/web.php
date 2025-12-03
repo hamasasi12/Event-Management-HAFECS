@@ -37,6 +37,8 @@ Route::get('/seminar/register/{hashid}', PendaftaranSeminar::class)->name('semin
 
 Route::get('/seminar/{hashid}', [PublicSeminarController::class, 'show'])->name('seminar.show');
 
+Route::get('/trainer/{hashid}', [App\Http\Controllers\TrainerController::class, 'show'])->name('trainer.show');
+
 // =======================
 // Google OAuth
 // =======================
@@ -67,7 +69,16 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::get('dashboard', fn() => view('admin.dashboard'))->name('dashboard');
 
-        Route::resource('trainers', TrainerController::class)->names('trainers');
+        // Trainer CRUD
+        Route::prefix('trainers')->name('trainers.')->group(function () {
+            Route::get('/', [TrainerController::class, 'index'])->name('index');
+            Route::get('create', [TrainerController::class, 'create'])->name('create');
+            Route::post('/', [TrainerController::class, 'store'])->name('store');
+            Route::get('{trainer_hashid}', [TrainerController::class, 'show'])->name('show');
+            Route::get('{trainer_hashid}/edit', [TrainerController::class, 'edit'])->name('edit');
+            Route::put('{trainer_hashid}', [TrainerController::class, 'update'])->name('update');
+            Route::delete('{trainer_hashid}', [TrainerController::class, 'destroy'])->name('destroy');
+        });
 
         // Seminar CRUD
         Route::prefix('seminars')->name('seminars.')->group(function () {

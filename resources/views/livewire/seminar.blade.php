@@ -70,7 +70,7 @@
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
-                    @foreach($seminars as $seminar)
+                    @forelse($seminars as $seminar)
                     <tr>
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="text-sm font-medium text-gray-900 dark:text-white">{{ $seminar->title }}</div>
@@ -124,7 +124,13 @@
                             </form>
                         </td>
                     </tr>
-                    @endforeach
+                    @empty
+                    <tr>
+                        <td colspan="7" class="text-center text-gray-500 dark:text-gray-400 py-4">
+                            Tidak ada data ditemukan
+                        </td>
+                    </tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>

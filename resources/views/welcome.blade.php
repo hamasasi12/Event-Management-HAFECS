@@ -69,7 +69,7 @@
             </div>
 
             <!-- Desktop Menu -->
-            <div class="hidden lg:flex items-center justify-center space-x-8 flex-grow">
+            <div class="hidden lg:flex items-center justify-center space-x-8 grow">
                 <a href="{{ url('/#seminars') }}" class="font-semibold text-gray-700 hover:text-blue-600 transition px-3 py-1 rounded-md">Webinar</a>
                 <a href="{{ url('/#trainer') }}" class="font-semibold text-gray-700 hover:text-blue-600 transition px-3 py-1 rounded-md">Trainer</a>
                 <a href="{{ url('/#dokumentasi') }}" class="font-semibold text-gray-700 hover:text-blue-600 transition px-3 py-1 rounded-md">Dokumentasi</a>
@@ -134,7 +134,7 @@
                 </div>
                     <!-- Content - Kanan di desktop, Bawah di mobile -->
                     <div class="w-full md:w-1/2 space-y-4 order-2">
-                        <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold">Seminar Nasional 2025</h1>
+                        <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold">Webinar Nasional 2025</h1>
                         <ul class="space-y-3 text-sm sm:text-base">
                             <li class="flex items-start">
                                 <span class="text-yellow-500 mr-2 text-lg sm:text-xl">⚡</span>
@@ -184,23 +184,25 @@
                     <!-- Trainer Card -->
                     <div class="swiper-slide p-2">
                         <div class="bg-[#F9FAFB] rounded-2xl shadow-lg p-6 text-center relative hover:shadow-xl transition transform hover:-translate-y-1 duration-300 h-full flex flex-col">
-                          <span class="absolute left-10 left-1/2 transform -translate-x-1/2 bg-[#F9D423] text-xs font-semibold px-3 py-1 rounded-full text-[#0b2341] shadow-md">
-                            Trainer
-                        </span>
-                            @if($trainer->image_url)
-                                <img src="{{ $trainer->image_url }}" alt="{{ $trainer->name }}"
-                                    class="rounded-lg mx-auto mb-4 object-cover w-full h-56 sm:h-64">
-                            @else
-                                <img src="{{ asset('images/admin/default_trainer.jpg') }}" alt="{{ $trainer->name }}"
-                                    class="rounded-lg mx-auto mb-4 object-cover w-full h-56 sm:h-64">
-                            @endif
-                            <div class="flex-grow">
-                                <h3 class="text-base sm:text-lg font-bold text-[#184883]">{{ $trainer->name }}</h3>
-                                <p class="text-xs sm:text-sm text-gray-600 mb-3">{{ $trainer->position }}</p>
-                                <p class="text-xs sm:text-sm text-gray-600 mb-5">
-                                    {{ Str::limit($trainer->bio, 100) }}
-                                </p>
-                            </div>
+                            <span class="absolute top-4 right-4 px-3 py-1 rounded-full text-sm font-semibold shadow-md z-10 bg-[#F9D423] text-[#0b2341]">
+                                Trainer
+                            </span>
+                            <a href="{{ route('trainer.show', $trainer->hashid) }}" class="block group relative">
+                                @if($trainer->image_url)
+                                    <img src="{{ $trainer->image_url }}" alt="{{ $trainer->name }}"
+                                        class="rounded-lg mx-auto mb-4 object-cover w-full h-56 sm:h-64 group-hover:opacity-90 transition">
+                                @else
+                                    <img src="{{ asset('images/admin/default_trainer.jpg') }}" alt="{{ $trainer->name }}"
+                                        class="rounded-lg mx-auto mb-4 object-cover w-full h-56 sm:h-64 group-hover:opacity-90 transition">
+                                @endif
+                                <div class="grow">
+                                    <h3 class="text-base sm:text-lg font-bold text-[#184883] group-hover:text-blue-600 transition">{{ $trainer->name }}</h3>
+                                    <p class="text-xs sm:text-sm text-gray-600 mb-3">{{ $trainer->position }}</p>
+                                    <p class="text-xs sm:text-sm text-gray-600 mb-5">
+                                        {{ Str::limit($trainer->bio, 100) }}
+                                    </p>
+                                </div>
+                            </a>
                             @if($trainer->skills)
                                 <div class="flex flex-wrap justify-center gap-1 sm:gap-2 mt-auto">
                                     @foreach($trainer->skills as $skill)
@@ -226,10 +228,10 @@
         </section>
 
   <!-- Seminars Section -->
-<section id="seminars" class="py-16 sm:py-20 bg-gradient-to-b from-[#0a3a72] to-[#0759ac]">
+<section id="seminars" class="py-16 sm:py-20 bg-linear-to-b from-[#0a3a72] to-[#0759ac]">
     <div class="container mx-auto px-4 sm:px-6">
         <div class="text-center mb-10 sm:mb-12">
-            <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4">Upcoming Seminars</h2>
+            <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4">Upcoming Webinars</h2>
             <p class="text-base sm:text-lg text-gray-200">Join our upcoming seminars to stay ahead in the digital age.</p>
         </div>
 

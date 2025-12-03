@@ -80,6 +80,20 @@
                         <input type="text" name="link" id="link" value="{{ old('link') }}" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                     </div>
 
+                    <!-- Platform -->
+                    <div>
+                        <label for="platform" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Platform</label>
+                        <select name="platform" id="platform" class="mt-1 block w-full bg-white border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                            <option value="">Select Platform</option>
+                            <option value="Zoom" {{ old('platform') == 'Zoom' ? 'selected' : '' }}>Zoom</option>
+                            <option value="Google Meet" {{ old('platform') == 'Google Meet' ? 'selected' : '' }}>Google Meet</option>
+                            <option value="Microsoft Teams" {{ old('platform') == 'Microsoft Teams' ? 'selected' : '' }}>Microsoft Teams</option>
+                            <option value="Webex" {{ old('platform') == 'Webex' ? 'selected' : '' }}>Webex</option>
+                            <option value="YouTube Live" {{ old('platform') == 'YouTube Live' ? 'selected' : '' }}>YouTube Live</option>
+                            <option value="Other" {{ old('platform') == 'Other' ? 'selected' : '' }}>Other</option>
+                        </select>
+                    </div>
+
                     <!-- Status -->
                     <div>
                         <label for="status" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Status</label>

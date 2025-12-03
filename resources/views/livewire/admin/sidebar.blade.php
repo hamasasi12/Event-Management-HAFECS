@@ -74,11 +74,11 @@
 
                     <!-- Menu Item Trainer -->
                     @php
-                    $isActive = $activeRoute === 'admin.trainers.index';
+                    $isActive = request()->routeIs('admin.trainers.*');
                     @endphp
                     <li>
                         <a href="{{ route('admin.trainers.index') }}" class="group relative flex items-center gap-3 px-4 py-3 font-medium rounded-xl hover:bg-gray-200 text-sm transition-all duration-300 ease-in-out
-                           {{ Request::routeIs('admin.trainers.index') ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg' : 'text-gray-700 hover:bg-blue-50 hover:text-blue-700 dark:text-gray-300 dark:hover:bg-blue-500/10 dark:hover:text-blue-400' }}" wire:navigate.hover>
+                           {{ Request::routeIs('admin.trainers.*') ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg' : 'text-gray-700 hover:bg-blue-50 hover:text-blue-700 dark:text-gray-300 dark:hover:bg-blue-500/10 dark:hover:text-blue-400' }}" wire:navigate.hover>
 
 
 
@@ -96,11 +96,11 @@
 
                     <!-- Menu Item Seminar -->
                     @php
-                    $isActive = $activeRoute === 'admin.seminars.index';
+                    $isActive = request()->routeIs('admin.seminars.*');
                     @endphp
                     <li>
                         <a href="{{ route('admin.seminars.index') }}" class="group relative flex items-center gap-3 px-4 py-3 font-medium rounded-xl hover:bg-gray-200 text-sm transition-all duration-300 ease-in-out
-                           {{ Request::routeIs('admin.seminars.index') ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg' : 'text-gray-700 hover:bg-blue-50 hover:text-blue-700 dark:text-gray-300 dark:hover:bg-blue-500/10 dark:hover:text-blue-400' }}" wire:navigate.hover>
+                           {{ Request::routeIs('admin.seminars.*') ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg' : 'text-gray-700 hover:bg-blue-50 hover:text-blue-700 dark:text-gray-300 dark:hover:bg-blue-500/10 dark:hover:text-blue-400' }}" wire:navigate.hover>
 
 
 
@@ -116,12 +116,12 @@
                         </a>
                     </li>
 
-                            @php
-                    $isActive = $activeRoute === 'admin.attendance.index';
+                    @php
+                    $isActive = request()->routeIs('admin.attendance.*');
                     @endphp
                     <li>
                         <a href="{{ route('admin.attendance.index') }}" class="group relative flex items-center gap-3 px-4 py-3 font-medium rounded-xl hover:bg-gray-200 text-sm transition-all duration-300 ease-in-out
-                           {{ Request::routeIs('admin.attendance.index') || Request::routeIs('admin.seminar.registrants') ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg' : 'text-gray-700 hover:bg-blue-50 hover:text-blue-700 dark:text-gray-300 dark:hover:bg-blue-500/10 dark:hover:text-blue-400' }}" wire:navigate.hover>
+                           {{ Request::routeIs('admin.attendance.*') ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg' : 'text-gray-700 hover:bg-blue-50 hover:text-blue-700 dark:text-gray-300 dark:hover:bg-blue-500/10 dark:hover:text-blue-400' }}" wire:navigate.hover>
 
 
 

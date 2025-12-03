@@ -20,6 +20,7 @@ return new class extends Migration
             $table->decimal('price', 15, 2)->default(0);
             $table->enum('type', ['gratis','berbayar'])->default('gratis');
             $table->string('link')->default('null');
+            $table->string('platform')->nullable();
             $table->string('status')->default('upcoming');
             $table->string('image_url')->nullable();
             $table->timestamps();

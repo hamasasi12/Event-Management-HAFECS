@@ -98,7 +98,7 @@
 
                     <div class="text-right font-semibold">{{ $seminar->start_time->format('d M Y') }}</div>
 
-                    <div class="font-medium text-primary">Waktu:</div>
+                <div class="font-medium text-primary">Waktu:</div>
                     <div class="text-right">{{ $seminar->start_time->format('H:i') }} - {{ $seminar->end_time->format('H:i') }}</div>
 
                     <div class="font-medium text-primary text-lg">Biaya Investasi:</div>
@@ -217,11 +217,11 @@
                 </button>
             </form>
         </div>
-        @else
+        <!-- @else
         <div class="bg-white rounded-3xl p-8 shadow-xl border-t-4 border-accent text-center text-red-600 font-medium">
             Seminar tidak ditemukan.
         </div>
-        @endif
+        @endif -->
     </div>
 
     <script>

@@ -7,6 +7,8 @@ use App\Models\Trainer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
+use Vinkla\Hashids\Facades\Hashids;
+
 class TrainerController extends Controller
 {
     /**
@@ -14,8 +16,7 @@ class TrainerController extends Controller
      */
     public function index()
     {
-        $trainers = Trainer::all();
-        return view('admin.trainers.index', compact('trainers'));
+        return view('admin.trainers.index');
     }
 
     /**
@@ -61,24 +62,31 @@ class TrainerController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Trainer $trainer)
+    public function show($trainer_hashid)
     {
+        $id = Hashids::decode($trainer_hashid)[0] ?? null;
+        $trainer = Trainer::findOrFail($id);
         return view('admin.trainers.show', compact('trainer'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Trainer $trainer)
+    public function edit($trainer_hashid)
     {
+        $id = Hashids::decode($trainer_hashid)[0] ?? null;
+        $trainer = Trainer::findOrFail($id);
         return view('admin.trainers.edit', compact('trainer'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Trainer $trainer)
+    public function update(Request $request, $trainer_hashid)
     {
+        $id = Hashids::decode($trainer_hashid)[0] ?? null;
+        $trainer = Trainer::findOrFail($id);
+
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:trainers,email,' . $trainer->id,
@@ -116,8 +124,11 @@ class TrainerController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Trainer $trainer)
+    public function destroy($trainer_hashid)
     {
+        $id = Hashids::decode($trainer_hashid)[0] ?? null;
+        $trainer = Trainer::findOrFail($id);
+
         if ($trainer->image_url) {
             $imagePath = str_replace('/storage', 'public', $trainer->image_url);
             Storage::delete($imagePath);

@@ -32,7 +32,7 @@
             </button>
             <!-- Application nav menu button -->
 
-            <div class="hidden lg:block">
+            <!-- <div class="hidden lg:block">
                 <form>
                     <div class="relative">
                         <span class="absolute top-1/2 left-4 -translate-y-1/2">
@@ -48,7 +48,7 @@
                         </button>
                     </div>
                 </form>
-            </div>
+            </div> -->
         </div>
 
         <div :class="menuToggle ? 'flex' : 'hidden'" class="shadow-theme-md w-full items-center justify-between gap-4 px-5 py-4 lg:flex lg:justify-end lg:px-0 lg:shadow-none">
