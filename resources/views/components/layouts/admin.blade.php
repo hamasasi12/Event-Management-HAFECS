@@ -117,24 +117,122 @@
         });
     }
 
+    // Function to initialize action confirmations (approve/reject)
+    function initActionConfirmations() {
+        const actionForms = document.querySelectorAll('form[data-confirm-action="true"]');
+
+        actionForms.forEach(function(form) {
+            if (form.dataset.confirmInitialized === 'true') {
+                return;
+            }
+            form.dataset.confirmInitialized = 'true';
+
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                e.stopImmediatePropagation();
+
+                const actionType = form.dataset.actionType; // 'approve' or 'reject'
+                const ulasanName = form.dataset.ulasanName;
+                const ulasanSeminar = form.dataset.ulasanSeminar;
+
+                let title = '';
+                let text = '';
+                let icon = 'question';
+                let confirmButtonColor = '';
+
+                if (actionType === 'approve') {
+                    title = 'Setujui Ulasan?';
+                    text = `Anda yakin ingin MENYETUJUI ulasan dari ${ulasanName} untuk seminar ${ulasanSeminar}?`;
+                    icon = 'success';
+                    confirmButtonColor = '#10B981'; // Green
+                } else if (actionType === 'reject') {
+                    title = 'Tolak Ulasan?';
+                    text = `Anda yakin ingin MENOLAK ulasan dari ${ulasanName} untuk seminar ${ulasanSeminar}?`;
+                    icon = 'warning';
+                    confirmButtonColor = '#EF4444'; // Red
+                }
+
+                Swal.fire({
+                    title: title,
+                    text: text,
+                    icon: icon,
+                    showCancelButton: true,
+                    confirmButtonColor: confirmButtonColor,
+                    cancelButtonColor: '#6b7280',
+                    confirmButtonText: 'Ya',
+                    cancelButtonText: 'Tidak',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        Swal.fire({
+                            title: 'Memproses...',
+                            text: 'Mohon tunggu',
+                            allowOutsideClick: false,
+                            allowEscapeKey: false,
+                            showConfirmButton: false,
+                            didOpen: () => {
+                                Swal.showLoading();
+                            }
+                        });
+
+                        // Manually submit the form using fetch to ensure PATCH method is sent
+                        const formData = new FormData(form);
+                        const actionUrl = form.action;
+                        const method = form.method; // This will be POST
+
+                        // Laravel's @method('PATCH') creates a hidden input named _method
+                        const spoofedMethod = formData.get('_method') || method;
+
+                        fetch(actionUrl, {
+                            method: spoofedMethod, // Use the spoofed method
+                            body: formData,
+                            headers: {
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                            }
+                        })
+                        .then(response => response.json()) // Assuming JSON response for success/error
+                        .then(data => {
+                            if (data.success) {
+                                Swal.fire('Berhasil!', data.message, 'success').then(() => {
+                                    window.location.reload();
+                                });
+                            } else {
+                                Swal.fire('Gagal!', data.message || 'Terjadi kesalahan.', 'error');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            Swal.fire('Error!', 'Terjadi kesalahan jaringan atau server.', 'error');
+                        });
+                    }
+                });
+            });
+        });
+    }
+
     // Initialize on DOM ready
     document.addEventListener('DOMContentLoaded', function() {
         initDeleteConfirmations();
+        initActionConfirmations();
     });
 
     // Re-initialize after Livewire navigation
     document.addEventListener('livewire:navigated', function() {
         initDeleteConfirmations();
+        initActionConfirmations();
     });
 
     // Re-initialize after Livewire updates
     document.addEventListener('livewire:load', function() {
         initDeleteConfirmations();
+        initActionConfirmations();
     });
 
     // For Livewire v3
     document.addEventListener('livewire:init', function() {
         initDeleteConfirmations();
+        initActionConfirmations();
     });
 
     // Show success message if present

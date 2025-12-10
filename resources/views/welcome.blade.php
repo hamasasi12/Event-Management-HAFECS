@@ -300,6 +300,7 @@
         </div>
     </section>
 
+
     <!-- Facilities Section -->
     <section id="facilities" class="py-16 sm:py-20 bg-gradient-to-br from-gray-50 to-gray-100">
         <div class="container mx-auto px-4 sm:px-6">
@@ -428,6 +429,119 @@
         </div>
     </section>
 
+     <!-- Testimonials Section -->
+<section class="py-12 sm:py-16 bg-gradient-to-br from-[#0a3a72] to-[#0759ac]">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-10 sm:mb-14">
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-white mb-3">
+                ✨ Apa Kata Mereka?
+            </h2>
+            <p class="text-base sm:text-lg text-white opacity-90">Testimoni dari peserta yang telah mengikuti seminar HAFECS</p>
+        </div>
+
+        @php
+            // Ambil 6 ulasan terbaru yang sudah approved
+            $testimonials = \App\Models\SeminarRegistration::with(['seminar'])
+                ->whereNotNull('ulasan')
+                ->where('ulasan', '!=', '')
+                ->where('ulasan_status', 'approved')
+                ->orderBy('updated_at', 'desc')
+                ->limit(6)
+                ->get();
+        @endphp
+
+        @if($testimonials->count() > 0)
+            <div class="grid gap-6 sm:gap-8 md:grid-cols-2 lg:grid-cols-3">
+                @foreach($testimonials as $testimonial)
+                <div class="bg-white rounded-xl p-5 sm:p-6 shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-100 flex flex-col h-full">
+
+                    <div class="flex items-center mb-4 pb-3 border-b border-gray-100">
+                        @if(isset($testimonial->foto_profil) && $testimonial->foto_profil && file_exists(public_path('storage/' . $testimonial->foto_profil)))
+                            <img src="{{ asset('storage/' . $testimonial->foto_profil) }}"
+                                alt="{{ $testimonial->nama }}"
+                                class="w-12 h-12 rounded-full object-cover mr-3 flex-shrink-0 shadow-sm border-2 border-blue-100">
+                        @else
+                            <img src="{{ asset('images/admin/blankProfile.png') }}"
+                                alt="Profile"
+                                class="w-12 h-12 rounded-full object-cover mr-3 flex-shrink-0 shadow-sm border-2 border-gray-100">
+                        @endif
+                        <div class="flex-1 min-w-0">
+                            <h4 class="font-bold text-gray-900 text-sm sm:text-base truncate">{{ $testimonial->nama }}</h4>
+                            <p class="text-gray-500 text-xs truncate">{{ $testimonial->institusi }}</p>
+                        </div>
+                    </div>
+
+                    @if(isset($testimonial->rating) && $testimonial->rating)
+                    <div class="flex items-center mb-3">
+                        @for($i = 1; $i <= 5; $i++)
+                            @if($i <= $testimonial->rating)
+                                <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                    <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
+                                </svg>
+                            @else
+                                <svg class="w-4 h-4 text-gray-300 fill-current" viewBox="0 0 20 20">
+                                    <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
+                                </svg>
+                            @endif
+                        @endfor
+                        <span class="ml-2 text-xs font-semibold text-gray-600">{{ $testimonial->rating }}/5</span>
+                    </div>
+                    @endif
+
+                    <div class="flex-grow mb-4">
+                        <div class="relative">
+                            <svg class="absolute -top-1 -left-1 w-6 h-6 text-blue-100" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M6 17h3l2-4V7H5v6h3zm8 0h3l2-4V7h-6v6h3z"/>
+                            </svg>
+                            <p class="text-gray-700 leading-relaxed text-sm pl-6 pr-1 line-clamp-5 **min-h-[5rem]**">
+                                "{{ $testimonial->ulasan }}"
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="mt-auto pt-3 border-t border-gray-100">
+                        <div class="flex items-center text-xs text-gray-500">
+                            <svg class="w-4 h-4 mr-1 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                            </svg>
+                            <span class="truncate font-medium text-blue-600">{{ $testimonial->seminar->judul }}</span>
+                        </div>
+                    </div>
+                </div>
+                @endforeach
+            </div>
+
+            <div class="text-center mt-8 sm:mt-10">
+                <a href="{{ route('public.ulasan') }}" class="inline-flex items-center px-6 py-3 bg-white text-blue-600 font-bold rounded-full hover:bg-gray-100 transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 text-sm sm:text-base">
+                    Lihat Semua Ulasan
+                    <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                    </svg>
+                </a>
+            </div>
+        @else
+            <div class="text-center py-10">
+                <div class="inline-block p-5 bg-white rounded-full mb-4 shadow-md">
+                    <svg class="w-12 h-12 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold text-white mb-2">Ulasan Segera Hadir</h3>
+                <p class="text-blue-100 text-sm">Jadilah yang pertama memberikan testimoni setelah mengikuti seminar kami!</p>
+            </div>
+        @endif
+    </div>
+</section>
+
+<style>
+    /* Line clamp for consistent card heights */
+    .line-clamp-5 {
+        display: -webkit-box;
+        -webkit-line-clamp: 5;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+</style>
 
 <style>
     .text-primary { color: #1e3a8a; }
@@ -453,82 +567,76 @@
 </style>
 
   <footer class="bg-gray-800 text-gray-300">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
-        <div class="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 gap-10 border-b border-gray-700 pb-10 mb-8">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 py-12 md:py-16">
+            <div class="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 gap-10 border-b border-gray-700 pb-10 mb-8">
 
-            <div class="md:col-span-4 lg:col-span-2">
-                <a href="{{ url('/') }}" class="inline-flex items-center mb-4">
-                    <img src="{{ asset('images/admin/LOGO HAFECS.png') }}" alt="HAFECS Logo" class="h-10 filter brightness-0 invert mr-2">
+                <div class="md:col-span-2 lg:col-span-2">
+                    <a href="{{ url('/') }}" class="inline-flex items-center mb-4">
+                        <img src="{{ asset('images/admin/LOGO HAFECS.png') }}" alt="HAFECS Logo" class="h-10 filter brightness-0 invert mr-2">
+                    </a>
+                    <p class="text-sm text-gray-400 mt-2 pr-8">
+                        Pusat pengembangan profesional dan edukasi terdepan di Indonesia.
+                    </p>
+                </div>
 
-                </a>
-                <p class="text-sm text-gray-400 mt-2 pr-8">
-                    Pusat pengembangan profesional dan edukasi terdepan di Indonesia.
+                <div>
+                    <h3 class="text-lg font-bold text-white mb-4 border-b-2 border-accent inline-block pb-1">
+                        Quick Link
+                    </h3>
+                    <ul class="space-y-3">
+                        <li>
+                            <a href="#" class="flex items-center text-gray-400 hover:text-accent transition duration-200">
+                                <svg class="w-4 h-4 mr-2 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                                Tentang Kami
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="flex items-center text-gray-400 hover:text-accent transition duration-200">
+                                <svg class="w-4 h-4 mr-2 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                                Syarat & Ketentuan
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="flex items-center text-gray-400 hover:text-accent transition duration-200">
+                                <svg class="w-4 h-4 mr-2 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                                FAQ
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="md:col-span-1 lg:col-span-2">
+                    <h3 class="text-lg font-bold text-white mb-4 border-b-2 border-accent inline-block pb-1">
+                        Hubungi Kami
+                    </h3>
+                    <ul class="space-y-3 text-sm">
+                        <li class="flex items-start">
+                            <svg class="w-5 h-5 text-accent flex-shrink-0 mt-1 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                            <span class="text-gray-400">Jl. Sungai Lumbah, Kec. Alalak, Kabupaten Barito Kuala, Kalimantan Selatan 70582</span>
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-accent flex-shrink-0 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                            <span class="text-gray-400">info@hafecs.id</span>
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-accent flex-shrink-0 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+                            <span class="text-gray-400">+62 812-3456-7890 (WA Only)</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="text-center">
+                <p class="text-xs sm:text-sm text-gray-500">
+                    &copy; {{ date('Y') }} HAFECS. All rights reserved. Dibuat dengan ❤️ oleh
+                    <a href="{{ route('webdev.team') }}" class="text-amber-500 hover:text-amber-400 font-semibold underline transition duration-200">
+                        Web Dev Team
+                    </a>
+                    di HAFECS
                 </p>
             </div>
-
-            <div>
-                <h3 class="text-base sm:text-lg font-bold text-white mb-4 border-b-2 border-accent inline-block pb-1">
-                    Quick Link
-                </h3>
-                <ul class="space-y-3 text-sm">
-                    <li>
-                        <a href="#" class="flex items-center text-gray-400 hover:text-accent transition duration-200">
-                            <svg class="w-4 h-4 mr-2 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                            Tentang Kami
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="flex items-center text-gray-400 hover:text-accent transition duration-200">
-                            <svg class="w-4 h-4 mr-2 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                            Syarat & Ketentuan
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="flex items-center text-gray-400 hover:text-accent transition duration-200">
-                            <svg class="w-4 h-4 mr-2 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                            FAQ
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="flex items-center text-gray-400 hover:text-accent transition duration-200">
-                            <svg class="w-4 h-4 mr-2 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                            Kebijakan Privasi
-                        </a>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="md:col-span-3 lg:col-span-2">
-                <h3 class="text-base sm:text-lg font-bold text-white mb-4 border-b-2 border-accent inline-block pb-1">
-                    Hubungi Kami
-                </h3>
-                <ul class="space-y-3 text-sm">
-                    <li class="flex items-start">
-                        <svg class="w-5 h-5 text-accent flex-shrink-0 mt-1 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                        <span class="text-gray-400">Jl. Contoh Alamat Gedung No. 123, Kota Banjarmasin 70123</span>
-                    </li>
-                    <li class="flex items-center">
-                        <svg class="w-5 h-5 text-accent flex-shrink-0 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-                        <span class="text-gray-400">info@hafecs.com</span>
-                    </li>
-                    <li class="flex items-center">
-                        <svg class="w-5 h-5 text-accent flex-shrink-0 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
-                        <span class="text-gray-400">+62 812-3456-7890 (WA Only)</span>
-                    </li>
-                </ul>
-            </div>
         </div>
-
-        <div class="text-center">
-    <p class="text-xs sm:text-sm text-gray-500">
-        &copy; {{ date('Y') }} HAFECS. All rights reserved. Dibuat dengan ❤️ oleh
-        <a href="{{ route('webdev.team') }}" class="text-amber-500 hover:text-amber-400 font-semibold underline transition duration-200">
-            Web Dev Team
-        </a>
-        di Indonesia.
-    </p>
-</div>
-</footer>
+    </footer>
  <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {

@@ -11,10 +11,12 @@ use App\Http\Controllers\Admin\SeminarRegistrationController;
 use App\Http\Controllers\Admin\SeminarController;
 use App\Http\Controllers\SeminarController as PublicSeminarController;
 use App\Http\Controllers\Admin\TrainerController;
+use App\Http\Controllers\Admin\UlasanController;
 use App\Http\Controllers\Asesi\TransactionController as AsesiTransactionController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\Auth\GoogleController;
 use App\Http\Controllers\Admin\Auth\LoginController;
+use App\Http\Controllers\PublicUlasanController;  // TAMBAH INI
 use App\Livewire\DetailCard;
 use App\Livewire\PendaftaranSeminar;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
@@ -29,6 +31,8 @@ use Midtrans\Transaction;
 Route::middleware(['preventAdminAccess'])->group(function () {
     Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('welcome');
 
+    // TAMBAH ROUTE ULASAN PUBLIK DI SINI
+    Route::get('/ulasan', [PublicUlasanController::class, 'index'])->name('public.ulasan');
 
     // Route::get('/seminar.show/inputdatadiri', [SeminarController::class, 'inputdatadiri'])->name('detailseminar.inputdatadiri');
 });
@@ -110,6 +114,13 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('seminar/{seminar_hashid}/registrants', [SeminarController::class, 'registrants'])->name('seminar.registrants');
             Route::post('seminar/{seminar_hashid}/start-presentation', [SeminarController::class, 'startPresentation'])->name('seminar.start-presentation');
         });
+
+        // Ulasan Management
+        Route::prefix('ulasan')->name('ulasan.')->group(function () {
+            Route::get('/', [UlasanController::class, 'index'])->name('index');
+            Route::patch('{id}/approve', [UlasanController::class, 'approve'])->name('approve');
+            Route::patch('{id}/reject', [UlasanController::class, 'reject'])->name('reject');
+        });
     });
 });
 
@@ -145,7 +156,7 @@ Route::prefix('payments')->name('payments.')->group(function () {
     Route::get('{hashid}/checkout', [PaymentController::class, 'checkout'])->name('checkout');
     Route::get('{hashid}', [PaymentController::class, 'detail'])->name('detail');
     Route::get('/transaksi', [TransactionController::class, 'index'])->name('transaksi');
-    
+
 });
 
 

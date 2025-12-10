@@ -18,8 +18,9 @@ class SeminarRegistration extends Model
     'jenjang_sekolah',
     'asal_sekolah',
     'jabatan',
-    'kota_kabupaten',      
+    'kota_kabupaten',
     'provinsi',
+    'ulasan',
     'is_paid',
     'attendance_status',
 ];

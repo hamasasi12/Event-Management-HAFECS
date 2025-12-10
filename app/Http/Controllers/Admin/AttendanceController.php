@@ -52,7 +52,7 @@ class AttendanceController extends Controller
     {
         $seminar_id = Hashids::decode($seminar_hashid)[0] ?? null;
         $seminar = Seminar::findOrFail($seminar_id);
-        
+
         Log::info('Marking attendance', [
             'seminar_id'   => $seminar->id,
             'token'        => $token,
@@ -67,7 +67,8 @@ class AttendanceController extends Controller
                 'asal_sekolah' => 'nullable|string|max:255',
                 'jabatan' => 'required|string|max:255',
                 'kabupaten' => 'required|string|max:255',
-                'provinsi' => 'required|string|max:255',            
+                'provinsi' => 'required|string|max:255',
+                'ulasan' => 'nullable|string|max:1000',
             ]);
 
         $attendance = Attendance::where('seminar_id', $seminar->id)
@@ -101,6 +102,7 @@ class AttendanceController extends Controller
                 'jabatan' => $request->jabatan,
                 'kota_kabupaten' => $request->kabupaten,
                 'provinsi' => $request->provinsi,
+                'ulasan' => $request->ulasan,
                 'scanned_at' => now(),
             ]);
 
@@ -118,6 +120,7 @@ class AttendanceController extends Controller
                 'jabatan' => $request->jabatan,
                 'kota_kabupaten' => $request->kabupaten,
                 'provinsi' => $request->provinsi,
+                'ulasan' => $request->ulasan,
             ]);
 
             \Log::info('Attendance matched with registration', [
