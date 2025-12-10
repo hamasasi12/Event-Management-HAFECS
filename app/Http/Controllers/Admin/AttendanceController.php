@@ -128,8 +128,8 @@ class AttendanceController extends Controller
                 'email'           => $registration->email,
             ]);
 
-            // Langsung jalankan tanpa queue (untuk shared hosting)
-            IssueCertificateFromRegistration::dispatchSync($registration->id);
+            // Gunakan afterResponse agar user tidak menunggu loading generate PDF
+            IssueCertificateFromRegistration::dispatch($registration->id)->afterResponse();
 
             // Redirect ke index certificate (opsional: bawa email untuk filter di UI)
             return redirect()
