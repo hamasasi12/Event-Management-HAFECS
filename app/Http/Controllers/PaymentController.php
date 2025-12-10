@@ -11,7 +11,7 @@ use Illuminate\Support\Str;
 
 use Illuminate\Http\Request;
 use App\Events\PaymentSuccessful;
-use App\Jobs\SendSeminarRegistrationEmail;
+
 use Vinkla\Hashids\Facades\Hashids;
 use Illuminate\Support\Facades\Auth;
 
@@ -223,8 +223,9 @@ class PaymentController extends Controller
                     'is_paid' => 'yes'
                 ]);
 
-                // Gunakan queue untuk mengirim email
-                SendSeminarRegistrationEmail::dispatch($seminarRegistration->seminar, $seminarRegistration);
+                // Langsung kirim email (tanpa queue untuk shared hosting)
+                Mail::to($seminarRegistration->email)
+                    ->send(new SeminarRegistrationMail($seminarRegistration->seminar, $seminarRegistration));
             }
         }
         $user = User::firstWhere('id', $payment->user_id);
@@ -285,8 +286,9 @@ class PaymentController extends Controller
                         'is_paid' => 'yes'
                     ]);
 
-                    // Gunakan queue untuk mengirim email
-                    SendSeminarRegistrationEmail::dispatch($seminarRegistration->seminar, $seminarRegistration);
+                    // Langsung kirim email (tanpa queue untuk shared hosting)
+                    Mail::to($seminarRegistration->email)
+                        ->send(new SeminarRegistrationMail($seminarRegistration->seminar, $seminarRegistration));
                 }
 
                 if ($payment->status === 'success') {

@@ -58,7 +58,6 @@ class SeminarController extends Controller
             'end_time' => 'required|date|after:start_time',
             'type' => 'required|string',
             'link' => 'required|string',
-            'platform' => 'nullable|string',
             'price' => 'required|numeric|min:0',
             'status' => 'required|in:upcoming,active,completed,cancelled',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
@@ -106,6 +105,9 @@ class SeminarController extends Controller
      */
     public function update(Request $request, $seminar_hashid)
     {
+
+
+        
         $id = Hashids::decode($seminar_hashid)[0] ?? null;
         $seminar = Seminar::findOrFail($id);
 
@@ -115,7 +117,6 @@ class SeminarController extends Controller
             'start_time' => 'required|date',
             'end_time' => 'required|date|after:start_time',
             'price' => 'required|numeric|min:0',
-            'platform' => 'nullable|string',
             'status' => 'required|in:upcoming,active,completed,cancelled',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'trainer_id' => 'nullable|exists:trainers,id',
@@ -223,7 +224,7 @@ class SeminarController extends Controller
             ]);
 
             // Buat link untuk absensi
-            $link = route('attend.form', ['seminar_hashid' => $seminar_hashid, 'token' => $token]);
+            $link = route('attend.form', ['seminar' => $seminar->id, 'token' => $token]);
 
             // Generate QR code as SVG
             $qrCodeSvg = QrCode::format('svg')

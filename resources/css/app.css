@@ -7,11 +7,22 @@
 
 @theme {
     --font-sans: 'Segoe UI', 'Tahoma', 'Geneva', 'Verdana', 'sans-serif';
-  --color-primary: #0a2472;    /* Biru tua profesional */
-    --color-secondary: #001845;  /* Biru gelap untuk background */
-    --color-accent: #1d4ed8;     /* Biru terang untuk tombol, ikon, link aktif */
-    --color-coral: #fbbf24;      /* Kuning keemasan (accent positif) */
-    --color-teal: #38bdf8;       /* Biru muda segar untuk highlight */
+    --color-primary: #0a2472;
+    /* Biru tua profesional */
+    --color-secondary: #001845;
+    /* Biru gelap untuk background */
+    --color-accent: #1d4ed8;
+    /* Biru terang untuk tombol, ikon, link aktif */
+    --color-coral: #fbbf24;
+    /* Kuning keemasan (accent positif) */
+    --color-teal: #38bdf8;
+    /* Biru muda segar untuk highlight */
+    --color-primary-dark: #0A2463;
+    /* Dark Blue from detailcard */
+    --color-accent-light: #F2E3B3;
+    /* Cream/Yellowish Card BG from detailcard */
+    --color-button-yellow: #F9D423;
+    /* Vibrant Yellow from detailcard */
 }
 
 html {
@@ -59,8 +70,3 @@ html {
     transform: translateY(-10px);
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
 }
-
-
-
-
-

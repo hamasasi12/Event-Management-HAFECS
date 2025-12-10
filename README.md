@@ -1,61 +1,81 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Product Requirements: Admin Dashboard
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+This document outlines the product requirements for the Admin Dashboard of the Event Management System.
 
-## About Laravel
+## 1. Authentication
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- **1.1. Login:** Admins must be able to log in using their email and password through a dedicated login page (`/admin/login`).
+- **1.2. Logout:** A logout mechanism must be available to securely terminate the admin session.
+- **1.3. Role-Based Access Control (RBAC):** The system must enforce that only users with the 'admin' role can access the admin dashboard and its features.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 2. Dashboard
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- **2.1. Overview:** The main dashboard should provide a high-level overview of the system's activity.
+- **2.2. Key Metrics:** Display key metrics such as:
+    - Total number of users.
+    - Total number of seminars (upcoming, ongoing, finished).
+    - Total number of registrations.
+    - Revenue from seminar fees.
+- **2.3. Recent Activity:** A feed showing recent activities like new registrations, new users, and completed payments.
 
-## Learning Laravel
+## 3. User Management
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- **3.1. User Listing:** Admins should be able to view a list of all registered users with details like name, email, and registration date.
+- **3.2. User Details:** Ability to view a detailed profile for each user, including their registration history.
+- **3.3. User Roles:** Admins should be able to assign and modify user roles (e.g., make a user an admin).
+- **3.4. User Search & Filter:** Ability to search for users by name or email and filter them by role or status.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## 4. Seminar Management
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- **4.1. Seminar Listing:** A comprehensive list of all seminars with their status (draft, published, ongoing, finished).
+- **4.2. CRUD Operations:** Full CRUD (Create, Read, Update, Delete) functionality for seminars.
+    - **Create:** Add new seminars with details like title, description, date, time, location, price, and associated trainer.
+    - **Update:** Edit existing seminar details.
+    - **Delete:** Remove seminars from the system.
+- **4.3. Seminar Status:** Ability to change the status of a seminar (e.g., from 'draft' to 'published').
 
-## Laravel Sponsors
+## 5. Trainer Management
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+- **5.1. Trainer Listing:** View a list of all trainers with their contact information and expertise.
+- **5.2. CRUD Operations:** Full CRUD functionality for trainers.
+    - **Create:** Add new trainers with their bio, photo, and contact details.
+    - **Update:** Modify trainer information.
+    - **Delete:** Remove trainers from the system.
 
-### Premium Partners
+## 6. Registration & Attendance Management
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+- **6.1. Registration Listing:** View a list of all registrations for each seminar, including the user's details and payment status.
+- **6.2. Manual Registration:** Admins should be able to manually register a user for a seminar.
+- **6.3. Attendance Tracking:**
+    - View a list of active seminars to manage attendance.
+    - See all registered participants for a specific seminar.
+    - Mark participants as 'present' or 'absent'.
+    - Start a "presentation mode" for a seminar.
 
-## Contributing
+## 7. Payment & Transaction Management
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+- **7.1. Transaction Monitoring:** A view to monitor all payment transactions, including their status (pending, successful, failed).
+- **7.2. Payment Details:** View detailed information for each transaction, including the user, seminar, and amount.
+- **7.3. Manual Payment Confirmation:** Ability to manually confirm payments if needed.
 
-## Code of Conduct
+## 8. Content Management
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+- **8.1. Email Templates:** A section to manage and customize email templates for various notifications (e.g., registration confirmation, payment success, seminar reminders).
+- **8.2. Page Content:** (Optional) A simple CMS to manage the content of static pages like "About Us" or "Contact".
 
-## Security Vulnerabilities
+## 9. Communication
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+- **9.1. Messaging System:** A tool for admins to send messages (e.g., announcements, updates) to all users or specific groups of users (e.g., attendees of a particular seminar).
+- **9.2. Message History:** A log of all sent messages.
 
-## License
+## 10. Certificate Management
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+- **10.1. Certificate Generation:** Automatically or manually generate certificates for attendees who have completed a seminar.
+- **10.2. Certificate Customization:** An interface to customize certificate templates.
+- **10.3. Certificate Issuance:** Issue certificates to individual attendees or in bulk.
+
+## 11. Reporting & Analytics
+
+- **11.1. Seminar Reports:** Generate reports on seminar performance, including registration numbers, attendance rates, and revenue.
+- **11.2. User Reports:** Reports on user growth and engagement.
+- **11.3. Financial Reports:** Detailed financial reports on revenue, refunds, and outstanding payments.

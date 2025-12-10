@@ -4,25 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detail Seminar: Work Life Balance</title>
-    <!-- Load Tailwind CSS via CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Custom configuration for the color palette -->
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'primary-dark': '#0A2463', // Dark Blue
-                        'accent-light': '#F2E3B3', // Cream/Yellowish Card BG
-                        'button-yellow': '#F9D423', // Vibrant Yellow
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
-                }
-            }
-        }
-    </script>
+    @vite('resources/css/app.css')
     <style>
         /* Apply Inter font and dark background */
         body {

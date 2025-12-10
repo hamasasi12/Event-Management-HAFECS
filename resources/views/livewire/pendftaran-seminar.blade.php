@@ -79,7 +79,7 @@
         @if ($seminar)
         <div class="bg-white rounded-3xl p-8 sm:p-10 shadow-2xl border-t-8 border-accent">
 
-            <div class="text-center mb-8">
+            <div class="text-center mb-8">  
                 <h1 class="text-3xl font-extrabold text-gray-900 mb-2">Form Pendaftaran</h1>
                 <p class="text-gray-600">Lengkapi data Anda untuk mengikuti seminar.</p>
             </div>
@@ -217,11 +217,11 @@
                 </button>
             </form>
         </div>
-        <!-- @else
+        @else
         <div class="bg-white rounded-3xl p-8 shadow-xl border-t-4 border-accent text-center text-red-600 font-medium">
             Seminar tidak ditemukan.
         </div>
-        @endif -->
+        @endif
     </div>
 
     <script>

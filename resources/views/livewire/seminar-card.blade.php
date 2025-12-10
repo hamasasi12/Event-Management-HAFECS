@@ -20,7 +20,7 @@
                 LIhat detail & Daftar             </a>
         @else
             <button class="bg-gray-400 text-white px-6 py-3 rounded-full font-semibold cursor-not-allowed" disabled>
-                Seminar Telah Berakhir
+                Webinar Telah Berakhir
             </button>
         @endif
     </div>
