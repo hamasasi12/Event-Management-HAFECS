@@ -286,7 +286,7 @@ class PaymentController extends Controller
                     ]);
 
                     // Gunakan afterResponse agar user tidak menunggu loading email
-                    SendSeminarRegistrationEmail::dispatch($seminarRegistration->seminar, $seminarRegistration);
+                    SendSeminarRegistrationEmail::dispatch($seminarRegistration->seminar, $seminarRegistration)->afterResponse();
                 }
 
                 if ($payment->status === 'success') {

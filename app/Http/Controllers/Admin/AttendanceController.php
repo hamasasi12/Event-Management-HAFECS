@@ -36,14 +36,8 @@ class AttendanceController extends Controller
             return redirect()->route('welcome')->with('error', 'Invalid attendance link.');
         }
 
-        if ($attendance->scanned_at) {
-            Log::warning('QR code already used', [
-                'seminar_id' => $seminar->id,
-                'token'      => $token,
-                'scanned_at' => $attendance->scanned_at,
-            ]);
-            return redirect()->route('welcome')->with('error', 'This QR code has already been used.');
-        }
+        // REMOVED: Check if token is already used (we want reusable tokens)
+        // if ($attendance->scanned_at) { ... }
         $provinces = Province::all();
         return view('absen.form', compact('seminar', 'attendance', 'token', 'provinces'));
     }
@@ -83,28 +77,36 @@ class AttendanceController extends Controller
             return redirect()->back()->with('error', 'Invalid attendance link.');
         }
 
-        if ($attendance->scanned_at) {
-            Log::warning('QR code already used for marking', [
-                'seminar_id' => $seminar->id,
-                'token'      => $token,
-                'scanned_at' => $attendance->scanned_at,
-            ]);
-            return redirect()->back()->with('error', 'This QR code has already been used.');
+        // REMOVED: Check if token is already used
+        // if ($attendance->scanned_at) { ... }
+
+        // 1. Cek apakah email ini SUDAH absen di seminar ini?
+        $existingAttendance = Attendance::where('seminar_id', $seminar->id)
+            ->whereRaw('LOWER(email) = ?', [strtolower(trim($request->email))])
+            ->whereNotNull('scanned_at') // Hanya yang sudah scan
+            ->first();
+
+        if ($existingAttendance) {
+             return redirect()->back()->with('info', 'Anda sudah melakukan absensi sebelumnya.');
         }
 
-        // Update attendance record
-        $attendance->update([
-                'name' => $request->name,
-                'email' => $request->email,
-                'phone' => $request->phone,
-                'jenjang_sekolah' => $request->jenjang_sekolah,
-                'asal_sekolah' => $request->asal_sekolah,
-                'jabatan' => $request->jabatan,
-                'kota_kabupaten' => $request->kabupaten,
-                'provinsi' => $request->provinsi,
-                'ulasan' => $request->ulasan,
-                'scanned_at' => now(),
-            ]);
+        // 2. Buat Record Attendance BARU (jangan update token master)
+        // Token master ($attendance) hanya validasi bahwa link valid.
+        
+        $newAttendance = Attendance::create([
+            'seminar_id' => $seminar->id,
+            'token' => \Illuminate\Support\Str::uuid(), // Generate token unik baru untuk record ini
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'jenjang_sekolah' => $request->jenjang_sekolah,
+            'asal_sekolah' => $request->asal_sekolah,
+            'jabatan' => $request->jabatan,
+            'kota_kabupaten' => $request->kabupaten,
+            'provinsi' => $request->provinsi,
+            'ulasan' => $request->ulasan,
+            'scanned_at' => now(),
+        ]);
 
         // Cocokkan pendaftaran by email (case-insensitive)
         $registration = $seminar->registrations()
@@ -112,16 +114,19 @@ class AttendanceController extends Controller
             ->first();
 
         if ($registration) {
-    // Update registration attendance status
+            // Update registration attendance status
             $registration->update([
                 'attendance_status' => 'attended',
-                'jenjang_sekolah' => $request->jenjang_sekolah,
+                'jenjang_sekolah' => $request->jenjang_sekolah, 
                 'asal_sekolah' => $request->asal_sekolah,
                 'jabatan' => $request->jabatan,
                 'kota_kabupaten' => $request->kabupaten,
                 'provinsi' => $request->provinsi,
                 'ulasan' => $request->ulasan,
             ]);
+
+            // Link attendance baru ke registration
+            $newAttendance->update(['seminar_registration_id' => $registration->id]);
 
             \Log::info('Attendance matched with registration', [
                 'registration_id' => $registration->id,
