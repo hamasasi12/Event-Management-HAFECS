@@ -22,7 +22,7 @@
         }
 
         .facility-section,
-        .review-section,
+        .review-section,    
         .footer-section {
             background-color: #F2E3B3;
         }
@@ -51,6 +51,39 @@
 
         .mobile-menu.active {
             display: block;
+        }
+    </style>
+    <style>
+        /* FAQ */
+        .faq-item .faq-answer {
+            overflow: hidden;
+            transition: max-height 0.3s ease-in-out;
+            max-height: 0;
+        }
+        .faq-item.active .faq-answer {
+            /* max-height handled by JS */
+        }
+        .faq-item.active .faq-question span:last-child {
+            transform: rotate(45deg);
+        }
+        
+        /* Restored Styles */
+        .line-clamp-5 {
+            display: -webkit-box;
+            -webkit-line-clamp: 5;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .text-primary { color: #1e3a8a; }
+        .text-accent { color: #f59e0b; }
+        .bg-accent { background-color: #f59e0b; }
+        .focus\:ring-accent:focus { --tw-ring-color: #f59e0b; }
+        .focus\:border-accent:focus { border-color: #f59e0b; }
+        .gradient-button {
+            background-image: linear-gradient(to right, #1e3a8a, #3b82f6);
+        }
+        .hover\:gradient-button:hover {
+            background-image: linear-gradient(to right, #1d4ed8, #2563eb);
         }
     </style>
 </head>
@@ -377,7 +410,7 @@
         </div>
     </section>
 
-    <!-- FAQ Section -->
+  <!-- FAQ Section -->
     <section id="faq" class="py-16 sm:py-20 bg-white">
         <div class="container mx-auto px-4 sm:px-6">
             <div class="text-center mb-12 sm:mb-16">
@@ -453,59 +486,58 @@
         @if($testimonials->count() > 0)
             <div class="grid gap-6 sm:gap-8 md:grid-cols-2 lg:grid-cols-3">
                 @foreach($testimonials as $testimonial)
-                <div class="bg-white rounded-xl p-5 sm:p-6 shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-100 flex flex-col h-full">
-
-                    <div class="flex items-center mb-4 pb-3 border-b border-gray-100">
-                        @if(isset($testimonial->foto_profil) && $testimonial->foto_profil && file_exists(public_path('storage/' . $testimonial->foto_profil)))
-                            <img src="{{ asset('storage/' . $testimonial->foto_profil) }}"
-                                alt="{{ $testimonial->nama }}"
-                                class="w-12 h-12 rounded-full object-cover mr-3 flex-shrink-0 shadow-sm border-2 border-blue-100">
-                        @else
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 flex flex-col h-full">
+                    
+                    <!-- Header: Avatar & Info -->
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="flex items-center gap-3">
+                            <!-- Foto Profil Default -->
                             <img src="{{ asset('images/admin/blankProfile.png') }}"
-                                alt="Profile"
-                                class="w-12 h-12 rounded-full object-cover mr-3 flex-shrink-0 shadow-sm border-2 border-gray-100">
-                        @endif
-                        <div class="flex-1 min-w-0">
-                            <h4 class="font-bold text-gray-900 text-sm sm:text-base truncate">{{ $testimonial->nama }}</h4>
-                            <p class="text-gray-500 text-xs truncate">{{ $testimonial->institusi }}</p>
+                                    alt="Profile"
+                                    class="w-12 h-12 rounded-full object-cover border-2 border-gray-100 shadow-sm">
+                            
+                            <div>
+                                <h3 class="font-bold text-gray-900 text-base leading-tight">{{ $testimonial->name }}</h3>
+                                <p class="text-xs text-gray-500 mt-0.5">{{ $testimonial->asal_sekolah ?? $testimonial->jabatan ?? 'Peserta' }}</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Rating -->
+                        <div class="flex text-yellow-400 text-sm">
+                            @php $rating = $testimonial->rating ?? 5; @endphp
+                            @for($i = 1; $i <= 5; $i++)
+                                @if($i <= $rating)
+                                    <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
+                                @else
+                                    <svg class="w-4 h-4 text-gray-200 fill-current" viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
+                                @endif
+                            @endfor
                         </div>
                     </div>
 
-                    @if(isset($testimonial->rating) && $testimonial->rating)
-                    <div class="flex items-center mb-3">
-                        @for($i = 1; $i <= 5; $i++)
-                            @if($i <= $testimonial->rating)
-                                <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
-                                    <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
-                                </svg>
-                            @else
-                                <svg class="w-4 h-4 text-gray-300 fill-current" viewBox="0 0 20 20">
-                                    <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
-                                </svg>
-                            @endif
-                        @endfor
-                        <span class="ml-2 text-xs font-semibold text-gray-600">{{ $testimonial->rating }}/5</span>
-                    </div>
-                    @endif
-
-                    <div class="flex-grow mb-4">
-                        <div class="relative">
-                            <svg class="absolute -top-1 -left-1 w-6 h-6 text-blue-100" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M6 17h3l2-4V7H5v6h3zm8 0h3l2-4V7h-6v6h3z"/>
-                            </svg>
-                            <p class="text-gray-700 leading-relaxed text-sm pl-6 pr-1 line-clamp-5 **min-h-[5rem]**">
-                                "{{ $testimonial->ulasan }}"
+                    <!-- Body: Review Content -->
+                    <div class="relative mb-6 grow">
+                        <div class="relative z-10 pl-4">
+                            <p class="text-gray-600 text-sm leading-relaxed line-clamp-4">
+                                {{ $testimonial->ulasan }}
                             </p>
+                            @if(strlen($testimonial->ulasan) > 150)
+                                <button onclick="showFullReview(`{{ addslashes($testimonial->ulasan) }}`, '{{ addslashes($testimonial->name) }}')"
+                                        class="text-blue-600 hover:text-blue-800 text-xs font-semibold mt-2 inline-flex items-center transition-colors">
+                                    Baca Selengkapnya
+                                </button>
+                            @endif
                         </div>
                     </div>
 
-                    <div class="mt-auto pt-3 border-t border-gray-100">
-                        <div class="flex items-center text-xs text-gray-500">
-                            <svg class="w-4 h-4 mr-1 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                            </svg>
-                            <span class="truncate font-medium text-blue-600">{{ $testimonial->seminar->judul }}</span>
-                        </div>
+                    <!-- Footer: Seminar & Time -->
+                    <div class="pt-4 border-t border-gray-50 flex items-center justify-between mt-auto">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700 truncate max-w-[70%]">
+                            {{ $testimonial->seminar->judul ?? 'Seminar Umum' }}
+                        </span>
+                        <span class="text-xs text-gray-400">
+                            {{ $testimonial->updated_at->diffForHumans() }}
+                        </span>
                     </div>
                 </div>
                 @endforeach
@@ -532,39 +564,6 @@
         @endif
     </div>
 </section>
-
-<style>
-    /* Line clamp for consistent card heights */
-    .line-clamp-5 {
-        display: -webkit-box;
-        -webkit-line-clamp: 5;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-    }
-</style>
-
-<style>
-    .text-primary { color: #1e3a8a; }
-    .text-accent { color: #f59e0b; }
-    .bg-accent { background-color: #f59e0b; }
-    .focus\:ring-accent:focus { --tw-ring-color: #f59e0b; }
-    .focus\:border-accent:focus { border-color: #f59e0b; }
-    .gradient-button {
-        background-image: linear-gradient(to right, #1e3a8a, #3b82f6);
-    }
-    .hover\:gradient-button:hover {
-        background-image: linear-gradient(to right, #1d4ed8, #2563eb);
-    }
-    .faq-item .faq-answer {
-        transition: max-height 0.5s ease-in-out;
-    }
-    .faq-item.active .faq-answer {
-        max-height: 200px; /* Adjust as needed */
-    }
-    .faq-item.active .faq-question span:last-child {
-        transform: rotate(45deg);
-    }
-</style>
 
   <footer class="bg-gray-800 text-gray-300">
         <div class="max-w-7xl mx-auto px-6 lg:px-8 py-12 md:py-16">
@@ -705,14 +704,54 @@
         const faqItems = document.querySelectorAll('.faq-item');
         faqItems.forEach(item => {
             const question = item.querySelector('.faq-question');
+            const answer = item.querySelector('.faq-answer');
+            
             question.addEventListener('click', () => {
                 const wasActive = item.classList.contains('active');
-                faqItems.forEach(i => i.classList.remove('active'));
+                
+                // Close all
+                faqItems.forEach(i => {
+                    i.classList.remove('active');
+                    i.querySelector('.faq-answer').style.maxHeight = null;
+                });
+
+                // If it wasn't active, open it
                 if (!wasActive) {
                     item.classList.add('active');
+                    answer.style.maxHeight = answer.scrollHeight + "px";
                 }
             });
         });
+    });
+
+    // Modal Functions
+    function showFullReview(content, name) {
+        document.getElementById('modalName').textContent = name;
+        document.getElementById('modalContent').textContent = content;
+        const modal = document.getElementById('reviewModal');
+        modal.classList.remove('hidden');
+        // Simple animation
+        modal.querySelector('div').classList.remove('scale-95', 'opacity-0');
+        modal.querySelector('div').classList.add('scale-100', 'opacity-100');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+        const modal = document.getElementById('reviewModal');
+        modal.classList.add('hidden');
+        document.body.style.overflow = 'auto';
+    }
+
+    document.getElementById('reviewModal')?.addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeModal();
+        }
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closeModal();
+        }
     });
 </script>
 

@@ -120,7 +120,7 @@
                 });
         }
 
-    </script>clear
+    </script>
     
-@endpushclear
+@endpush
 </x-layouts.admin>

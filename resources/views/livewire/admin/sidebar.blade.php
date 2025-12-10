@@ -104,12 +104,12 @@
 
 
 
-                            <svg class="transition-all duration-300 {{ $isActive ? 'fill-white' : 'fill-gray-500 group-hover:fill-blue-600 dark:fill-gray-400 dark:group-hover:fill-blue-400' }}" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3ZM19 19H5V8H19V19ZM7 10H17V12H7V10ZM7 14H17V16H7V14Z" fill="" />
+                            <svg class="transition-all duration-300 {{ $isActive ? 'fill-white' : 'fill-gray-500 group-hover:fill-blue-600 dark:fill-gray-400 dark:group-hover:fill-blue-400' }}" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M19 4H18V2H16V4H8V2H6V4H5C3.89 4 3.01 4.9 3.01 6L3 20C3 21.1 3.89 22 5 22H19C20.11 22 21 21.1 21 20V6C21 4.9 20.11 4 19 4ZM19 20H5V9H19V20ZM19 7H5V6H19V7Z"/>
                             </svg>
 
                             <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : ''">
-                                Seminar
+                                Webinar
                             </span>
 
                             <div x-show="page === 'seminar'" class="absolute right-2 w-2 h-2 bg-white rounded-full animate-pulse"></div>
@@ -125,8 +125,8 @@
 
 
 
-                            <svg class="transition-all duration-300 {{ $isActive ? 'fill-white' : 'fill-gray-500 group-hover:fill-blue-600 dark:fill-gray-400 dark:group-hover:fill-blue-400' }}" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3ZM19 19H5V8H19V19ZM7 10H17V12H7V10ZM7 14H17V16H7V14Z" fill="" />
+                            <svg class="transition-all duration-300 {{ $isActive ? 'fill-white' : 'fill-gray-500 group-hover:fill-blue-600 dark:fill-gray-400 dark:group-hover:fill-blue-400' }}" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M11 7H13V9H11V7ZM11 11H13V13H11V11ZM11 15H13V17H11V15ZM7.5 4.5H16.5C17.3284 4.5 18 5.17157 18 6V18C18 18.8284 17.3284 19.5 16.5 19.5H7.5C6.67157 19.5 6 18.8284 6 18V6C6 5.17157 6.67157 4.5 7.5 4.5ZM7.5 3C5.84315 3 4.5 4.34315 4.5 6V18C4.5 19.6569 5.84315 21 7.5 21H16.5C18.1569 21 19.5 19.6569 19.5 18V6C19.5 4.34315 18.1569 3 16.5 3H7.5Z"/>
                             </svg>
 
                             <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : ''">
@@ -137,16 +137,13 @@
                         </a>
                     </li>
                     @php
-                    $isActive = request()->routeIs('admin.attendance.*');
+                    $isActive = request()->routeIs('admin.ulasan*');
                     @endphp
                     <li>
                         <a href="{{ route('admin.ulasan.index') }}" class="group relative flex items-center gap-3 px-4 py-3 font-medium rounded-xl hover:bg-gray-200 text-sm transition-all duration-300 ease-in-out
-                           {{ Request::routeIs('admin.ulasan.') ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg' : 'text-gray-700 hover:bg-blue-50 hover:text-blue-700 dark:text-gray-300 dark:hover:bg-blue-500/10 dark:hover:text-blue-400' }}" wire:navigate.hover>
-
-
-
-                            <svg class="transition-all duration-300 {{ $isActive ? 'fill-white' : 'fill-gray-500 group-hover:fill-blue-600 dark:fill-gray-400 dark:group-hover:fill-blue-400' }}" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3ZM19 19H5V8H19V19ZM7 10H17V12H7V10ZM7 14H17V16H7V14Z" fill="" />
+                           {{ Request::routeIs('admin.ulasan*') ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg' : 'text-gray-700 hover:bg-blue-50 hover:text-blue-700 dark:text-gray-300 dark:hover:bg-blue-500/10 dark:hover:text-blue-400' }}" wire:navigate.hover>
+                            <svg class="transition-all duration-300 {{ $isActive ? 'fill-white' : 'fill-gray-500 group-hover:fill-blue-600 dark:fill-gray-400 dark:group-hover:fill-blue-400' }}" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 17.27L18.18 21L16.54 13.97L22 9.24L14.81 8.63L12 2L9.19 8.63L2 9.24L7.46 13.97L5.82 21L12 17.27Z"/>
                             </svg>
 
                             <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : ''">

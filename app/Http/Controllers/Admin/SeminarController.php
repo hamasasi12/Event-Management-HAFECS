@@ -224,7 +224,7 @@ class SeminarController extends Controller
             ]);
 
             // Buat link untuk absensi
-            $link = route('attend.form', ['seminar' => $seminar->id, 'token' => $token]);
+            $link = route('attend.form', ['seminar_hashid' => Hashids::encode($seminar->id), 'token' => $token]);
 
             // Generate QR code as SVG
             $qrCodeSvg = QrCode::format('svg')
