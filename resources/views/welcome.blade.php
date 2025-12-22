@@ -22,7 +22,7 @@
         }
 
         .facility-section,
-        .review-section,    
+        .review-section,
         .footer-section {
             background-color: #F2E3B3;
         }
@@ -66,7 +66,7 @@
         .faq-item.active .faq-question span:last-child {
             transform: rotate(45deg);
         }
-        
+
         /* Restored Styles */
         .line-clamp-5 {
             display: -webkit-box;
@@ -487,7 +487,7 @@
             <div class="grid gap-6 sm:gap-8 md:grid-cols-2 lg:grid-cols-3">
                 @foreach($testimonials as $testimonial)
                 <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 flex flex-col h-full">
-                    
+
                     <!-- Header: Avatar & Info -->
                     <div class="flex items-start justify-between mb-4">
                         <div class="flex items-center gap-3">
@@ -495,13 +495,13 @@
                             <img src="{{ asset('images/admin/blankProfile.png') }}"
                                     alt="Profile"
                                     class="w-12 h-12 rounded-full object-cover border-2 border-gray-100 shadow-sm">
-                            
+
                             <div>
                                 <h3 class="font-bold text-gray-900 text-base leading-tight">{{ $testimonial->name }}</h3>
                                 <p class="text-xs text-gray-500 mt-0.5">{{ $testimonial->asal_sekolah ?? $testimonial->jabatan ?? 'Peserta' }}</p>
                             </div>
                         </div>
-                        
+
                         <!-- Rating -->
                         <div class="flex text-yellow-400 text-sm">
                             @php $rating = $testimonial->rating ?? 5; @endphp
@@ -705,10 +705,10 @@
         faqItems.forEach(item => {
             const question = item.querySelector('.faq-question');
             const answer = item.querySelector('.faq-answer');
-            
+
             question.addEventListener('click', () => {
                 const wasActive = item.classList.contains('active');
-                
+
                 // Close all
                 faqItems.forEach(i => {
                     i.classList.remove('active');

@@ -362,7 +362,7 @@ body {
         <div class="section">
             <h2>Ringkasan Pembayaran</h2>
             <div class="summary-box">
-                <h3>{{ $payment->webinar->judul ?? 'Webinar HAFECS' }}</h3>
+               <h3>{{ $payment->seminarRegistration->seminar->title }}</h3>
                 <div class="summary-row">
                     <span>Order ID</span>
                     <strong>{{ $payment->order_id }}</strong>
