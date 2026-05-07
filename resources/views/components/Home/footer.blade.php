@@ -7,7 +7,7 @@
     <div class="container max-w-6xl mx-auto px-6 relative z-10">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
             <div class="space-y-4">
-                <h2 class="text-2xl font-bold mb-4 pb-3 border-b-2 border-orange-400 inline-block">LPK HAFECS</h2>
+                <h2 class="text-2xl font-bold mb-4 pb-3 border-b-2 border-orange-400 inline-block">Event Management </h2>
                 <p class="text-gray-300 leading-relaxed mb-6">{{ $settings['site_description'] ?? 'No Data' }}</p>
                 <div class="flex space-x-4">
                     <a href="{{ $settings['site_instagram'] ?? '#' }}" target="_blank" class="text-gray-400 hover:text-orange-400 transition-colors">

@@ -9,6 +9,8 @@ use App\Http\Controllers\Admin\TrainerController;
 use App\Http\Controllers\Admin\UlasanController;
 use App\Http\Controllers\Auth\FacebookController;
 use App\Http\Controllers\Auth\GoogleController;
+use App\Http\Controllers\Auth\NewPasswordController;
+use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PublicUlasanController;  // TAMBAH INI
 use App\Http\Controllers\RegionController;
@@ -35,6 +37,12 @@ Route::middleware('guest')->group(function () {
     // Facebook OAuth
     Route::get('auth/facebook', [FacebookController::class, 'redirectToFacebook'])->name('facebook.login');
     Route::get('auth/facebook/callback', [FacebookController::class, 'handleFacebookCallback']);
+
+    // Password Reset
+    Route::get('forgot-password', [PasswordResetLinkController::class, 'create'])->name('password.request');
+    Route::post('forgot-password', [PasswordResetLinkController::class, 'store'])->name('password.email');
+    Route::get('reset-password/{token}', [NewPasswordController::class, 'create'])->name('password.reset');
+    Route::post('reset-password', [NewPasswordController::class, 'store'])->name('password.store');
 });
 
 Route::middleware(['preventAdminAccess'])->group(function () {

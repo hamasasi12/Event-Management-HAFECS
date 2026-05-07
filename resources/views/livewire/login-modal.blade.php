@@ -26,8 +26,10 @@
 
             <div class="px-8 py-10 relative z-10 bg-white">
                 <div class="text-center mb-8">
-                    <h2 class="text-3xl font-extrabold text-gray-700" id="modal-title">Login</h2>
-                    {{-- <p class="text-gray-500 mt-2 text-sm">Welcome back! Please login to your account.</p> --}}
+                    <div class="flex items-center justify-center gap-3">
+                        <img src="{{ asset('images/icons/people-1-2.webp') }}" alt="Login Icon" class="w-10 h-10 object-contain">
+                        <h2 class="text-3xl font-extrabold text-gray-700" id="modal-title">Login</h2>
+                    </div>
                 </div>
 
                 <div class="space-y-4">
@@ -107,7 +109,7 @@
                             </label>
                         </div>
                         <div class="text-sm">
-                            <a href="#" class="font-medium text-blue-500 hover:text-blue-400">
+                            <a href="{{ route('password.request') }}" class="font-medium text-blue-500 hover:text-blue-400">
                                 Forgot password?
                             </a>
                         </div>

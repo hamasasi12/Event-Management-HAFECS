@@ -1,5 +1,5 @@
 <header class="mb-2">
-    <nav class="fixed w-full z-20 top-0 start-0 bg-blue-50/95 transition-all duration-300"
+    <nav class="fixed w-full z-20 top-0 start-0 bg-blue-50 transition-all duration-300"
         aria-label="Main navigation">
         <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto py-1 sm:py-2 px-4">
             <a href="{{ route('welcome') }}"

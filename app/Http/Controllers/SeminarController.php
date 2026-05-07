@@ -27,7 +27,7 @@ class SeminarController extends Controller
         $query = Seminar::where('end_time', '<', now());
         
         if ($request->filled('search')) {
-            $search = $request->get('search');
+            $search = $request->input('search');
             $query->where('title', 'like', '%' . $search . '%');
         }
 
