@@ -1,4 +1,26 @@
-@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap") layer(base);
+@font-face {
+    font-family: 'NeuSans';
+    src: url('../../public/assets/fonts/neusans-regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap; 
+}
+
+@font-face {
+    font-family: 'NeuSans';
+    src: url('../../public/assets/fonts/neusans-medium.woff2') format('woff2');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'NeuSans';
+    src: url('../../public/assets/fonts/neusans-bold.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
 
 @import "tailwindcss";
 
@@ -6,7 +28,7 @@
 
 @theme {
   --font-*: initial;
-  --font-outfit: Outfit, sans-serif;
+  --font-outfit: 'NeuSans', sans-serif;
 
   --breakpoint-*: initial;
   --breakpoint-2xsm: 375px;
@@ -278,6 +300,7 @@
 @layer base {
   body {
     @apply relative text-base font-normal font-outfit z-1 bg-gray-50;
+    letter-spacing: 0.015em;
   }
 }
 

@@ -22,6 +22,19 @@ class SeminarController extends Controller
         return view('detailseminar.detailcard', compact('seminar'));
     }
 
+    public function pastWebinars(Request $request)
+    {
+        $query = Seminar::where('end_time', '<', now());
+        
+        if ($request->filled('search')) {
+            $search = $request->get('search');
+            $query->where('title', 'like', '%' . $search . '%');
+        }
+
+        $seminars = $query->orderBy('end_time', 'desc')->paginate(6);
+        return view('past-webinar', compact('seminars'));
+    }
+
     // public function inputdatadiri()
     // {
     //     return view('detailseminar.inputdatadiri');

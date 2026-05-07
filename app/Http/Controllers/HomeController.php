@@ -1,18 +1,35 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use Illuminate\Http\Request;
-use App\Models\Trainer;
-use App\Models\Seminar;
+use App\Services\HomeService;
 
 class HomeController extends Controller
 {
+    protected $service;
+
+    public function __construct(HomeService $service)
+    {
+        $this->service = $service;
+    }
     public function index()
     {
-        $trainers = Trainer::where('status', 'active')->get();
-        $seminars = Seminar::all();
-        
-        return view('welcome', compact('trainers', 'seminars'));
+        $data = $this->service->getHomeData();
+        return view('welcome', [
+            'trainers' => $data['trainers'],
+            'seminars' => $data['seminars'],
+            'settings' => $data['settings'] ?? [],
+            'documentations' => $data['documentations']
+        ]);
+    }
+
+    public function old() // NANTI HAPUS
+    {
+        $data = $this->service->getHomeData();
+        return view('welcomeOLD', [
+            'trainers' => $data['trainers'],
+            'seminars' => $data['seminars'],
+            'settings' => $data['settings'] ?? [],
+            'documentations' => $data['documentations']
+        ]);
     }
 }

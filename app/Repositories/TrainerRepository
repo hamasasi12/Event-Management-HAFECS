@@ -1,0 +1,13 @@
+<?php
+
+namespace App\Repositories;
+
+use App\Models\Trainer;
+class TrainerRepository
+{
+    // Di sini kita bisa menambahkan metode untuk mengambil data trainer, misalnya:
+    public function getActiveTrainers()
+    {
+        return Trainer::where('status', 'active')->get();
+    }
+}

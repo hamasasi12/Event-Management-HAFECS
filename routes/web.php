@@ -1,35 +1,38 @@
 <?php
 
 use App\Http\Controllers\Admin\AttendanceController;
-use App\Http\Controllers\Admin\AuthController;
-use App\Http\Controllers\RegionController;
-use App\Http\Controllers\Sertifikasi\CertificateController;
-use App\Http\Controllers\Sertifikasi\CertificateController as CertController;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PaymentController;
-use App\Http\Controllers\Admin\SeminarRegistrationController;
+use App\Http\Controllers\Admin\Auth\LoginController;
+// use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\SeminarController;
-use App\Http\Controllers\SeminarController as PublicSeminarController;
+use App\Http\Controllers\Admin\SeminarRegistrationController;
+use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\TrainerController;
 use App\Http\Controllers\Admin\UlasanController;
-use App\Http\Controllers\Asesi\TransactionController as AsesiTransactionController;
-use App\Http\Controllers\TransactionController;
+// use App\Http\Controllers\Asesi\TransactionController as AsesiTransactionController;
 use App\Http\Controllers\Auth\GoogleController;
-use App\Http\Controllers\Admin\Auth\LoginController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PublicUlasanController;  // TAMBAH INI
-use App\Livewire\DetailCard;
+use App\Http\Controllers\RegionController;
+use App\Http\Controllers\SeminarController as PublicSeminarController;
+use App\Http\Controllers\Sertifikasi\CertificateController as CertController;
+use App\Http\Controllers\Sertifikasi\CertificateController;
+use App\Http\Controllers\TransactionController;
+// use App\Livewire\DetailCard;
 use App\Livewire\PendaftaranSeminar;
+// use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Route;
+// use Midtrans\Transaction;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
-use Barryvdh\DomPDF\Facade\Pdf;
-
-
-use Midtrans\Transaction;
 
 // =======================
 // Public & User Routes
 // =======================
 Route::middleware(['preventAdminAccess'])->group(function () {
     Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('welcome');
+    Route::get('/old', [App\Http\Controllers\HomeController::class, 'old'])->name('welcome.old');
+
+    Route::view('/kebijakan-privasi', 'privacy')->name('privacy');
+    Route::view('/syarat-ketentuan', 'terms')->name('terms');
 
     // TAMBAH ROUTE ULASAN PUBLIK DI SINI
     Route::get('/ulasan', [PublicUlasanController::class, 'index'])->name('public.ulasan');
@@ -40,6 +43,7 @@ Route::middleware(['preventAdminAccess'])->group(function () {
 Route::get('/seminar/register/{hashid}', PendaftaranSeminar::class)->name('seminar.register');
 
 Route::get('/seminar/{hashid}', [PublicSeminarController::class, 'show'])->name('seminar.show');
+Route::get('/past-webinar', [PublicSeminarController::class, 'pastWebinars'])->name('past-webinar');
 
 Route::get('/trainer/{hashid}', [App\Http\Controllers\TrainerController::class, 'show'])->name('trainer.show');
 
@@ -72,6 +76,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::get('dashboard', fn() => view('admin.dashboard'))->name('dashboard');
+        
+        // Settings
+        Route::get('settings', [SettingController::class, 'edit'])->name('settings.edit');
+        Route::post('settings', [SettingController::class, 'update'])->name('settings.update');
 
         // Trainer CRUD
         Route::prefix('trainers')->name('trainers.')->group(function () {
@@ -121,6 +129,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::patch('{id}/approve', [UlasanController::class, 'approve'])->name('approve');
             Route::patch('{id}/reject', [UlasanController::class, 'reject'])->name('reject');
         });
+
+        // Documentations Management
+        Route::resource('documentations', \App\Http\Controllers\Admin\DocumentationController::class);
     });
 });
 

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('phone')->nullable();
+            $table->string('title')->nullable();
             $table->text('bio')->nullable();
             $table->string('position')->nullable(); // Jabatan seperti 'Deputy Director and Senior Trainer HAFECs'
             $table->json('skills')->nullable(); // Untuk menyimpan array skills/kategori seperti 'Pengembangan Kurikulum', 'Metode Pengajaran'

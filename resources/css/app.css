@@ -1,12 +1,36 @@
 @import 'tailwindcss';
 
+@font-face {
+    font-family: 'NeuSans';
+    src: url('./fonts/neusans-regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'NeuSans';
+    src: url('./fonts/neusans-medium.woff2') format('woff2');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'NeuSans';
+    src: url('./fonts/neusans-bold.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
 @source '../**/*.blade.php';
 @source '../**/*.js';
 
 @theme {
-    --font-sans: 'Segoe UI', 'Tahoma', 'Geneva', 'Verdana', 'sans-serif';
+    --font-sans: 'NeuSans', 'Inter', 'Segoe UI', 'sans-serif';
     --color-primary: #0a2472;
     /* Biru tua profesional */
     --color-secondary: #001845;
@@ -27,6 +51,10 @@
 
 html {
     scroll-behavior: smooth;
+}
+
+body {
+    letter-spacing: 0.02em;
 }
 
 @keyframes fadeInUp {

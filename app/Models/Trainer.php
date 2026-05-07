@@ -21,6 +21,7 @@ class Trainer extends Model
         'skills',
         'image_url',
         'status',
+        'title'
     ];
 
     protected $casts = [
