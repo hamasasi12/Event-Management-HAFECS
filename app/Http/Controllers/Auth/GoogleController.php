@@ -66,8 +66,8 @@ class GoogleController extends Controller
                 return redirect()->intended('/admin/dashboard');
             }
 
-            // Redirect ke halaman asal (tempat klik login)
-            return redirect()->intended('/');
+            // Redirect ke dashboard user
+            return redirect()->intended('/user/dashboard');
         } catch (\Exception $e) {
             Log::error('Error in handleGoogleCallback: ' . $e->getMessage());
             return redirect('/')->withErrors([

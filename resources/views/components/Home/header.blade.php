@@ -39,7 +39,7 @@
             <!-- Login & Register Buttons -->
             <div class="hidden lg:flex items-center space-x-4" x-data>
                 <button @click="$dispatch('open-login-modal')" class="text-sm font-semibold text-gray-700 hover:text-blue-600 transition-colors focus:outline-none">Log in</button>
-                <a href="/register" class="text-sm font-semibold bg-slate-800 text-white px-5 py-2 rounded-full hover:bg-gray-700 transition-colors shadow-sm">Register</a>
+                <button @click="$dispatch('open-register-modal')" class="text-sm font-semibold bg-slate-800 text-white px-5 py-2 rounded-full hover:bg-gray-700 transition-colors shadow-sm focus:outline-none">Register</button>
             </div>
         </div>
 
@@ -59,10 +59,11 @@
             
             <div class="flex items-center justify-center gap-4 w-full pt-3 mt-2 border-t border-blue-500/50" x-data>
                 <button @click="$dispatch('open-login-modal')" class="text-white hover:text-yellow-300 transition-all duration-200 py-1 font-semibold focus:outline-none">Log in</button>
-                <a href="/register" class="bg-gray-900 text-white px-5 py-1.5 rounded-full hover:bg-yellow-300 transition-all duration-200 font-bold">Register</a>
+                <button @click="$dispatch('open-register-modal')" class="bg-gray-900 text-white px-5 py-1.5 rounded-full hover:bg-yellow-300 transition-all duration-200 font-bold focus:outline-none">Register</button>
             </div>
         </div>
     </nav>
 </header>
 
 <livewire:login-modal />
+<livewire:register-modal />

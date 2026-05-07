@@ -12,25 +12,27 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // // // Buat user biasa
-        User::factory()->create([
+        $this->call([
+            RoleSeeder::class
+        ]);
+
+        $user = User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]);
+        $user->assignRole('user');
 
-        // // // Buat admin
-        User::factory()->create([
+        $admin = User::factory()->create([
             'name' => 'Admin User',
             'email' => 'admin@gmail.com',
             'password' => bcrypt('password'),
         ]);
+        $admin->assignRole('admin');
 
-        // Panggil seeder tambahan
         $this->call([
             IndoRegionSeeder::class,
             TrainerSeeder::class,
             SeminarSeeder::class,
-            RoleSeeder::class,
             AdditionalMessageTemplatesSeeder::class
         ]);
     }

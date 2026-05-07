@@ -2,13 +2,12 @@
 
 use App\Http\Controllers\Admin\AttendanceController;
 use App\Http\Controllers\Admin\Auth\LoginController;
-// use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\SeminarController;
 use App\Http\Controllers\Admin\SeminarRegistrationController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\TrainerController;
 use App\Http\Controllers\Admin\UlasanController;
-// use App\Http\Controllers\Asesi\TransactionController as AsesiTransactionController;
+use App\Http\Controllers\Auth\FacebookController;
 use App\Http\Controllers\Auth\GoogleController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PublicUlasanController;  // TAMBAH INI
@@ -17,16 +16,27 @@ use App\Http\Controllers\SeminarController as PublicSeminarController;
 use App\Http\Controllers\Sertifikasi\CertificateController as CertController;
 use App\Http\Controllers\Sertifikasi\CertificateController;
 use App\Http\Controllers\TransactionController;
-// use App\Livewire\DetailCard;
+use App\Http\Controllers\User\DashboardController;
+use App\Http\Controllers\UserAuthController;
 use App\Livewire\PendaftaranSeminar;
-// use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Route;
-// use Midtrans\Transaction;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
-// =======================
-// Public & User Routes
-// =======================
+Route::middleware('guest')->group(function () {
+    Route::get('login', [UserAuthController::class, 'showLoginForm'])->name('login');
+    Route::post('login', [UserAuthController::class, 'login']);
+    Route::get('register', [UserAuthController::class, 'showRegisterForm'])->name('register');
+    Route::post('register', [UserAuthController::class, 'register']);
+
+    // Google OAuth
+    Route::get('auth/google', [GoogleController::class, 'redirectToGoogle'])->name('google.login');
+    Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
+
+    // Facebook OAuth
+    Route::get('auth/facebook', [FacebookController::class, 'redirectToFacebook'])->name('facebook.login');
+    Route::get('auth/facebook/callback', [FacebookController::class, 'handleFacebookCallback']);
+});
+
 Route::middleware(['preventAdminAccess'])->group(function () {
     Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('welcome');
     Route::get('/old', [App\Http\Controllers\HomeController::class, 'old'])->name('welcome.old');
@@ -48,15 +58,18 @@ Route::get('/past-webinar', [PublicSeminarController::class, 'pastWebinars'])->n
 Route::get('/trainer/{hashid}', [App\Http\Controllers\TrainerController::class, 'show'])->name('trainer.show');
 
 // =======================
-// Google OAuth
+// User Auth & OAuth Routes
 // =======================
-Route::get('auth/google', [GoogleController::class, 'redirectToGoogle'])->name('google.login');
-Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
 
-// =======================
-// General Logout
-// =======================
-Route::post('/logout', [App\Http\Controllers\Admin\Auth\LoginController::class, 'logout'])->name('logout')->middleware('auth');
+
+Route::middleware('auth')->group(function () {
+    Route::get('user/dashboard', [DashboardController::class, 'dashboard'])->name('user.dashboard');
+
+    // =======================
+    // General Logout
+    // =======================
+    Route::post('/logout', [UserAuthController::class, 'logout'])->name('logout');
+});
 
 // =======================
 // Web Dev Team Page
@@ -76,7 +89,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::get('dashboard', fn() => view('admin.dashboard'))->name('dashboard');
-        
+
         // Settings
         Route::get('settings', [SettingController::class, 'edit'])->name('settings.edit');
         Route::post('settings', [SettingController::class, 'update'])->name('settings.update');

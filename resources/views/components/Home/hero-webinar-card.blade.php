@@ -38,7 +38,7 @@
                         </svg>
                     <div>
                         <p class="text-[10px] sm:text-[11px] text-slate-500 font-bold uppercase tracking-wider">Tanggal</p>
-                        <p class="text-xs sm:text-sm font-extrabold text-slate-800 mt-0.5">{{ $seminar && $seminar->start_time ? $seminar->start_time->translatedFormat('d F Y') : '21 Mei 2026' }}</p>
+                        <p class="text-xs sm:text-sm font-extrabold text-slate-700 mt-0.5">{{ $seminar && $seminar->start_time ? $seminar->start_time->translatedFormat('d F Y') : '21 Mei 2026' }}</p>
                     </div>
                 </div>
 
@@ -49,7 +49,7 @@
                         </svg>
                     <div>
                         <p class="text-[10px] sm:text-[11px] text-slate-500 font-bold uppercase tracking-wider">Waktu</p>
-                        <p class="text-xs sm:text-sm font-extrabold text-slate-800 mt-0.5">{{ $seminar && $seminar->start_time ? $seminar->start_time->format('H:i') . ' WITA' : '10:00 WITA' }}</p>
+                        <p class="text-xs sm:text-sm font-extrabold text-slate-700 mt-0.5">{{ $seminar && $seminar->start_time ? $seminar->start_time->format('H:i') . ' WITA' : '10:00 WITA' }}</p>
                     </div>
                 </div>
             </div>
