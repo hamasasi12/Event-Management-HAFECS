@@ -9,6 +9,9 @@
         <div class="max-w-screen-xl mx-auto px-4 md:px-6">
             <div class="flex flex-col md:flex-row items-center justify-around mb-8 md:mb-20">
                 <!-- Left Text -->
+                @php
+                    $heroSeminar = $seminars;
+                @endphp
                 <div class="md:w-1/2 space-y-4 md:space-y-6 z-10 pt-4 md:pt-8 text-center md:text-left">
                     <span
                         class="inline-flex items-center gap-1.5 bg-blue-600 text-white text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full md:hidden mb-10 mt-4">
@@ -18,28 +21,26 @@
                         <h1 class="text-2xl sm:text-3xl md:text-5xl lg:text-5xl font-bold bg-gradient-to-r from-blue-800 to-blue-400 bg-clip-text text-transparent leading-[1.15]">
                             ElevateClass
                             <span
-                                class="text-lg sm:text-xl md:text-2xl lg:text-3xl font-medium text-gray-700 tracking-normal mt-1 md:mt-2 block">Webinar
-                                Terbaik dari HAFECS </span>
+                                class="text-lg sm:text-xl md:text-2xl lg:text-3xl font-medium text-gray-700 tracking-normal mt-1 md:mt-2 block">{{ $heroSeminar ? $heroSeminar->title : 'Webinar Terbaik dari HAFECS' }} </span>
                         </h1>
 
                     </div>
                     <div class="relative max-w-xl mx-auto md:mx-0">
                         <p
                             class="text-base md:text-xl text-slate-700 leading-relaxed border-l-4 border-yellow-400 pl-4 text-left">
-                            Belajar langsung dari praktisi dan mentor berpengalaman melalui webinar interaktif yang
-                            relevan dengan dunia kerja dan pendidikan masa kini.
+                            {{ $heroSeminar ? Str::limit($heroSeminar->description, 120) : 'Belajar langsung dari praktisi dan mentor berpengalaman melalui webinar interaktif yang relevan dengan dunia kerja dan pendidikan masa kini.' }}
                         </p>
                     </div>
                     <div
                         class="mt-4 md:mt-8 relative z-50 flex flex-col sm:flex-row gap-3 items-center justify-center md:justify-start">
-                        <a href="https://tinyurl.com/Form-PelatihanAdminPerkantoran" target="_blank"
+                        <a href="{{ route('seminar.show', Hashids::encode($seminars->id)) }}"
                             rel="noopener noreferrer"
                             class="w-full sm:w-auto inline-flex tracking-wider items-center justify-center bg-yellow-400 hover:bg-yellow-300 text-blue-900 font-bold text-sm py-3 px-7 rounded-full shadow-md transition-colors duration-200">
                             DAFTAR SEKARANG
                         </a>
                         <a href="#info"
                             class="w-full sm:w-auto inline-flex items-center justify-center bg-transparent border-2 border-blue-600 text-blue-700 hover:bg-blue-50 font-medium text-base py-3 px-6 rounded-full transition-colors duration-200">
-                            Info Acara
+                            Acara lainnya
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -50,7 +51,7 @@
                 </div>
 
                 <!-- Right Side: Webinar Card Component -->
-                <x-Home.hero-webinar-card />
+                <x-Home.hero-webinar-card :seminar="$heroSeminar" />
             </div>
 
             <!-- Info Acara (tidak berubah) -->

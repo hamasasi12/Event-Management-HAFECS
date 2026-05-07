@@ -31,6 +31,12 @@ class Seminar extends Model
         'end_time' => 'datetime',
     ];
 
+    public function scopeUpcoming($query)
+    {
+        return $query->where('start_time', '>=', now())
+            ->orderBy('start_time', 'asc');
+    }
+
     public function registrations()
     {
         return $this->hasMany(SeminarRegistration::class);

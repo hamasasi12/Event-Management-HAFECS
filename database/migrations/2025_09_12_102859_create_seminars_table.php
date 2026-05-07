@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('seminars', function (Blueprint $table) {
             $table->id();
             $table->string('title');
+            $table->string('event_type')->default('Webinar');
             $table->text('description');
             $table->dateTime('start_time');
             $table->dateTime('end_time');

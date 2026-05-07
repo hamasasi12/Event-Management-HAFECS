@@ -14,6 +14,7 @@ class Trainer extends Model
 
     protected $fillable = [
         'name',
+        'event_type',
         'email',
         'phone',
         'bio',

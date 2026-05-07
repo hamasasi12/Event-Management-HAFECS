@@ -16,7 +16,7 @@ class SeminarSeeder extends Seeder
         Seminar::create([
             'title' => 'Teknologi Web Terkini',
             'description' => 'Pelajari teknologi web terbaru yang sedang berkembang pesat saat ini. Workshop ini akan membahas berbagai framework dan tools modern.',
-            'start_time' => '2025-10-15 09:00:00',
+            'start_time' => '2028-10-15 09:00:00',
             'end_time' => '2025-10-15 16:00:00',
             'type' => 'berbayar',
             'price' => 150000,
@@ -27,7 +27,7 @@ class SeminarSeeder extends Seeder
         Seminar::create([
             'title' => 'Pengembangan Mobile Apps',
             'description' => 'Workshop komprehensif tentang pengembangan aplikasi mobile untuk Android dan iOS menggunakan teknologi cross-platform.',
-            'start_time' => '2025-11-20 10:00:00',
+            'start_time' => '2027-11-20 10:00:00',
             'end_time' => '2025-11-20 17:00:00',
             'type' => 'gratis',
             'status' => 'upcoming',

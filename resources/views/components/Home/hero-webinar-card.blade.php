@@ -1,3 +1,5 @@
+@props(['seminar' => null])
+
 <div class="md:w-2/5 w-full mt-10 md:mt-16 relative">
     <!-- Decorative background elements -->
     <div class="absolute -top-6 -right-6 w-32 h-32 bg-yellow-400 rounded-full mix-blend-multiply filter blur-2xl opacity-40 animate-pulse"></div>
@@ -6,7 +8,7 @@
     <div class="relative w-full bg-white rounded-3xl shadow-[0_20px_50px_rgba(8,_112,_184,_0.07)] overflow-hidden border border-slate-100 transition-all duration-300 hover:shadow-[0_20px_50px_rgba(8,_112,_184,_0.12)]">
         <!-- Poster Image -->
         <div class="relative h-64 sm:h-64 w-full bg-slate-100">
-            <img src="{{ asset('./assets/img/galeri-11.jpg') }}" alt="Webinar Poster" class="w-full h-full object-cover" />
+            <img src="{{ $seminar && $seminar->image_url ? $seminar->image_url : asset('./assets/img/galeri-11.jpg') }}" alt="Webinar Poster" class="w-full h-full object-cover" />
             
             <!-- Platform Badge -->
             <div class="absolute top-4 right-4 bg-white/60 backdrop-blur-md text-blue-800 text-xs font-bold px-3 py-2 rounded-full shadow-lg flex items-center gap-1.5 ">
@@ -36,7 +38,7 @@
                         </svg>
                     <div>
                         <p class="text-[10px] sm:text-[11px] text-slate-500 font-bold uppercase tracking-wider">Tanggal</p>
-                        <p class="text-xs sm:text-sm font-extrabold text-slate-800 mt-0.5">21 Mei 2026</p>
+                        <p class="text-xs sm:text-sm font-extrabold text-slate-800 mt-0.5">{{ $seminar && $seminar->start_time ? $seminar->start_time->translatedFormat('d F Y') : '21 Mei 2026' }}</p>
                     </div>
                 </div>
 
@@ -47,7 +49,7 @@
                         </svg>
                     <div>
                         <p class="text-[10px] sm:text-[11px] text-slate-500 font-bold uppercase tracking-wider">Waktu</p>
-                        <p class="text-xs sm:text-sm font-extrabold text-slate-800 mt-0.5">10:00 WITA</p>
+                        <p class="text-xs sm:text-sm font-extrabold text-slate-800 mt-0.5">{{ $seminar && $seminar->start_time ? $seminar->start_time->format('H:i') . ' WITA' : '10:00 WITA' }}</p>
                     </div>
                 </div>
             </div>
@@ -71,7 +73,7 @@
                 </div>
                 <div class="text-right w-full sm:w-auto flex justify-center sm:block">
                     <div class="inline-flex items-center justify-center px-4 py-2 bg-white rounded-xl shadow-sm border border-slate-100">
-                        <span class="text-lg font-black text-blue-600">1,245</span>
+                        <span class="text-lg font-black text-blue-600">{{ $seminar ? number_format($seminar->registrations()->count(), 0, ',', '.') : '1.245' }}</span>
                         <span class="text-xs font-semibold text-slate-500 ml-1.5 mt-0.5 sm:mt-1">Orang</span>
                     </div>
                 </div>

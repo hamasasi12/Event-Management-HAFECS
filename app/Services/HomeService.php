@@ -11,7 +11,7 @@ class HomeService
     public function getHomeData()
     {
         $trainers = Trainer::where('status', 'active')->get();
-        $seminars = Seminar::all();
+        $seminars = Seminar::upcoming()->first();
         $settings = Setting::pluck('value', 'key')->toArray();
         $documentations = \App\Models\Documentation::latest()->get();
         return compact('trainers', 'seminars', 'settings', 'documentations');
