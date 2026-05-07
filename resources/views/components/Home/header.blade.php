@@ -1,5 +1,5 @@
 <header class="mb-2">
-    <nav class="fixed w-full z-20 top-0 start-0 bg-white transition-all duration-300"
+    <nav class="fixed w-full z-20 top-0 start-0 bg-blue-50/95 transition-all duration-300"
         aria-label="Main navigation">
         <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto py-1 sm:py-2 px-4">
             <a href="{{ route('welcome') }}"
@@ -37,8 +37,8 @@
             </div>
 
             <!-- Login & Register Buttons -->
-            <div class="hidden lg:flex items-center space-x-4">
-                <a href="/login" class="text-sm font-semibold text-gray-700 hover:text-blue-600 transition-colors">Log in</a>
+            <div class="hidden lg:flex items-center space-x-4" x-data>
+                <button @click="$dispatch('open-login-modal')" class="text-sm font-semibold text-gray-700 hover:text-blue-600 transition-colors focus:outline-none">Log in</button>
                 <a href="/register" class="text-sm font-semibold bg-slate-800 text-white px-5 py-2 rounded-full hover:bg-gray-700 transition-colors shadow-sm">Register</a>
             </div>
         </div>
@@ -57,10 +57,12 @@
             <a href="{{ route('past-webinar') }}"
                 class="text-white hover:text-yellow-300 transition-all duration-200 py-1">Past Webinar</a>
             
-            <div class="flex items-center justify-center gap-4 w-full pt-3 mt-2 border-t border-blue-500/50">
-                <a href="/login" class="text-white hover:text-yellow-300 transition-all duration-200 py-1 font-semibold">Log in</a>
+            <div class="flex items-center justify-center gap-4 w-full pt-3 mt-2 border-t border-blue-500/50" x-data>
+                <button @click="$dispatch('open-login-modal')" class="text-white hover:text-yellow-300 transition-all duration-200 py-1 font-semibold focus:outline-none">Log in</button>
                 <a href="/register" class="bg-gray-900 text-white px-5 py-1.5 rounded-full hover:bg-yellow-300 transition-all duration-200 font-bold">Register</a>
             </div>
         </div>
     </nav>
 </header>
+
+<livewire:login-modal />

@@ -94,7 +94,7 @@
 
 <body class="font-sans antialiased text-gray-900">
     <x-Home.header />
-    <main>
+    <main class="bg-blue-50/50">
         @yield('content')
     </main>
     <x-Home.footer :settings="$settings ?? []" />

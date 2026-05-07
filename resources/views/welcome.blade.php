@@ -2,7 +2,7 @@
 
 @section('content')
     <!-- ========== HERO SECTION ========== -->
-    <section class="w-full bg-white pt-6 md:pt-10 pb-12 md:pb-20 relative overflow-hidden">
+    <section class="w-full pt-6 md:pt-10 pb-12 md:pb-20 relative overflow-hidden">
         <div class="absolute top-0 left-0 w-full h-[500px] bg-gradient-to-b from-blue-50/50 to-white -z-10"
             aria-hidden="true"></div>
 
@@ -54,7 +54,7 @@
             </div>
 
             <!-- Info Acara (tidak berubah) -->
-            <div id="info"
+            {{-- <div id="info"
                 class="mt-8 md:mt-20 bg-slate-50/70 rounded-md sm:rounded-sm p-5 md:p-12 border border-slate-100 scroll-mt-24 max-w-screen-xl mx-auto">
                 <div class="flex flex-col lg:flex-row items-stretch justify-between gap-5 md:gap-12">
                     <!-- Info List -->
@@ -119,7 +119,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
         </div>
     </section>
     <!-- ========== END HERO ========== -->
@@ -134,8 +134,7 @@
     <!-- ========== MENTOR / TRAINER ========== -->
     <section class="py-10 mt-4" id="mentor" aria-labelledby="trainer-heading">
         <div class="max-w-5xl mx-auto px-5 text-center py-4">
-            <h2 id="trainer-heading" class="text-2xl sm:text-3xl font-bold text-blue-800 leading-tight">Para
-                Trainer</h2>
+            <h2 id="trainer-heading" class="text-2xl sm:text-3xl font-bold text-gray-800 leading-tight">Para Trainer Kami</h2>
         </div>
 
         <div class="max-w-7xl mx-auto px-5 relative">

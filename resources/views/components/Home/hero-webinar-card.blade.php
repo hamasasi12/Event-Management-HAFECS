@@ -56,7 +56,7 @@
             {{-- <div class="h-px bg-linear-to-r from-transparent via-slate-200 to-transparent"></div> --}}
 
             <!-- Registered Users -->
-            <div class="flex flex-col sm:flex-row items-center justify-between bg-blue-50/50 p-4 rounded-2xl border border-blue-100/50 gap-4 sm:gap-0">
+            <div class="flex flex-col sm:flex-row items-center justify-between bg-blue-50 p-4 rounded-2xl gap-4 sm:gap-0">
                 <div class="flex flex-col items-center sm:items-start w-full sm:w-auto">
                     <p class="text-xs text-slate-500 font-medium mb-1.5">Telah mendaftar</p>
                     <div class="flex items-center -space-x-3">
