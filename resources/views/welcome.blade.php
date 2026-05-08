@@ -33,7 +33,7 @@
                     </div>
                     <div
                         class="mt-4 md:mt-8 relative z-50 flex flex-col sm:flex-row gap-3 items-center justify-center md:justify-start">
-                        <a href="{{ route('seminar.show', Hashids::encode($seminars->id)) }}"
+                        <a href="{{ route('seminar.show', [$seminars->slug, Hashids::encode($seminars->id)]) }}"
                             rel="noopener noreferrer"
                             class="w-full sm:w-auto inline-flex tracking-wider items-center justify-center bg-yellow-400 hover:bg-yellow-300 text-blue-900 font-bold text-sm py-3 px-7 rounded-full shadow-md transition-colors duration-200">
                             DAFTAR SEKARANG

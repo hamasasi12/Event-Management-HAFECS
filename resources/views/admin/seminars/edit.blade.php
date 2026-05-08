@@ -42,8 +42,15 @@
 
                     <!-- Description -->
                     <div class="md:col-span-2">
-                        <label for="description" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Description</label>
-                        <textarea name="description" id="description" rows="4" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white">{{ old('description', $seminar->description) }}</textarea>
+                        <label for="editor" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Description</label>
+                        <textarea name="description" id="editor" rows="4" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white">{{ old('description', $seminar->description) }}</textarea>
+                    </div>
+
+                    <!-- Materi yang Akan Dibahas -->
+                    <div class="md:col-span-2">
+                        <label for="materi" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Materi yang Akan Dibahas</label>
+                        <textarea name="materi" id="materi" rows="4" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white">{{ old('materi', $seminar->materi) }}</textarea>
+                        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Gunakan format markdown untuk daftar (gunakan tanda * untuk bullet points). Contoh: * Mengenali Batasan Diri (Self-Limitation Awareness)</p>
                     </div>
 
                     <!-- Start Time -->
@@ -64,6 +71,7 @@
                         <select name="type" id="type" class="mt-1 block w-full bg-white border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                             <option value="gratis" {{ old('type', $seminar->type) == 'gratis' ? 'selected' : '' }} class="dark:bg-gray-700 dark:text-white">Gratis</option>
                             <option value="berbayar" {{ old('type', $seminar->type) == 'berbayar' ? 'selected' : '' }} class="dark:bg-gray-700 dark:text-white">Berbayar</option>
+                            <option value="beramal" {{ old('type', $seminar->type) == 'beramal' ? 'selected' : '' }} class="dark:bg-gray-700 dark:text-white">Beramal</option>
                         </select>
                     </div>
 
@@ -112,15 +120,17 @@
                             @foreach($trainers as $trainer)
                                 <option value="{{ $trainer->id }}" {{ old('trainer_id', $seminar->trainer_id) == $trainer->id ? 'selected' : '' }} class="dark:bg-gray-700 dark:text-white">{{ $trainer->name }}</option>
                             @endforeach
+                            <option value="other" {{ old('trainer_id', $seminar->trainer_id) === null && $seminar->custom_trainer_name ? 'selected' : (old('trainer_id') == 'other' ? 'selected' : '') }} class="dark:bg-gray-700 dark:text-white">Other (Manual Input)</option>
                         </select>
                     </div>
 
-                    <!-- Materi yang Akan Dibahas -->
-                    <div class="md:col-span-2">
-                        <label for="materi" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Materi yang Akan Dibahas</label>
-                        <textarea name="materi" id="materi" rows="4" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white">{{ old('materi', $seminar->materi) }}</textarea>
-                        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Gunakan format markdown untuk daftar (gunakan tanda * untuk bullet points). Contoh: * Mengenali Batasan Diri (Self-Limitation Awareness)</p>
+                    <!-- Custom Trainer Name -->
+                    <div class="md:col-span-2" id="custom_trainer_wrapper" style="display: none;">
+                        <label for="custom_trainer_name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Trainer Name (Manual)</label>
+                        <input type="text" name="custom_trainer_name" id="custom_trainer_name" value="{{ old('custom_trainer_name', $seminar->custom_trainer_name) }}" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="Enter trainer name">
                     </div>
+
+
 
                     <!-- Current Image -->
                     @if($seminar->image_url)
@@ -164,4 +174,34 @@
             </form>
         </div>
     </div>
+
+    @push('scripts')
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
+        <script>
+            ClassicEditor
+                .create(document.querySelector('#editor'))
+                .catch(error => {
+                    console.error(error);
+                });
+            if (performance.navigation.type === 2) {
+                // If page is accessed via Back button, reload to clear session flash
+                location.reload();
+            }
+
+            const trainerSelect = document.getElementById('trainer_id');
+            const customTrainerWrapper = document.getElementById('custom_trainer_wrapper');
+
+            function toggleCustomTrainer() {
+                if (trainerSelect.value === 'other') {
+                    customTrainerWrapper.style.display = 'block';
+                } else {
+                    customTrainerWrapper.style.display = 'none';
+                }
+            }
+
+            toggleCustomTrainer();
+            trainerSelect.addEventListener('change', toggleCustomTrainer);
+        </script>
+    @endpush
 </x-layouts.admin>

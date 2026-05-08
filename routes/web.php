@@ -12,7 +12,7 @@ use App\Http\Controllers\Auth\GoogleController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\PaymentController;
-use App\Http\Controllers\PublicUlasanController;  // TAMBAH INI
+use App\Http\Controllers\PublicUlasanController;  
 use App\Http\Controllers\RegionController;
 use App\Http\Controllers\SeminarController as PublicSeminarController;
 use App\Http\Controllers\Sertifikasi\CertificateController as CertController;
@@ -60,7 +60,7 @@ Route::middleware(['preventAdminAccess'])->group(function () {
 
 Route::get('/seminar/register/{hashid}', PendaftaranSeminar::class)->name('seminar.register');
 
-Route::get('/seminar/{hashid}', [PublicSeminarController::class, 'show'])->name('seminar.show');
+Route::get('/seminar/{slug}/{hashid}', [PublicSeminarController::class, 'show'])->name('seminar.show');
 Route::get('/past-webinar', [PublicSeminarController::class, 'pastWebinars'])->name('past-webinar');
 
 Route::get('/trainer/{hashid}', [App\Http\Controllers\TrainerController::class, 'show'])->name('trainer.show');

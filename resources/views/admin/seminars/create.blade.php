@@ -63,6 +63,7 @@
                         <select name="type" id="type" class="mt-1 block w-full bg-white border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                             <option value="gratis" {{ old('type') == 'gratis' ? 'selected' : '' }} class="dark:bg-gray-700 dark:text-white">Gratis</option>
                             <option value="berbayar" {{ old('type') == 'berbayar' ? 'selected' : '' }} class="dark:bg-gray-700 dark:text-white">Berbayar</option>
+                            <option value="beramal" {{ old('type') == 'beramal' ? 'selected' : '' }} class="dark:bg-gray-700 dark:text-white">Beramal</option>
                         </select>
                     </div>
 
@@ -113,7 +114,14 @@
                             @foreach($trainers as $trainer)
                                 <option value="{{ $trainer->id }}" {{ old('trainer_id') == $trainer->id ? 'selected' : '' }} class="dark:bg-gray-700 dark:text-white">{{ $trainer->name }}</option>
                             @endforeach
+                            <option value="other" {{ old('trainer_id') == 'other' ? 'selected' : '' }} class="dark:bg-gray-700 dark:text-white">Other (Manual Input)</option>
                         </select>
+                    </div>
+
+                    <!-- Custom Trainer Name -->
+                    <div class="md:col-span-2" id="custom_trainer_wrapper" style="display: none;">
+                        <label for="custom_trainer_name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Trainer Name (Manual)</label>
+                        <input type="text" name="custom_trainer_name" id="custom_trainer_name" value="{{ old('custom_trainer_name') }}" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="Enter trainer name">
                     </div>
 
                     <!-- Materi yang Akan Dibahas -->
@@ -163,7 +171,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const priceInput = document.getElementById('price');
 
     function togglePrice() {
-        if (typeSelect.value === 'berbayar') {
+        if (typeSelect.value === 'berbayar' || typeSelect.value === 'beramal') {
             priceWrapper.style.display = 'block';
         } else {
             priceWrapper.style.display = 'none';
@@ -173,6 +181,20 @@ document.addEventListener('DOMContentLoaded', function() {
 
     togglePrice();            // cek saat halaman pertama kali load (agar old() berfungsi)
     typeSelect.addEventListener('change', togglePrice);
+
+    const trainerSelect = document.getElementById('trainer_id');
+    const customTrainerWrapper = document.getElementById('custom_trainer_wrapper');
+
+    function toggleCustomTrainer() {
+        if (trainerSelect.value === 'other') {
+            customTrainerWrapper.style.display = 'block';
+        } else {
+            customTrainerWrapper.style.display = 'none';
+        }
+    }
+
+    toggleCustomTrainer();
+    trainerSelect.addEventListener('change', toggleCustomTrainer);
 });
 </script>
 

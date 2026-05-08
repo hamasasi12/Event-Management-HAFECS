@@ -71,7 +71,7 @@
                             </p>
 
                             <div class="mt-auto border-gray-100">
-                                <a href="{{ route('seminar.show', Vinkla\Hashids\Facades\Hashids::encode($seminar->id)) }}"
+                                <a href="{{ route('seminar.show', [$seminar->slug, Vinkla\Hashids\Facades\Hashids::encode($seminar->id)]) }}"
                                     class="inline-flex items-center text-xl font-medium text-gray-600 hover:text-gray-800 transition-colors duration-200">
                                     Selengkapnya >>
                                 </a>

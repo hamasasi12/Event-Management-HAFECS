@@ -13,22 +13,39 @@ class Seminar extends Model
 
     protected $fillable = [
         'title',
+        'slug',
+        'event_type',
         'description',
+        'details',
+        'materi',
         'start_time',
         'end_time',
+        'registration_start',
+        'registration_end',
         'price',
-        'status',
-        'image_url',
+        'discount_price',
+        'discount_until',
+        'capacity',
         'type',
         'link',
         'platform',
+        'location',
+        'is_featured',
+        'has_certificate',
+        'status',
+        'image_url',
         'trainer_id',
-        'materi',
+        'custom_trainer_name',
     ];
 
     protected $casts = [
         'start_time' => 'datetime',
         'end_time' => 'datetime',
+        'registration_start' => 'datetime',
+        'registration_end' => 'datetime',
+        'discount_until' => 'datetime',
+        'is_featured' => 'boolean',
+        'has_certificate' => 'boolean',
     ];
 
     public function scopeUpcoming($query)
@@ -56,6 +73,18 @@ class Seminar extends Model
     {
         return Attribute::make(
             get: fn () => Hashids::encode($this->id),
+        );
+    }
+
+    /**
+     * Get the slug attribute from the title.
+     *
+     * @return \Illuminate\Database\Eloquent\Casts\Attribute
+     */
+    protected function slug(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => \Illuminate\Support\Str::slug($this->title),
         );
     }
 }

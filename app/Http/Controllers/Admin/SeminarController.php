@@ -3,13 +3,15 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\SeminarRequest;
 use App\Models\Attendance;
 use App\Models\Seminar;
 use App\Models\Trainer;
-use App\Models\User;
+use App\Repositories\TrainerRepository;
+use App\Services\SeminarService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use RealRashid\SweetAlert\Facades\Alert;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
@@ -17,113 +19,54 @@ use Vinkla\Hashids\Facades\Hashids;
 
 class SeminarController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-
+    protected $service;
+    protected $repo;
+    public function __construct(SeminarService $service, TrainerRepository $repo)
     {
-        $seminars = Seminar::latest()->get();
-        
+        $this->service = $service;
+        $this->repo = $repo;
+    }
+    // ----------------------------------------------------------------------
 
-        // $title = 'Delete User!';
-        // $text = "Are you sure you want to delete?";
-        // confirmDelete($title, $text);
-
-
+    public function index() {
+        $seminars = $this->service->getSeminarLatest();
         return view('admin.seminars.index', compact('seminars'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        $trainers = Trainer::all();
+    public function create() {
+        $trainers = $this->repo->getAllTrainers();
         return view('admin.seminars.create', compact('trainers'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        $price = null;
-        $link = null;
-
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string',
-            'start_time' => 'required|date',
-            'end_time' => 'required|date|after:start_time',
-            'type' => 'required|string',
-            'link' => 'required|string',
-            'price' => 'required|numeric|min:0',
-            'status' => 'required|in:upcoming,active,completed,cancelled',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'trainer_id' => 'nullable|exists:trainers,id',
-            'materi' => 'nullable|string',
-        ]);
-
-
-        $data = $request->except('image');
-
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('seminars', 'public');
-            $data['image_url'] = Storage::url($imagePath);
-        }
-
-        Seminar::create($data);
-
-        return redirect()->route('admin.seminars.index')
+    public function store(SeminarRequest $request) {
+        $this->service->storeSeminar($request);
+        return redirect()
+            ->route('admin.seminars.index')
             ->with('success', 'Seminar created successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show($seminar_hashid)
-    {
-        $id = Hashids::decode($seminar_hashid)[0] ?? null;
-        $seminar = Seminar::findOrFail($id);
+    public function show($seminar_hashid) {
+        $seminar = $this->service->ShowSeminar($seminar_hashid);
         return view('admin.seminars.show', compact('seminar'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit($seminar_hashid)
-    {
-        $id = Hashids::decode($seminar_hashid)[0] ?? null;
-        $seminar = Seminar::findOrFail($id);
-        $trainers = Trainer::all();
-        return view('admin.seminars.edit', compact('seminar', 'trainers'));
+    public function edit($seminar_hashid) {
+        $data = $this->service->EditSeminar($seminar_hashid);
+        return view('admin.seminars.edit', $data);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, $seminar_hashid)
-    {
+    public function update(SeminarRequest $request, $seminar_hashid) {
 
 
         
         $id = Hashids::decode($seminar_hashid)[0] ?? null;
         $seminar = Seminar::findOrFail($id);
+        $request->validated();
+        $data = $request->except(['image']);
 
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string',
-            'start_time' => 'required|date',
-            'end_time' => 'required|date|after:start_time',
-            'price' => 'required|numeric|min:0',
-            'status' => 'required|in:upcoming,active,completed,cancelled',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'trainer_id' => 'nullable|exists:trainers,id',
-            'materi' => 'nullable|string',
-        ]);
-
-        $data = $request->except('image');
+        if ($request->trainer_id === 'other') {
+            $data['trainer_id'] = null;
+        }
 
         if ($request->hasFile('image')) {
             // Delete old image if exists

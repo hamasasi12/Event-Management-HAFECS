@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('event_type')->default('Webinar');
             $table->text('description');
+            $table->text('details')->nullable();
             $table->dateTime('start_time');
             $table->dateTime('end_time');
             $table->decimal('price', 15, 2)->default(0);

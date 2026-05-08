@@ -16,7 +16,7 @@
         @if($seminar->status === 'upcoming')
 
 
-            <a href="{{ route('seminar.show', Hashids::encode($seminar->id)) }}" class="bg-gradient-to-r from-coral to-red-500 text-white px-6 py-3 rounded-full font-semibold hover:shadow-lg hover:scale-105 transition-all duration-300">
+            <a href="{{ route('seminar.show', [$seminar->slug, Hashids::encode($seminar->id)]) }}" class="bg-gradient-to-r from-coral to-red-500 text-white px-6 py-3 rounded-full font-semibold hover:shadow-lg hover:scale-105 transition-all duration-300">
                 LIhat detail & Daftar             </a>
         @else
             <button class="bg-gray-400 text-white px-6 py-3 rounded-full font-semibold cursor-not-allowed" disabled>

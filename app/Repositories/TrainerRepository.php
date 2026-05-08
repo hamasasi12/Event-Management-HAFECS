@@ -10,4 +10,8 @@ class TrainerRepository
     {
         return Trainer::where('status', 'active')->get();
     }
+
+    public function getAllTrainers() {
+        return Trainer::all();
+    }
 }
