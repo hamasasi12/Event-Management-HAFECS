@@ -16,4 +16,9 @@ class HomeService
         $documentations = \App\Models\Documentation::latest()->get();
         return compact('trainers', 'seminars', 'settings', 'documentations');
     }
+
+    public function getOldSHomeData() {
+        $seminars = Seminar::latest()->get();
+        return compact('seminars');
+    }
 }

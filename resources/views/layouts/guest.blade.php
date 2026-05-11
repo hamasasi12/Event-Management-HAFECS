@@ -90,6 +90,7 @@
         }
     </style>
     @stack('styles')
+    @livewireStyles
 </head>
 
 <body class="font-sans antialiased text-gray-900">
@@ -99,6 +100,39 @@
     </main>
     <x-Home.footer :settings="$settings ?? []" />
     @stack('scripts')
+    @livewireScripts
+
+    {{-- SweetAlert2 --}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    {{-- Handler untuk event Livewire (redirect setelah daftar seminar) --}}
+    <script>
+        document.addEventListener('livewire:initialized', () => {
+            Livewire.on('show-success', ({title, message, redirectTo}) => {
+                Swal.fire({
+                    title,
+                    text: message,
+                    icon: 'success',
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: '#1e293b',
+                }).then(() => {
+                    if (redirectTo) window.location.href = redirectTo;
+                });
+            });
+
+            Livewire.on('show-error', ({title, message, redirectTo}) => {
+                Swal.fire({
+                    title,
+                    text: message,
+                    icon: 'error',
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: '#1e293b',
+                }).then(() => {
+                    if (redirectTo) window.location.href = redirectTo;
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>

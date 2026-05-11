@@ -15,6 +15,14 @@ use Vinkla\Hashids\Facades\Hashids;
 
 class PendaftaranSeminar extends Component
 {
+    public $isOpen = false;
+
+    #[\Livewire\Attributes\On('open-pendaftaran-modal')]
+    public function openModal()
+    {
+        $this->isOpen = true;
+    }
+
     public $seminar;
     public $name;
     public $email;
@@ -39,9 +47,7 @@ class PendaftaranSeminar extends Component
 
             $seminarId = $decoded[0];
 
-            Log::info('Mounting PendaftaranSeminar component with decoded ID: ' . $seminarId);
             $this->seminar = Seminar::findOrFail($seminarId);
-            Log::info('Seminar found: ' . $this->seminar->title);
 
             if (Auth::check()) {
                 $this->name = $this->name ?? Auth::user()->name;
@@ -57,7 +63,6 @@ class PendaftaranSeminar extends Component
     public function render()
     {
         try {
-            Log::info('Rendering PendaftaranSeminar component');
             return view('livewire.pendftaran-seminar');
         } catch (\Exception $e) {
             Log::error('Error rendering PendaftaranSeminar: ' . $e->getMessage());
@@ -66,24 +71,16 @@ class PendaftaranSeminar extends Component
         }
     }
 
-    /**
-     * Public method untuk handle register
-     */
     public function register()
     {
         $this->validate();
 
         try {
-            Log::info('Register method called for email: ' . $this->email . ', Seminar ID: ' . $this->seminar->id . ', Seminar type: ' . $this->seminar->type);
-
-            // ✅ STEP 1: Cek apakah sudah ada registrasi dengan email dan seminar yang sama
             $existingRegistration = SeminarRegistration::where('email', $this->email)
                 ->where('seminar_id', $this->seminar->id)
                 ->first();
 
             if ($existingRegistration) {
-                Log::warning('Existing registration found for: ' . $this->email . ' on seminar: ' . $this->seminar->id);
-                
                 // CASE 1: Sudah bayar (is_paid = 'yes')
                 if ($existingRegistration->is_paid === 'yes') {
                     Log::warning('Registration already paid');
@@ -108,7 +105,6 @@ class PendaftaranSeminar extends Component
                     Log::info('Found existing payment with status: ' . $existingPayment->status . ', Payment ID: ' . $existingPayment->id);
                     // ✅ Langsung redirect dengan hashid, bukan plain ID
                     return redirect()->route('payments.checkout', Hashids::encode($existingPayment->id));
-                    return;
                 } else {
                     // Tidak ada payment - arahkan ke create payment
                     Log::info('No payment found. Redirecting to create payment page for registration: ' . $existingRegistration->id);
@@ -137,10 +133,8 @@ class PendaftaranSeminar extends Component
 
             // Routing berdasarkan tipe seminar
             if ($this->seminar->type === 'gratis') {
-                Log::info('Processing GRATIS registration');
                 $this->registerGratis();
             } elseif ($this->seminar->type === 'berbayar') {
-                Log::info('Processing BERBAYAR registration');
                 $this->registerBerbayar();
             } else {
                 Log::error('Unknown seminar type: ' . $this->seminar->type);
@@ -205,7 +199,7 @@ class PendaftaranSeminar extends Component
                 
             ]);
 
-              $this->dispatch('show-success', 
+            $this->dispatch('show-success', 
                 title: 'Pendaftaran berhasil', 
                 message: 'Terima kasih telah mendaftar. Silakan cek email Anda untuk konfirmasi.',
                 redirectTo: route('welcome')
@@ -248,7 +242,7 @@ class PendaftaranSeminar extends Component
     private function registerBerbayar()
     {
         try {
-            Log::info('=== START registerBerbayar ===');
+            Log::info('=== START register Berbayar ===');
 
             // Step 1: Ambil atau buat user
             $user = Auth::check()

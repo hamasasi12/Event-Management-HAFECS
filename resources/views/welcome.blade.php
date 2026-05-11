@@ -28,7 +28,7 @@
                     <div class="relative max-w-xl mx-auto md:mx-0">
                         <p
                             class="text-base md:text-xl text-slate-700 leading-relaxed border-l-4 border-yellow-400 pl-4 text-left">
-                            {{ $heroSeminar ? Str::limit($heroSeminar->description, 120) : 'Belajar langsung dari praktisi dan mentor berpengalaman melalui webinar interaktif yang relevan dengan dunia kerja dan pendidikan masa kini.' }}
+                            {!! $heroSeminar ? Str::limit($heroSeminar  ->description, 120) : 'Belajar langsung dari praktisi dan mentor berpengalaman melalui webinar interaktif yang relevan dengan dunia kerja dan pendidikan masa kini.' !!}
                         </p>
                     </div>
                     <div

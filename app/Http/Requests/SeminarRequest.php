@@ -13,7 +13,7 @@ class SeminarRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return Auth::user()->isAdmin() || Auth::user()->hasRole('admin');
+        return Auth::user()->hasRole('admin');
     }
 
     /**

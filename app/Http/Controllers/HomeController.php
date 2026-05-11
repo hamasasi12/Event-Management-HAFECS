@@ -25,9 +25,10 @@ class HomeController extends Controller
     public function old() // NANTI HAPUS
     {
         $data = $this->service->getHomeData();
+        $dataOld = $this->service->getOldSHomeData();
         return view('welcomeOLD', [
             'trainers' => $data['trainers'],
-            'seminars' => $data['seminars'],
+            'seminars' => $dataOld['seminars'],
             'settings' => $data['settings'] ?? [],
             'documentations' => $data['documentations']
         ]);

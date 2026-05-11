@@ -1,234 +1,130 @@
-<div class="min-h-screen bg-gray-50 font-sans">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+<div>
+    <!-- Pendaftaran Seminar Modal -->
+    <div x-data="{ show: @entangle('isOpen') }" x-show="show" x-transition:enter="transition ease-out duration-300"
+        x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+        x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100"
+        x-transition:leave-end="opacity-0"
+        class="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-sm" style="display: none;"
+        aria-labelledby="modal-title" role="dialog" aria-modal="true">
 
-        body {
-            font-family: 'Inter', sans-serif;
-        }
+        <!-- Backdrop -->
+        <div class="fixed inset-0" @click="show = false"></div>
 
-        /* Custom Colors & Gradients */
-        .text-primary {
-            color: #1e3a8a;
-            /* Biru Tua */
-        }
+        <div x-show="show" x-transition:enter="transition ease-out duration-300"
+            x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
+            x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100 scale-100"
+            x-transition:leave-end="opacity-0 scale-95"
+            class="relative bg-white rounded-2xl shadow-2xl w-full max-w-md mx-4 overflow-hidden transform">
 
-        .bg-primary {
-            background-color: #1e3a8a;
-            /* Biru Tua */
-        }
+            <!-- Close button -->
+            <button @click="show = false"
+                class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 focus:outline-none transition-colors z-20">
+                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
 
-        .border-accent {
-            border-color: #f59e0b;
-            /* Kuning/Amber */
-        }
-
-        .bg-accent {
-            background-color: #f59e0b;
-            /* Kuning/Amber */
-        }
-
-        .text-accent {
-            color: #f59e0b;
-            /* Kuning/Amber */
-        }
-
-        .gradient-button {
-            background-image: linear-gradient(to right, #1e3a8a, #3b82f6);
-            /* Gradient Biru */
-        }
-
-        .hover\:gradient-button:hover {
-            background-image: linear-gradient(to right, #1d4ed8, #2563eb);
-        }
-
-    </style>
-
-    <header class="bg-white shadow-lg z-20 sticky top-0">
-        <nav class="container mx-auto px-6 py-4">
-            <div class="flex justify-between items-center">
-                <div class="flex items-center space-x-2 flex-shrink-0">
-                    <img src="{{ asset('images/admin/LOGO HAFECS.png') }}" alt="HAFECS Logo" class="h-11">
-                </div>
-
-                <div class="hidden md:flex items-center justify-center space-x-8 flex-grow">
-                    <a href="{{ url('/') }}" class="font-semibold text-gray-700 hover:text-primary transition px-3 py-1 rounded-md">Home</a>
-                    <a href="#webinar" class="font-semibold text-gray-700 hover:text-primary transition px-3 py-1 rounded-md">Webinar</a>
-                    <a href="#trainer" class="font-semibold text-gray-700 hover:text-primary transition px-3 py-1 rounded-md">Trainer</a>
-                    <a href="#dokumentasi" class="font-semibold text-gray-700 hover:text-primary transition px-3 py-1 rounded-md">Dokumentasi</a>
-                </div>
-
-                <div class="md:hidden flex-shrink-0">
-                    <button id="mobile-menu-button" class="text-gray-600 focus:outline-none p-2 rounded-md hover:bg-gray-100">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
-                        </svg>
-                    </button>
-                </div>
-            </div>
-
-            <div id="mobile-menu" class="mobile-menu md:hidden mt-4 hidden border-t pt-4">
-                <a href="{{ url('/') }}" class="block py-2 px-3 rounded-md text-gray-700 hover:bg-gray-100 font-medium">Home</a>
-                <a href="#webinar" class="block py-2 px-3 rounded-md text-gray-700 hover:bg-gray-100 font-medium">Webinar</a>
-                <a href="#trainer" class="block py-2 px-3 rounded-md text-gray-700 hover:bg-gray-100 font-medium">Trainer</a>
-                <a href="#dokumentasi" class="block py-2 px-3 rounded-md text-gray-700 hover:bg-gray-100 font-medium">Dokumentasi</a>
-                <a href="#" class="block py-2 px-3 rounded-md mt-2 text-center text-white bg-accent hover:bg-yellow-600 font-bold">Bantuan/Hubungi Kami</a>
-            </div>
-        </nav>
-    </header>
-    <div class="max-w-2xl mx-auto mt-10 py-12 px-4 sm:px-6 lg:px-8">
-        @if ($seminar)
-        <div class="bg-white rounded-3xl p-8 sm:p-10 shadow-2xl border-t-8 border-accent">
-
-            <div class="text-center mb-8">  
-                <h1 class="text-3xl font-extrabold text-gray-900 mb-2">Form Pendaftaran</h1>
-                <p class="text-gray-600">Lengkapi data Anda untuk mengikuti seminar.</p>
-            </div>
-
-
-            <div class="bg-yellow-50 rounded-xl p-5 mb-8 border-l-4 border-accent">
-                <h3 class="text-xl font-bold text-primary mb-3 flex items-center">
-                    <svg class="w-6 h-6 mr-2 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
-                    </svg>
-                    {{ $seminar->title }}
-                </h3>
-                <p class="text-gray-700 text-sm italic">{{ $seminar->description }}</p>
-                <div class="grid grid-cols-2 gap-2 mt-4 text-sm">
-                    <div class="font-medium text-primary">Tanggal:</div>
-
-                    <div class="text-right font-semibold">{{ $seminar->start_time->format('d M Y') }}</div>
-
-                <div class="font-medium text-primary">Waktu:</div>
-                    <div class="text-right">{{ $seminar->start_time->format('H:i') }} - {{ $seminar->end_time->format('H:i') }}</div>
-
-                    <div class="font-medium text-primary text-lg">Biaya Investasi:</div>
-                    <div class="text-right text-xl font-extrabold text-accent">{{ $seminar->type == 'berbayar' ? number_format($seminar->price) : "Gratis" }}</div>
-                </div>
-            </div>
-
-            @auth
-            <div class="bg-blue-50 rounded-xl p-4 mb-6 border border-blue-200">
-                <div class="flex items-center space-x-4">
-                    <div class="flex-shrink-0">
-                        <svg class="h-10 w-10 text-primary" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M24 20.993V24H0v-2.997A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
-                        </svg>
+            <div class="px-8 py-10 relative z-10 bg-white max-h-[90vh] overflow-y-auto">
+                <div class="text-center mb-8">
+                    <div class="flex flex-col items-center justify-center gap-3">
+                        <img src="{{ asset('images/icons/people-2.webp') }}" alt="Register Icon" class="w-10 h-10 object-contain">
+                        <h2 class="text-2xl font-extrabold text-gray-700" id="modal-title">Pendaftaran Seminar</h2>
+                        @if($seminar)
+                            <p class="text-sm font-medium text-blue-600 bg-blue-50 px-3 py-1 rounded-full mt-2">{{ Str::limit($seminar->title, 40) }}</p>
+                        @endif
                     </div>
-                    <div class="flex-grow">
-                        <div class="text-base font-medium text-primary">Anda login sebagai:</div>
-                        <div class="text-lg font-bold text-primary">{{ Auth::user()->name }}</div>
-                        <div class="text-sm text-gray-600">{{ Auth::user()->email }}</div>
-                    </div>
-                    <form method="POST" action="{{ route('logout') }}" class="ml-auto">
-                        @csrf
-                        <button type="submit" class="border border-red-400 text-red-500 px-3 py-1 rounded-lg font-semibold text-sm hover:bg-red-50 transition-all duration-300">
-                            Keluar
-                        </button>
-                    </form>
                 </div>
-            </div>
-            @endauth
 
-            {{-- Message dan Error Boxes --}}
-            @if (session()->has('message'))
-            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
-                <span class="block sm:inline">{{ session('message') }}</span>
-            </div>
-            @endif
+                @if (session()->has('message'))
+                <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-xl relative mb-6 text-sm" role="alert">
+                    <span class="block sm:inline font-medium">{{ session('message') }}</span>
+                </div>
+                @endif
 
-            @if (session()->has('error'))
-            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
-                <span class="block sm:inline">{{ session('error') }}</span>
-            </div>
-            @endif
+                @if (session()->has('error'))
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-xl relative mb-6 text-sm" role="alert">
+                    <span class="block sm:inline font-medium">{{ session('error') }}</span>
+                </div>
+                @endif
 
-            @guest
-            <div class="bg-blue-50 rounded-xl p-6 mb-8 text-center border-2 border-dashed border-accent">
-                <p class="text-primary font-semibold mb-4 text-lg">PENTING: Masuk untuk data otomatis</p>
-                <a href="{{ route('google.login') }}" class="inline-flex items-center justify-center bg-accent text-primary px-8 py-3 rounded-full font-bold shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all duration-300 text-center group">
-                    <svg class="w-5 h-5 mr-3 text-primary group-hover:animate-bounce" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.98 5.98 0 0010 16a5.979 5.979 0 004.546-2.084A5 5 0 0010 11z" clip-rule="evenodd"></path>
-                    </svg>
-                    Lanjutkan dengan Akun Google
-                </a>
-            </div>
-            @endguest
+                @auth
+                <div class="bg-blue-50 rounded-xl p-4 mb-6 border border-blue-100">
+                    <div class="flex items-center space-x-3">
+                        <div class="flex-shrink-0">
+                            <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-bold">
+                                {{ substr(Auth::user()->name, 0, 1) }}
+                            </div>
+                        </div>
+                        <div class="flex-grow min-w-0">
+                            <p class="text-sm font-bold text-gray-900 truncate">{{ Auth::user()->name }}</p>
+                            <p class="text-xs text-gray-500 truncate">{{ Auth::user()->email }}</p>
+                        </div>
+                    </div>
+                </div>
+                @endauth
 
-            <form wire:submit.prevent="register" class="space-y-6">
+                @guest
+                <div class="space-y-4 mb-6">
+                    <a href="{{ route('google.login') }}"
+                        class="flex items-center justify-center w-full px-4 py-3 border border-gray-300 rounded-xl shadow-sm bg-white text-sm font-bold text-gray-700 hover:bg-gray-50 transition-colors">
+                        <svg class="h-5 w-5 mr-3" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
+                            <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
+                            <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05" />
+                            <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" />
+                        </svg>
+                        Lanjutkan dengan Google
+                    </a>
+                </div>
+                <div class="mt-6 flex items-center justify-center">
+                    <div class="h-px bg-gray-200 flex-grow"></div>
+                    <span class="px-4 text-xs text-gray-400 font-bold uppercase tracking-wider">Atau Isi Data Pendaftaran</span>
+                    <div class="h-px bg-gray-200 flex-grow"></div>
+                </div>
+                @endguest
+
+                <form wire:submit.prevent="register" class="mt-6 space-y-4 relative z-10">
+                    <div>
+                        <label for="name" class="sr-only">Nama Lengkap</label>
+                        <input wire:model="name" type="text" id="name" required
+                            class="appearance-none block w-full px-4 py-3 border border-gray-300 placeholder-gray-400 text-gray-900 rounded-xl focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm bg-gray-50"
+                            placeholder="Nama Lengkap">
+                        @error('name') <span class="text-red-500 text-sm mt-1 block">{{ $message }}</span> @enderror
+                    </div>
 
                     <div>
-                    <label for="name" class="block text-sm font-semibold text-gray-700 mb-1">Nama Lengkap</label>
-                    <input
-                        wire:model="name"
-                        type="text"
-                        id="name"
-                        class="mt-1 block w-full rounded-lg border-gray-300 shadow-md p-3 focus:ring-accent focus:border-accent border-2 transition duration-150 @error('name') border-red-500 @enderror"
-                        placeholder="Masukkan nama lengkap Anda"
-                        oninput="this.value = this.value.replace(/[0-9]/g, '')"
-                        pattern="[A-Za-z\s]+"
-                        title="Nama hanya boleh berisi huruf dan spasi"
-                    >
-                    @error('name') <span class="text-red-500 text-sm mt-1 block">{{ $message }}</span> @enderror
-                    @auth
-                    <p class="text-xs text-gray-500 mt-1">Anda dapat mengedit nama Anda di sini.</p>
-                    @endauth
-                </div>
+                        <label for="email" class="sr-only">Email address</label>
+                        <input wire:model="email" type="email" id="email" required
+                            class="appearance-none block w-full px-4 py-3 border border-gray-300 placeholder-gray-400 text-gray-900 rounded-xl focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm bg-gray-50"
+                            placeholder="Email address">
+                        @error('email') <span class="text-red-500 text-sm mt-1 block">{{ $message }}</span> @enderror
+                    </div>
 
-                <div>
-                    <label for="email" class="block text-sm font-semibold text-gray-700 mb-1">Email Aktif</label>
-                    <input wire:model="email" type="email" id="email" class="mt-1 block w-full rounded-lg border-gray-300 shadow-md p-3 focus:ring-accent focus:border-accent border-2 transition duration-150 @error('email') border-red-500 @enderror" placeholder="Contoh: nama@email.com">
-                    @error('email') <span class="text-red-500 text-sm mt-1 block">{{ $message }}</span> @enderror
-                    @auth
-                    <p class="text-xs text-gray-500 mt-1">Anda dapat mengedit email Anda di sini.</p>
-                    @endauth
-                </div>
+                    <div>
+                        <label for="phone" class="sr-only">Nomor WhatsApp Aktif</label>
+                        <input wire:model="phone" type="tel" id="phone" required
+                            class="appearance-none block w-full px-4 py-3 border border-gray-300 placeholder-gray-400 text-gray-900 rounded-xl focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm bg-gray-50"
+                            placeholder="Nomor WhatsApp (Contoh: 0812...)">
+                        @error('phone') <span class="text-red-500 text-sm mt-1 block">{{ $message }}</span> @enderror
+                    </div>
 
-                <div>
-                    <label for="phone" class="block text-sm font-semibold text-gray-700 mb-1">Nomor WhatsApp Aktif</label>
-                    <input wire:model="phone" type="tel" id="phone"
-                    class="mt-1 block w-full rounded-lg border-gray-300 shadow-md p-3 focus:ring-accent focus:border-accent border-2 transition duration-150 @error('phone') border-red-500 @enderror"
-                    placeholder="Contoh: 0812XXXXXXXX (Wajib WhatsApp)"
-                    pattern="[0-9]*"
-                    inputmode="numeric"
-                    oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-                    @error('phone') <span class="text-red-500 text-sm mt-1 block">{{ $message }}</span> @enderror
-                    <p class="text-xs text-gray-500 mt-1">Kami akan mengirimkan link dan informasi ke nomor WhatsApp ini.</p>
-                </div>
-
-                <button type="submit" wire:loading.attr="disabled" wire:target="register" class="gradient-button text-white px-6 py-3 rounded-xl font-bold text-lg hover:gradient-button focus:outline-none focus:ring-4 focus:ring-blue-300 transition-all duration-300 w-full shadow-lg hover:shadow-xl transform hover:scale-[1.01]">
-                    <span wire:loading.remove wire:target="register" class="flex items-center justify-center">
-                        <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path>
-                        </svg>
-                        @if ($seminar->type === 'gratis')
-                            Daftar
-                         @else 
-                            Daftar & Lanjutkan ke Pembayaran
-                        
-                        @endif
-                    </span>
-                    <span wire:loading wire:target="register" class="flex items-center justify-center">
-                        <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                        </svg>
-                        Memproses Pendaftaran...
-                    </span>
-                </button>
-            </form>
+                    <div class="pt-2">
+                        <button type="submit" wire:loading.attr="disabled" wire:target="register"
+                            class="w-full flex justify-center items-center gap-2 py-3.5 px-4 border border-transparent text-sm font-bold rounded-xl text-white bg-slate-900 hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-900 transition-colors shadow-lg shadow-slate-900/20">
+                            <span wire:loading.remove wire:target="register">
+                                @if ($seminar && $seminar->type === 'gratis') Daftar Sekarang @else Daftar & Lanjut Bayar @endif
+                            </span>
+                            <span wire:loading wire:target="register" class="flex items-center">
+                                <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                                Memproses...
+                            </span>
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
-        @else
-        <div class="bg-white rounded-3xl p-8 shadow-xl border-t-4 border-accent text-center text-red-600 font-medium">
-            Seminar tidak ditemukan.
-        </div>
-        @endif
     </div>
-
-    <script>
-        document.getElementById('mobile-menu-button').addEventListener('click', function() {
-            const mobileMenu = document.getElementById('mobile-menu');
-            mobileMenu.classList.toggle('hidden');
-        });
-
-    </script>
 </div>
