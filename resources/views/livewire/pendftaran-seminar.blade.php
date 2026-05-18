@@ -30,7 +30,7 @@
                         <img src="{{ asset('images/icons/people-2.webp') }}" alt="Register Icon" class="w-10 h-10 object-contain">
                         <h2 class="text-2xl font-extrabold text-gray-700" id="modal-title">Pendaftaran Seminar</h2>
                         @if($seminar)
-                            <p class="text-sm font-medium text-blue-600 bg-blue-50 px-3 py-1 rounded-full mt-2">{{ Str::limit($seminar->title, 40) }}</p>
+                            <p class="text-sm font-medium text-blue-500 px-3 py-1  mt-2">{{ Str::limit($seminar->title, 40) }}</p>
                         @endif
                     </div>
                 </div>

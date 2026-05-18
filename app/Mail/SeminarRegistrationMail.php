@@ -17,14 +17,16 @@ class SeminarRegistrationMail extends Mailable
 
     public Seminar $seminar;
     public SeminarRegistration $registration;
+    public ?string $password;
 
     /**
      * Create a new message instance.
      */
-    public function __construct(Seminar $seminar, SeminarRegistration $registration)
+    public function __construct(Seminar $seminar, SeminarRegistration $registration, ?string $password = null)
     {
         $this->seminar = $seminar;
         $this->registration = $registration;
+        $this->password = $password;
     }
 
     /**

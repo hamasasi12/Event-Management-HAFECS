@@ -107,76 +107,119 @@
                         </div>
 
                         <!-- Attendees Section -->
+                        @php
+                            // Ambil 5 registrasi terbaru dengan relasi user
+                            $cardAttendees = $seminar->registrations()->with('user')->latest()->take(5)->get();
+                            $totalAttendees = $seminar->registrations()->count();
+                            $extraAttendees = max(0, $totalAttendees - 5);
+
+                            // Warna background avatar inisial
+                            $detailAvatarColors = [
+                                'from-blue-500 to-blue-600',
+                                'from-violet-500 to-violet-600',
+                                'from-emerald-500 to-emerald-600',
+                                'from-rose-500 to-rose-600',
+                                'from-amber-500 to-amber-600',
+                                'from-cyan-500 to-cyan-600',
+                                'from-indigo-500 to-indigo-600',
+                            ];
+
+                            // Ambil inisial 2 huruf dari nama
+                            // Contoh: "Hamas Akif Sanie" → "HA", "Budi" → "BU"
+                            function detailGetInitials(string $name): string {
+                                $words = preg_split('/\s+/', trim($name));
+                                if (count($words) >= 2) {
+                                    return strtoupper(mb_substr($words[0], 0, 1) . mb_substr($words[1], 0, 1));
+                                }
+                                return strtoupper(mb_substr($name, 0, 2));
+                            }
+                        @endphp
+
                         <div class="mt-6 p-5">
                             <div class="flex items-center justify-between mb-6">
                                 <h2 class="text-xl font-bold text-gray-900 flex items-center gap-2">
-                                    {{-- <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-                                    </svg> --}}
-                                    <img src="{{ asset('images/icons/people-1-2.webp') }}" alt="People Icon"
-                                        class="w-7 h-7">
+                                    <img src="{{ asset('images/icons/people-1-2.webp') }}" alt="People Icon" class="w-7 h-7">
                                     Peserta
-                                    <span
-                                        class="inline-flex items-center justify-center px-2.5 py-0.5 rounded-full bg-gray-100 text-gray-700 text-sm font-bold">124</span>
+                                    <span class="inline-flex items-center justify-center px-2.5 py-0.5 rounded-full bg-blue-50 text-blue-700 text-sm font-bold">
+                                        {{ number_format($totalAttendees, 0, ',', '.') }}
+                                    </span>
                                 </h2>
-                                <a href="#" class="text-sm font-bold text-indigo-600 hover:text-indigo-700">View
-                                    all</a>
                             </div>
 
-                            <div class="flex gap-4 overflow-x-auto pb-2 -mx-1 px-1">
-                                @php
-                                    $attendees = [
-                                        [
-                                            'name' => 'Sarah Johnson',
-                                            'img' => 'https://i.pravatar.cc/150?img=1',
-                                            'badge' => 'Host',
-                                            'role' => 'Assistant organizer',
-                                        ],
-                                        [
-                                            'name' => 'Michael Chen',
-                                            'img' => 'https://i.pravatar.cc/150?img=11',
-                                            'badge' => 'Host',
-                                            'role' => 'Co-organizer',
-                                        ],
-                                        [
-                                            'name' => 'Emma Wilson',
-                                            'img' => 'https://i.pravatar.cc/150?img=5',
-                                            'badge' => 'Host',
-                                            'role' => 'Assistant organizer',
-                                        ],
-                                    ];
-                                    $moreAttendees = [
-                                        'https://i.pravatar.cc/150?img=12',
-                                        'https://i.pravatar.cc/150?img=20',
-                                    ];
-                                    $moreCount = 2;
-                                @endphp
-
-                                @foreach ($attendees as $attendee)
-                                    <div
-                                        class="shrink-0 w-30 bg-white rounded-2xl border border-gray-100 px-3 py-4 text-center transition duration-300 shadow-sm hover:shadow-md">
+                            <div class="flex gap-3 overflow-x-auto pb-2 -mx-1 px-1">
+                                @forelse ($cardAttendees as $idx => $reg)
+                                    @php
+                                        $atName     = $reg->name ?? 'User';
+                                        $atInitials = detailGetInitials($atName);
+                                        $atColor    = $detailAvatarColors[$idx % count($detailAvatarColors)];
+                                        $atAvatar   = $reg->user->avatar ?? null;
+                                    @endphp
+                                    <div class="shrink-0 w-28 bg-white rounded-2xl border border-gray-100 px-3 py-4 text-center transition duration-300 shadow-sm hover:shadow-md hover:-translate-y-0.5">
                                         <div class="relative w-fit mx-auto">
-                                            <img src="{{ $attendee['img'] }}" alt="{{ $attendee['name'] }}"
-                                                class="w-16 h-16 rounded-full object-cover shadow-sm mx-auto">
+                                            @if ($atAvatar)
+                                                {{-- Foto asli (dari storage atau URL eksternal) --}}
+                                                <img
+                                                    src="{{ Str::startsWith($atAvatar, 'http') ? $atAvatar : asset('storage/' . $atAvatar) }}"
+                                                    alt="{{ $atName }}"
+                                                    class="w-14 h-14 rounded-full object-cover shadow-sm mx-auto border-2 border-white"
+                                                    onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+                                                />
+                                                {{-- Fallback inisial jika gambar gagal load --}}
+                                                <div class="w-14 h-14 rounded-full bg-gradient-to-br {{ $atColor }} hidden items-center justify-center text-base font-bold text-white shadow-sm mx-auto select-none border-2 border-white">
+                                                    {{ $atInitials }}
+                                                </div>
+                                            @else
+                                                {{-- Tidak ada foto → tampilkan inisial dengan gradient --}}
+                                                <div class="w-14 h-14 rounded-full bg-gradient-to-br {{ $atColor }} flex items-center justify-center text-base font-bold text-white shadow-sm mx-auto select-none border-2 border-white">
+                                                    {{ $atInitials }}
+                                                </div>
+                                            @endif
                                         </div>
-                                        <p class="mt-2 font-medium text-gray-900 text-xs leading-snug">
-                                            {{ $attendee['name'] }}</p>
-                                        {{-- <p class="mt-1 text-xs text-gray-500 font-medium">{{ $attendee['role'] }}</p> --}}
+                                        <p class="mt-2.5 font-semibold text-gray-800 text-xs leading-snug line-clamp-2">
+                                            {{ Str::limit($atName, 20) }}
+                                        </p>
                                     </div>
-                                @endforeach
+                                @empty
+                                    {{-- Belum ada peserta --}}
+                                    <div class="w-full text-center py-6 text-gray-400 text-sm">
+                                        Belum ada peserta yang mendaftar.
+                                    </div>
+                                @endforelse
 
-                                <!-- +More card -->
-                                <div
-                                    class="shrink-0 w-30 bg-gray-50/90 rounded-2xl border border-gray-100 px-3 py-2 text-center transition duration-300 shadow-sm hover:shadow-md flex flex-col items-center justify-center">
-                                    <div class="flex items-center justify-center -space-x-3 mb-3">
-                                        @foreach ($moreAttendees as $avatar)
-                                            <img src="{{ $avatar }}"
-                                                class="w-9 h-9 rounded-full object-cover border-2 border-white shadow-sm">
-                                        @endforeach
+                                {{-- Card "+N more" jika peserta > 5 --}}
+                                @if ($extraAttendees > 0)
+                                    @php
+                                        // Ambil 2 avatar berikutnya untuk preview stack
+                                        $previewMore = $seminar->registrations()->with('user')->latest()->skip(5)->take(2)->get();
+                                    @endphp
+                                    <div class="shrink-0 w-28 bg-gray-50 rounded-2xl border border-gray-100 px-3 py-4 text-center transition duration-300 shadow-sm hover:shadow-md flex flex-col items-center justify-center gap-2">
+                                        <div class="flex items-center justify-center -space-x-3">
+                                            @foreach ($previewMore as $pi => $pr)
+                                                @php
+                                                    $prName   = $pr->name ?? 'User';
+                                                    $prInit   = detailGetInitials($prName);
+                                                    $prColor  = $detailAvatarColors[($pi + 5) % count($detailAvatarColors)];
+                                                    $prAvatar = $pr->user->avatar ?? null;
+                                                @endphp
+                                                @if ($prAvatar)
+                                                    <img
+                                                        src="{{ Str::startsWith($prAvatar, 'http') ? $prAvatar : asset('storage/' . $prAvatar) }}"
+                                                        alt="{{ $prName }}"
+                                                        class="w-9 h-9 rounded-full object-cover border-2 border-white shadow-sm"
+                                                        onerror="this.style.display='none';"
+                                                    />
+                                                @else
+                                                    <div class="w-9 h-9 rounded-full bg-gradient-to-br {{ $prColor }} flex items-center justify-center text-[10px] font-bold text-white shadow-sm border-2 border-white select-none">
+                                                        {{ $prInit }}
+                                                    </div>
+                                                @endif
+                                            @endforeach
+                                        </div>
+                                        <p class="text-sm font-bold text-gray-600">
+                                            +{{ $extraAttendees > 999 ? number_format($extraAttendees / 1000, 1) . 'k' : $extraAttendees }} lainnya
+                                        </p>
                                     </div>
-                                    <p class="text-sm font-bold text-gray-700">+{{ $moreCount }} more</p>
-                                </div>
+                                @endif
                             </div>
                         </div>
                     </div>

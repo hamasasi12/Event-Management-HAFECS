@@ -164,28 +164,31 @@ class PendaftaranSeminar extends Component
             Log::info('=== START registerGratis ===');
 
             // Step 1: Ambil atau buat user
-            $user = Auth::check()
-                ? Auth::user()
-                : User::firstOrCreate(
-                    ['email' => $this->email],
-                    [
-                        'name' => $this->name,
-                        'phone' => $this->phone,
-                    ]
-                );
+            $user = User::where('email', $this->email)->first();
+            $isNewUser = false;
 
-            Log::info('Step 1: User retrieved/created with ID: ' . $user->id);
+            if (!$user) {
+                $user = User::create([
+                    'name' => $this->name,
+                    'email' => $this->email,
+                    'phone' => $this->phone,
+                    'password' => bcrypt('password123'),
+                ]);
+                $isNewUser = true;
+            }
 
-            // Step 2: Refresh user dari database
-            $user = User::findOrFail($user->id);
-            Log::info('Step 2: User refreshed from database');
+            Log::info('Step 1: User retrieved/created with ID: ' . $user->id . ($isNewUser ? ' (NEW)' : ' (EXISTING)'));
+
+            // Step 2: Auto-login jika belum login
+            if (!Auth::check()) {
+                Auth::login($user);
+                Log::info('Step 2: User auto-logged in: ' . $user->id);
+            }
 
             // Step 3: Berikan permission jika belum ada
             if (!$user->hasPermissionTo('access_seminar')) {
                 $user->givePermissionTo('access_seminar');
                 Log::info('Step 3: Permission access_seminar granted to user: ' . $user->id);
-            } else {
-                Log::info('Step 3: User already has access_seminar permission');
             }
 
             // Step 4: Simpan registrasi seminar
@@ -196,32 +199,29 @@ class PendaftaranSeminar extends Component
                 'phone'      => $this->phone,
                 'user_id'    => $user->id,
                 'is_paid'    => 'yes', // Gratis dianggap sudah "bayar"
-                
             ]);
-
-            $this->dispatch('show-success', 
-                title: 'Pendaftaran berhasil', 
-                message: 'Terima kasih telah mendaftar. Silakan cek email Anda untuk konfirmasi.',
-                redirectTo: route('welcome')
-            );
 
             Log::info('Step 4: Registration created with ID: ' . $registration->id);
 
             // Step 5: Kirim email konfirmasi
             try {
-                Mail::to($this->email)->send(new SeminarRegistrationMail($this->seminar, $registration));
-                Log::info('Step 5: Confirmation email sent to: ' . $this->email);
+                $passwordInfo = $isNewUser ? 'password123' : null;
+                Mail::to($this->email)->send(new SeminarRegistrationMail($this->seminar, $registration, $passwordInfo));
+                Log::info('Step 5: Confirmation email sent to: ' . $this->email . ($isNewUser ? ' with password info' : ''));
             } catch (\Exception $e) {
                 Log::error('Step 5: Error sending email: ' . $e->getMessage());
             }
 
-            // Step 6: Reset form
-            $this->reset(['name', 'email', 'phone']);
-            Log::info('Step 6: Form reset');
+            // Step 6: Dispatch success event & Redirect ke Dashboard
+            $this->dispatch('show-success', 
+                title: 'Pendaftaran Berhasil!', 
+                message: 'Selamat! Anda telah terdaftar. Anda akan diarahkan ke Dashboard untuk melihat detail seminar.',
+                redirectTo: route('user.dashboard')
+            );
 
-            // Step 7: Dispatch success event
-            Log::info('Step 7: Dispatching show-success event');
-            // return redirect('/')->with('success', 'Pendaftaran berhasil! Silakan cek email Anda untuk konfirmasi.');
+            // Reset form
+            $this->reset(['name', 'email', 'phone']);
+            Log::info('Step 6: Success dispatched and form reset');
 
             Log::info('=== END registerGratis (SUCCESS) ===');
 
@@ -245,18 +245,20 @@ class PendaftaranSeminar extends Component
             Log::info('=== START register Berbayar ===');
 
             // Step 1: Ambil atau buat user
-            $user = Auth::check()
-                ? Auth::user()
-                : User::firstOrCreate(
-                    ['email' => $this->email],
-                    [
-                        'name' => $this->name,
-                        'phone' => $this->phone,
-                        'password' => bcrypt('defaultpassword'),
-                    ]
-                );
+            $user = User::where('email', $this->email)->first();
+            $isNewUser = false;
 
-            Log::info('Step 1: User retrieved/created with ID: ' . $user->id);
+            if (!$user) {
+                $user = User::create([
+                    'name' => $this->name,
+                    'email' => $this->email,
+                    'phone' => $this->phone,
+                    'password' => bcrypt('password123'),
+                ]);
+                $isNewUser = true;
+            }
+
+            Log::info('Step 1: User retrieved/created with ID: ' . $user->id . ($isNewUser ? ' (NEW)' : ' (EXISTING)'));
 
             // Step 2: Simpan registrasi seminar
             $registration = SeminarRegistration::create([

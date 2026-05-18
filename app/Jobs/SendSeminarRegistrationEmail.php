@@ -18,14 +18,16 @@ class SendSeminarRegistrationEmail implements ShouldQueue
 
     public $seminar;
     public $seminarRegistration;
+    public $password;
     
     /**
      * Create a new job instance.
      */
-    public function __construct(Seminar $seminar, SeminarRegistration $seminarRegistration)
+    public function __construct(Seminar $seminar, SeminarRegistration $seminarRegistration, $password = null)
     {
         $this->seminar = $seminar;
         $this->seminarRegistration = $seminarRegistration;
+        $this->password = $password;
     }
 
     /**
@@ -34,6 +36,6 @@ class SendSeminarRegistrationEmail implements ShouldQueue
     public function handle(): void
     {
         Mail::to($this->seminarRegistration->email)
-            ->send(new SeminarRegistrationMail($this->seminar, $this->seminarRegistration));
+            ->send(new SeminarRegistrationMail($this->seminar, $this->seminarRegistration, $this->password));
     }
 }
